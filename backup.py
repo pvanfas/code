@@ -206,6 +206,7 @@ DATABASES = {
 # Import "_" and Add class in web/migrations/models.py
 
 from django.utils.translation import ugettext_lazy as _
+from django.db import models
 
 class Registration(models.Model):
     name = models.CharField(max_length=128)
