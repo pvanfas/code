@@ -201,7 +201,7 @@ DATABASES = {
     }
 }
 
-# CUSTOM FORMS -------------------------------------------------
+# DJANGO MODELS -------------------------------------------------
 
 # Import "_" and Add class in web/migrations/models.py
 
@@ -224,17 +224,8 @@ class Registration(models.Model):
     def __unicode__(self):
         return self.name
 
-# Open shell and another terminal tab (Activate venv)
-# migrate changes into app and database (femme/src/femme)
-python manage.py makemigrations
-python manage.py migrate
-
-# A new file will be created at web/migrations/0001_initial.py
-# We can change admin url at ^admin/ femme/urls.py
-# Add superuser
-python manage.py createsuperuser
-
 # Import model and define list display in admin.py
+
 from __future__ import unicode_literals
 from django.contrib import admin
 from web.models import Registration
@@ -245,8 +236,17 @@ class RegistrationAdmin(admin.ModelAdmin):
 
 admin.site.register(Registration,RegistrationAdmin)
 
+# Open shell and another terminal tab, Activate venv, migrate changes
+python manage.py makemigrations
+python manage.py migrate
+
+# We can change admin url at ^admin/ femme/urls.py
+# Add superuser
+python manage.py createsuperuser
 # A new section will be displayed in administrator window
 # Section name can be edited at verbose_name_plural = ('new name') in web/models.py
+
+
 # Add a new model in models.py
 
 class About(models.Model):
@@ -288,15 +288,21 @@ from django.conf import settings
 
 # Integrating data in to websites 
 
-# Define a dictionary in views.py {title}
+# Assign title and caption for html (edit in views.py)
+
 def index(request):
     context = {
         "title" : "Femme",
         "caption" : "Femme caption",
     }
     return render(request, 'web/index.html',context)
+# Rewrite as needed
+	<title>{{title}} | {{caption}}</title>
+	
+# Data rendering
 
-# rewrite for { About}
+from web.models import About
+
 def index(request):
     about_datas = About.objects.all()
     context = {
@@ -305,9 +311,6 @@ def index(request):
         "about_datas" : about_datas
     }
     return render(request, 'web/index.html',context)
-
-# import about in views.py
-from web.models import About
 
             # Note: Possible extensions
             all()
