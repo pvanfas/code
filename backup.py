@@ -286,7 +286,7 @@ from django.conf import settings
     url(r'^media/(?P<path>.*)$', serve, { 'document_root': settings.MEDIA_ROOT}),
     url(r'^static/(?P<path>.*)$', serve, { 'document_root': settings.STATIC_FILE_ROOT}),
 
-# Integrating data in to websites 
+## DATA RENDERING ------------------------------------------------- 
 
 # Assign title and caption for html (edit in views.py)
 
@@ -299,7 +299,7 @@ def index(request):
 # Rewrite as needed
 	<title>{{title}} | {{caption}}</title>
 	
-# Data rendering
+## DYNAMIC CONTENT RENDERING -------------------------------------------------
 
 from web.models import About
 
@@ -331,9 +331,8 @@ def index(request):
     <li></li>
 </ul>
 
-# ..............................................................
 
-# Creating about page
+# CREATING ABOUT -------------------------------------------------
 
 # Define a new views.py entry
 def about(request):
@@ -344,7 +343,8 @@ def about(request):
     return render(request, 'web/about.html',context)
 # Specify in url patterns (web/views.py)
 url(r'^about$', views.about,name="about"),
-# Create a new page about.html and load http://127.0.0.1:8000/about
+
+# Create a new page about.html and load http://localhost:8000/about
 
 # Create a new file web/context_processors.py
 def main_context(request):
