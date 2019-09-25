@@ -1,4 +1,4 @@
-# DEVELOPMENT COMPUTER SETUP -------------------------------------
+#DEVELOPMENT COMPUTER SETUP
 ```
 sudo apt-get update
 sudo apt-get install aptana
@@ -19,7 +19,7 @@ sudo -H pip3 install --upgrade pip
 sudo -H pip3 install virtualenv
 ```
 
-#DJANGO SETUP ----------------------------------------------------
+#DJANGO SETUP
 
 ```
 mkdir django
