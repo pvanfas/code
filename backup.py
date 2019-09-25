@@ -19,6 +19,8 @@ sudo -H pip3 install virtualenv
 
 #DJANGO SETUP ----------------------------------------------------
 
+mkdir dev
+cd dev
 mkdir django
 cd django
 mkdir femme
