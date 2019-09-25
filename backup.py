@@ -322,6 +322,7 @@ def index(request):
             # note end here
 
 # Add to html file
+
 <ul>
     {% for about in about_datas %}
         {{about.image.url}}
@@ -331,8 +332,18 @@ def index(request):
     <li></li>
 </ul>
 
+# with if condition
 
-# CREATING ABOUT -------------------------------------------------
+{% if about_datas %}
+    <p>content here</p>
+{% else %}
+    <p>Nothing Found</p>
+{% endif %}
+
+# Current year update
+{% now 'Y' %}
+
+# CREATING PAGE -------------------------------------------------
 
 # Define a new views.py entry
 def about(request):
@@ -346,6 +357,9 @@ url(r'^about$', views.about,name="about"),
 
 # Create a new page about.html and load http://localhost:8000/about
 
+
+# CONTEXT PROCESSORS -------------------------------------------------
+
 # Create a new file web/context_processors.py
 def main_context(request):
 
@@ -356,20 +370,8 @@ def main_context(request):
 'web.context_processors.main_context',
 Replace <title>caption</title> with <title>{{caption}}</title>
 
-# ..............................................................
 
-# if condition
-{% if about_datas %}
-    <p>content here</p>
-{% else %}
-    <p>Nothing Found</p>
-{% endif %}
-
-# Current year update
-{% now 'Y' %}
-
-# ..............................................................
-# FORM SUBMISSION
+# FORM SUBMISSIONS -------------------------------------------------
 
 # Define a new url in web
     url(r'^registration$', views.registration,name="registration"),
