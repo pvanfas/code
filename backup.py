@@ -365,6 +365,9 @@ def about(request):
 # Specify in url patterns (web/views.py)
 url(r'^about$', views.about,name="about"),
 
+# update link in index 
+    {% url 'web:about' %}
+
 # Create a new page about.html and load http://localhost:8000/about
 
 
@@ -382,7 +385,6 @@ def main_context(request):
 
 Replace <title>caption</title> with <title>{{caption}}</title>
 
-==================================================================================================================
 # FORM SUBMISSIONS -------------------------------------------------
 
 # Define a new url in web
@@ -418,8 +420,7 @@ def registration(request):
     else:
         return HttpResponse("Invalid Request")
 
-# ..............................................................
-# DJANGO FORM SUBMISSION
+# DJANGO FORM SUBMISSION-------------------------------------------------
 
 # Create a file web/forms.py 
 from django import forms
@@ -611,14 +612,15 @@ def registration(request):
     # Link in html head tag
     # Add loader form styles of popup in style.css
     
-# Removing Required fields
+# Removing Required fields -------------------------------------------------
 
     # Add  (blank=True, null=True) to models.py
     # Remove required class and associated error messages from forms.py
     # Migrate changes
 
-# Template extending
-    # create about page
+# TEMPLATE EXTENDING (PAGES) -------------------------------------------------
+    
+	# create about page
     # Define in urlpatterns
     url(r'^about/$', views.about,name="about"),
 
@@ -636,11 +638,13 @@ def registration(request):
     {% url 'web:about' %}
 
 
-# Template extension - general
+# TEMPLATE EXTENDING (GENERAL) -------------------------------------------------
 
     # create base.html
+        -------- header here --------
         {% block content %}
         {% endblock%}
+        ------- footer here --------
 
     # index.html
         {% extends 'web/base.html' %}
@@ -685,6 +689,7 @@ def registration(request):
     python manage.py makemigrations
     python manage.py migrate
     python manage.py createsuperuser
+
 
 
 # DEPLOYING ON PYTHONANYWHERE
