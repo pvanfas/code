@@ -1,5 +1,5 @@
 # DEVELOPMENT COMPUTER SETUP -------------------------------------
-'''
+```
 sudo apt-get update
 sudo apt-get install aptana
 sudo apt-get install python-pip python-dev python3-pip python3-dev python3-venv
@@ -17,10 +17,11 @@ Postgres=# GRANT ALL PRIVILEGES ON DATABASE project TO user;
 Postgres=# \q
 sudo -H pip3 install --upgrade pip
 sudo -H pip3 install virtualenv
-'''
+```
 
 #DJANGO SETUP ----------------------------------------------------
 
+```
 mkdir django
 cd django
 mkdir femme
@@ -37,9 +38,11 @@ django-admin.py startproject femme
 cd femme
 mkdir static media templates
 python manage.py runserver
+```
 
 ##Define template directory in femme/settings.py
 ### One
+```
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -55,9 +58,9 @@ TEMPLATES = [
         },
     },
 ]
-
+```
 ### Two
-
+```
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
@@ -72,9 +75,9 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
     '/home/talrop/django/femme/src/femme/static/',
 )
-
+```
 ###second tab
-
+```
 source ../../venv/bin/activate 
 python manage.py startapp web
 
@@ -89,9 +92,9 @@ INSTALLED_APPS = [
 
     'web'
 ]
-
+```
 #add following url to the array in src/femme/femme/urls.py
-
+```
 from django.conf.urls import url ,include
 from django.contrib import admin
 
@@ -100,9 +103,9 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^',include('web.urls',namespace="web"))
 ]
-
+```
 #create new file in src/femme/web/urls.py and paste following code
-
+```
 from django.conf.urls import url
 import views
 
@@ -121,10 +124,11 @@ from django.http.response import HttpResponse, HttpResponseRedirect
 def index(request):
 	return HttpResponse("Hello World")
 
-
+```
 # URL REDIRECT --------------------------------------------------------
 
 # edit views.py
+```
 from __future__ import unicode_literals
 from django.shortcuts import render
 from django.http.response import HttpResponse, HttpResponseRedirect
@@ -133,8 +137,9 @@ from django.core.urlresolvers import reverse
 
 def index(request):
     return HttpResponseRedirect(reverse())
-
+```
 # femme/urls.py
+```
 from django.conf.urls import url
 import views
 
@@ -144,8 +149,9 @@ urlpatterns = [
     url(r'^about/$', views.about,name="about"),
 
 ]
-
+```
 # web/urls.py
+```
 from django.conf.urls import url
 import views
 
@@ -155,7 +161,7 @@ urlpatterns = [
     url(r'^about/$', views.about,name="about"),
 
 ]
-
+```
 #views.py
 from __future__ import unicode_literals
 from django.shortcuts import render
