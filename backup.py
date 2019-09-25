@@ -1,13 +1,21 @@
 # DEVELOPMENT COMPUTER SETUP -------------------------------------
-sudo apt update
-sudo apt-get install postgresql postgresql-contrib
-sudo apt-get install libpq-dev
-sudo apt-get install python-dev
-sudo apt-get install python-pip
-sudo pip3 install virtualenv 
-sudo apt-get install python3-venv
-sudo apt install postgresql postgresql-contrib
+sudo apt-get update
+sudo apt-get install aptana
+sudo apt-get install python-pip python-dev python3-pip python3-dev python3-venv
+sudo apt-get install libpq-dev postgresql postgresql-contrib nginx
 sudo apt-get install code
+sudo pip3 install virtualenv
+
+sudo apt-get update
+Postgres=# CREATE DATABASE project;
+Postgres=# CREATE USER user WITH PASSWORD 'password';
+Postgres=# ALTER ROLE user SET client_encoding TO 'utf8';
+Postgres=# ALTER ROLE user SET default_transaction_isolation TO 'read committed';
+Postgres=# ALTER ROLE user SET timezone TO 'UTC';
+Postgres=# GRANT ALL PRIVILEGES ON DATABASE project TO user;
+Postgres=# \q
+sudo -H pip3 install --upgrade pip
+sudo -H pip3 install virtualenv
 
 #DJANGO SETUP ----------------------------------------------------
 
