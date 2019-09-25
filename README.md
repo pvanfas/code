@@ -1,4 +1,5 @@
 # DEVELOPMENT COMPUTER SETUP -------------------------------------
+'''
 sudo apt-get update
 sudo apt-get install aptana
 sudo apt-get install python-pip python-dev python3-pip python3-dev python3-venv
@@ -16,6 +17,7 @@ Postgres=# GRANT ALL PRIVILEGES ON DATABASE project TO user;
 Postgres=# \q
 sudo -H pip3 install --upgrade pip
 sudo -H pip3 install virtualenv
+'''
 
 #DJANGO SETUP ----------------------------------------------------
 
