@@ -1,4 +1,4 @@
-# DEVELOPMENT COMPUTER SETUP ----------------------------
+# DEVELOPMENT COMPUTER SETUP -------------------------------------
 sudo apt update
 sudo apt-get install postgresql postgresql-contrib
 sudo apt-get install libpq-dev
@@ -9,7 +9,7 @@ sudo apt-get install python3-venv
 sudo apt install postgresql postgresql-contrib
 sudo apt-get install code
 
-#DJANGO SETUP -------------------------------------------
+#DJANGO SETUP ----------------------------------------------------
 
 mkdir django
 cd django
@@ -112,7 +112,7 @@ def index(request):
 	return HttpResponse("Hello World")
 
 
-# URL REDIRECT ------------------------------------------
+# URL REDIRECT --------------------------------------------------------
 
 # edit views.py
 from __future__ import unicode_literals
@@ -160,7 +160,7 @@ def index(request):
 def about(request):
     return HttpResponse('Hello from about')
 
-# TEMPLATE RENDERING -------------------------------------------
+# TEMPLATE RENDERING ----------------------------------------------------
 
 # Remove redirect, Add assets into /static and html into /templates/web
 
@@ -178,7 +178,7 @@ def index(request):
 	return render(request,'web/index.html')
 
 
-# CONFIGURE DATABASE -------------------------------------------
+# CONFIGURE DATABASE -------------------------------------------------
 
 sudo su postgres
 createdb femme
@@ -201,7 +201,7 @@ DATABASES = {
     }
 }
 
-# DJANGO MODELS -------------------------------------------------
+# DJANGO MODELS ------------------------------------------------------
 
 # Import "_" and Add class in web/migrations/models.py
 
@@ -286,7 +286,7 @@ from django.conf import settings
     url(r'^media/(?P<path>.*)$', serve, { 'document_root': settings.MEDIA_ROOT}),
     url(r'^static/(?P<path>.*)$', serve, { 'document_root': settings.STATIC_FILE_ROOT}),
 
-## DATA RENDERING ------------------------------------------------- 
+## DATA RENDERING -----------------------------------------------------
 
 # Assign title and caption for html (edit in views.py)
 
@@ -299,7 +299,7 @@ def index(request):
 # Rewrite as needed
 	<title>{{title}} | {{caption}}</title>
 	
-## DYNAMIC CONTENT RENDERING -------------------------------------------------
+## DYNAMIC CONTENT RENDERING ------------------------------------------
 
 from web.models import About
 
@@ -343,7 +343,7 @@ def index(request):
 # Current year update
 {% now 'Y' %}
 
-# CREATING PAGE -------------------------------------------------
+# CREATING PAGE -------------------------------------------------------
 
 # Define a new views.py entry
 def about(request):
@@ -366,11 +366,13 @@ def main_context(request):
     return {
         "caption" : "Femme Caption"
     }
-# Add to settings.py/TEMPLATES/OPTIONS
+# Add to settings.py (TEMPLATES/OPTIONS)
+
 'web.context_processors.main_context',
+
 Replace <title>caption</title> with <title>{{caption}}</title>
 
-
+==================================================================================================================
 # FORM SUBMISSIONS -------------------------------------------------
 
 # Define a new url in web
