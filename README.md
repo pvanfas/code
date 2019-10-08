@@ -39,9 +39,11 @@ cd femme
 mkdir static media templates
 python manage.py runserver
 ```
-UBUNTU REMOVE MIGRATION
+DJANGO COMMANDS
 ```
 find . -path "*/migrations/*.pyc"  -delete
 find . -path "*/migrations/*.py" -not -name "__init__.py" -delete
-
+python manage.py loaddata initial_data notification permissions user_groups
+python manage.py dumpdata > database.json
+python manage.py loaddata database.json
 ```
