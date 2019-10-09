@@ -1,3 +1,15 @@
+If you are using Ubuntu 16.04 or an older version, first add the following repository:
+
+```sudo add-apt-repository ppa:deadsnakes/ppa```
+
+Executes the following commands to install the latest Python 3 distribution:
+
+```sudo apt-get update
+
+sudo apt-get install python3.6```
+
+
+
 DEVELOPMENT SYSTEM SETUP
 ```
 sudo apt-get update
@@ -47,6 +59,3 @@ python manage.py loaddata initial_data notification permissions user_groups
 python manage.py dumpdata > database.json
 python manage.py loaddata database.json
 ```
-If you are using Ubuntu 16.04 or an older version, first add the following repository:
-
-```sudo add-apt-repository ppa:deadsnakes/ppa```
