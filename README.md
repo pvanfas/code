@@ -47,3 +47,6 @@ python manage.py loaddata initial_data notification permissions user_groups
 python manage.py dumpdata > database.json
 python manage.py loaddata database.json
 ```
+If you are using Ubuntu 16.04 or an older version, first add the following repository:
+
+```sudo add-apt-repository ppa:deadsnakes/ppa```
