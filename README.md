@@ -9,8 +9,13 @@ sudo apt-get update
 
 sudo apt-get install python3.6
 ```
+Install pip for our Python 3.6.2 version and virtualenv:
 
-
+```
+wget https://bootstrap.pypa.io/get-pip.py
+sudo python3.6 get-pip.py
+sudo pip3.6 install virtualenv
+```
 
 DEVELOPMENT SYSTEM SETUP
 ```
