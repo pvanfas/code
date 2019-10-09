@@ -4,9 +4,11 @@ If you are using Ubuntu 16.04 or an older version, first add the following repos
 
 Executes the following commands to install the latest Python 3 distribution:
 
-```sudo apt-get update
+```
+sudo apt-get update
 
-sudo apt-get install python3.6```
+sudo apt-get install python3.6
+```
 
 
 
