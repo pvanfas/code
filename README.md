@@ -1,3 +1,5 @@
+DEVELOPMENT SYSTEM SETUP
+
 If you are using Ubuntu 16.04 or an older version, first add the following repository:
 
 ```sudo add-apt-repository ppa:deadsnakes/ppa```
@@ -15,10 +17,7 @@ Install pip for our Python 3.6.2 version and virtualenv:
 wget https://bootstrap.pypa.io/get-pip.py
 sudo python3.6 get-pip.py
 sudo pip3.6 install virtualenv
-```
 
-DEVELOPMENT SYSTEM SETUP
-```
 sudo apt-get update
 sudo apt-get install aptana
 sudo apt-get install python-pip python-dev python3-pip python3-dev python3-venv
@@ -41,20 +40,15 @@ sudo -H pip3 install virtualenv
 DJANGO SETUP
 
 ```
-mkdir django
-cd django
-mkdir femme
-cd femme
-mkdir src
 virtualenv venv
 source venv/bin/activate
-which python
+mkdir src
 cd src
 pip install django==1.11.23
 pip install pillow psycopg2
 pip freeze
-django-admin.py startproject femme
-cd femme
+django-admin.py startproject project
+cd project
 mkdir static media templates
 python manage.py runserver
 ```
