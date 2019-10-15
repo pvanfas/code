@@ -60,3 +60,9 @@ python manage.py loaddata initial_data notification permissions user_groups
 python manage.py dumpdata > database.json
 python manage.py loaddata database.json
 ```
+GIT USER CONFIG
+
+```git config --global user.name "Anfas PV"
+git config --global user.email "pvanfas.talrop@gmail.com"
+```
+
