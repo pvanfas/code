@@ -62,7 +62,8 @@ python manage.py loaddata database.json
 ```
 GIT USER CONFIG
 
-```git config --global user.name "Anfas PV"
+```
+git config --global user.name "Anfas PV"
 git config --global user.email "pvanfas.talrop@gmail.com"
 ```
 
