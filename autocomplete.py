@@ -24,7 +24,7 @@ class CustomerAutocomplete(autocomplete.Select2QuerySetView):
         return items
 
 
-# on urls
+#on urls
 from customers.views import CustomerAutocomplete
 
 urlpatterns = [
