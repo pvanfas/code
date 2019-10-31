@@ -18,16 +18,12 @@ sudo -H pip3 install virtualenv
 DJANGO SETUP
 
 ```
+mkdir project && cd project && mkdir src
 virtualenv venv
 source venv/bin/activate
-mkdir src
-cd src
-pip install django==1.11.23
-pip install pillow psycopg2
-pip freeze
+cd src && pip install django==1.11.15 && pip install pillow psycopg2
 django-admin.py startproject project
-cd project
-mkdir static media templates
+cd project && mkdir static media templates
 python manage.py runserver
 ```
 DJANGO COMMANDS
