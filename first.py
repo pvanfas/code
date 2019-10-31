@@ -68,10 +68,6 @@ urlpatterns = [
     url(r'^static/(?P<path>.*)$', serve, { 'document_root': settings.STATIC_FILE_ROOT}),
 ]
 
-admin.site.site_header = "PROJECT Admininistration"
-admin.site.site_title = "PROJECT Admin Portal"
-admin.site.index_title = "Welcome to PROJECT Researcher Portal"
-
 #create web/urls.py and paste the following
 from django.conf.urls import url
 import views
@@ -134,6 +130,11 @@ class BlogAdmin(admin.ModelAdmin):
     list_display = ('heading','content','image','time','video_url')
 
 admin.site.register(Blog,BlogAdmin)
+
+
+admin.site.site_header = "PROJECT Admininistration"
+admin.site.site_title = "PROJECT Admin Portal"
+admin.site.index_title = "Welcome to PROJECT Researcher Portal"
 
 # migrate changes into app and database
 python manage.py makemigrations
