@@ -147,4 +147,12 @@ python manage.py migrate
 # Add superuser
 python manage.py createsuperuser
 
+#database export and import
+python manage.py dumpdata > database.json
+python manage.py loaddata database.json
+
+#delete migrations
+find . -path "*/migrations/*.pyc"  -delete
+find . -path "*/migrations/*.py" -not -name "__init__.py" -delete
+
 #You have successfully configured the basics......................................................
