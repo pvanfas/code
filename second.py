@@ -48,7 +48,6 @@ def about(request):
 
 # NEW PAGE ----------------------------------------------------
 
-
 # Add a new model in models.py
 
 class About(models.Model):
@@ -79,29 +78,11 @@ class AboutAdmin(admin.ModelAdmin):
 
 admin.site.register(About,AboutAdmin)
 
-
-## DATA RENDERING -----------------------------------------------------
-
-# Assign title and caption for html (edit in views.py)
-
-def index(request):
-    context = {
-        "title" : "Femme",
-        "caption" : "Femme caption",
-    }
-    return render(request, 'web/index.html',context)
-# Rewrite as needed
-	<title>{{title}} | {{caption}}</title>
-
 ## DYNAMIC CONTENT RENDERING ------------------------------------------
-
-from web.models import About
 
 def index(request):
     about_datas = About.objects.all()
     context = {
-        "title" : "Femme",
-        "caption" : "Femme Caption",
         "about_datas" : about_datas
     }
     return render(request, 'web/index.html',context)
@@ -114,28 +95,6 @@ def index(request):
             exclude(name="x")
             get()
             # note end here
-
-# Add to html file
-
-<ul>
-    {% for about in about_datas %}
-        {{about.image.url}}
-        {{about.title}}
-        {{about.content}}
-    {% endfor %}
-    <li></li>
-</ul>
-
-# with if condition
-
-{% if about_datas %}
-    <p>content here</p>
-{% else %}
-    <p>Nothing Found</p>
-{% endif %}
-
-# Current year update
-{% now 'Y' %}
 
 # CREATING PAGE -------------------------------------------------------
 
@@ -190,41 +149,6 @@ Replace <title>caption</title> with <title>{{caption}}</title>
     {% url 'web:about' %}
 
 
-# TEMPLATE EXTENDING (GENERAL) -------------------------------------------------
-
-    # create base.html
-        -------- header here --------
-        {% block content %}
-        {% endblock%}
-        ------- footer here --------
-
-    # index.html
-        {% extends 'web/base.html' %}
-        {% load static %}
-        {% block content %}
-        -------- content here --------
-        {% endblock%}
-
-    # Update about page
-    # Fix hyperlinks
-        href="{% url 'web:index' %}
-        href="{% url 'web:about' %}
-        href="{% url 'web:index' %}#features
-
-    # Fixing spotlight content
-        add additional lines to views/index and views/about
-        "is_home" : True
-        "is_about" : True
-    # create a new dir web/includes
-    # Create two files index-spotlight.html and about-spotlight.html
-    # Move the content from base to respective file and edit as needed
-    # Paste the condition in spotlight position in base.html
-        {% if is_home %}
-            {% include 'web/includes/index-spotlight.html' %}
-        {% elif is_about %}
-            {% include 'web/includes/about-spotlight.html' %}
-        {% endif %}
-
 # Updating additionsl requiremets
 
     # Define fields in models.py
@@ -232,15 +156,5 @@ Replace <title>caption</title> with <title>{{caption}}</title>
     date_added = models.DateField()
     # Make migrations and migrate
     # Update html with required tags
-
-# Dropping database
-    find . -path "*/migrations/*.pyc"  -delete
-    find . -path "*/migrations/*.py" -not -name "__init__.py" -delete
-    # Drop the current database
-    # Create the initial migrations and generate the database schema:
-    python manage.py makemigrations
-    python manage.py migrate
-    python manage.py createsuperuser
-
 
     ---------------------------- finished ----------------------------

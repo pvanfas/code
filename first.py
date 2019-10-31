@@ -79,7 +79,7 @@ import views
 
 urlpatterns = [
     url(r'^$', views.index,name="index"),
-    #url(r'^about/', views.about,name="about")
+    #url(r'^about/$', views.about,name="about"),
 ]
 
 #edit web/views.py
@@ -142,14 +142,6 @@ python manage.py migrate
 # Add superuser
 python manage.py createsuperuser
 
-#database export and import
-python manage.py dumpdata > database.json
-python manage.py loaddata database.json
-
-#delete migrations
-find . -path "*/migrations/*.pyc"  -delete
-find . -path "*/migrations/*.py" -not -name "__init__.py" -delete
-
 #change view into render, pass context,get objects in web/views.py
 from web.models import Blog
 
@@ -160,6 +152,7 @@ def index(request):
         "title" : "HOME",
         "caption" : "The ultimate solution provider",
         "blog_datas" : blog_datas,
+        "is_home" : True
     }
     return render(request, 'web/index.html',context)
 
@@ -175,14 +168,54 @@ def index(request):
     {% endfor %}
 
     # with if condition
-
-    {% if blog_datas %}
-        <p>content here</p>
-    {% else %}
-        <p>Nothing Found</p>
-    {% endif %}
+        {% if blog_datas %}
+            <p>content here</p>
+        {% else %}
+            <p>Nothing Found</p>
+        {% endif %}
 
     # Current year update
-    {% now 'Y' %}
-    
-#You have successfully configured the basics......................................................
+        {% now 'Y' %}
+
+#template extending
+    # create base.html
+        -------- header here --------
+        {% block content %}
+        {% endblock%}
+        ------- footer here --------
+
+    # index.html
+        {% extends 'web/base.html' %}
+        {% load static %}
+        {% block content %}
+        -------- content here --------
+        {% endblock%}
+
+    # Fix hyperlinks
+        href="{% url 'web:index' %}
+        href="{% url 'web:about' %}
+        href="{% url 'web:index' %}#features
+
+    # Fixing spotlight content
+        add additional lines to views/index and views/about
+        "is_home" : True
+        "is_about" : True
+    # create a new dir web/includes
+    # Create two files index-spotlight.html and about-spotlight.html
+    # Move the content from base to respective file and edit as needed
+    # Paste the condition in spotlight position in base.html
+        {% if is_home %}
+            {% include 'web/includes/index-spotlight.html' %}
+        {% elif is_about %}
+            {% include 'web/includes/about-spotlight.html' %}
+        {% endif %}
+
+#database export and import
+python manage.py dumpdata > database.json
+python manage.py loaddata database.json
+
+#delete migrations
+find . -path "*/migrations/*.pyc"  -delete
+find . -path "*/migrations/*.py" -not -name "__init__.py" -delete
+
+#You have successfully configured the basic website in django......................................................
