@@ -46,7 +46,7 @@ def index(request):
 def about(request):
     return HttpResponse('Hello from about')
 
-# TEMPLATE RENDERING ----------------------------------------------------
+# NEW PAGE ----------------------------------------------------
 
 
 # Add a new model in models.py

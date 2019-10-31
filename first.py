@@ -97,10 +97,6 @@ def index(request):
     #example:
         <script src="{% static 'js/script.js' %}"></script>
 
-#change view into render
-def index(request):
-	return render(request,'web/index.html')
-
 #setup database
 sudo su postgres
 createdb project
@@ -134,7 +130,6 @@ from __future__ import unicode_literals
 from django.contrib import admin
 from web.models import Blog
 
-
 class BlogAdmin(admin.ModelAdmin):
     list_display = ('heading','content','image','time','video_url')
 
@@ -155,4 +150,39 @@ python manage.py loaddata database.json
 find . -path "*/migrations/*.pyc"  -delete
 find . -path "*/migrations/*.py" -not -name "__init__.py" -delete
 
+#change view into render, pass context,get objects in web/views.py
+from web.models import Blog
+
+def index(request):
+    blog_datas = Blog.objects.all()
+
+    context = {
+        "title" : "HOME",
+        "caption" : "The ultimate solution provider",
+        "blog_datas" : blog_datas,
+    }
+    return render(request, 'web/index.html',context)
+
+# pass context and data into template
+	<title>{{title}} | {{caption}}</title>
+
+    {% for blog in blog_datas %}
+    <li>
+        {{blog.image.url}}
+        {{blog.title}}
+        {{blog.content}}
+    </li>
+    {% endfor %}
+
+    # with if condition
+
+    {% if blog_datas %}
+        <p>content here</p>
+    {% else %}
+        <p>Nothing Found</p>
+    {% endif %}
+
+    # Current year update
+    {% now 'Y' %}
+    
 #You have successfully configured the basics......................................................
