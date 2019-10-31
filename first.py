@@ -131,10 +131,15 @@ class BlogAdmin(admin.ModelAdmin):
 
 admin.site.register(Blog,BlogAdmin)
 
-
+#to change admin header
 admin.site.site_header = "PROJECT Admininistration"
 admin.site.site_title = "PROJECT Admin Portal"
 admin.site.index_title = "Welcome to PROJECT Researcher Portal"
+
+#to remove user,groups from admin panel
+admin.site.unregister(User)
+admin.site.unregister(Group)
+
 
 # migrate changes into app and database
 python manage.py makemigrations
