@@ -149,7 +149,7 @@ Replace <title>caption</title> with <title>{{caption}}</title>
     {% url 'web:about' %}
 
 
-# Updating additionsl requiremets
+# Updating additional requiremets
 
     # Define fields in models.py
     subheading = models.CharField(max_length=128)
