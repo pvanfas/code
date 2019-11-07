@@ -1,3 +1,13 @@
+
+Ajax is a set of web development techniques using many web technologies on 
+the client side to create asynchronous web applications. With Ajax, 
+web applications can send and retrieve data from a server asynchronously 
+without interfering with the display and behavior of the existing page. 
+ Ajax allows web pages to be updated asynchronously by exchanging small 
+amounts of data with the server behind the scenes
+ 
+#add class ajax to form tag and prevent normal submit on action.js and update as ajax request
+
 # FORM AJAX --------------------------------------------------------------------------------
 
 # template script
