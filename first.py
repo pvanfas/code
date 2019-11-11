@@ -137,6 +137,8 @@ admin.site.site_title = "PROJECT Admin Portal"
 admin.site.index_title = "Welcome to PROJECT Researcher Portal"
 
 #to remove user,groups from admin panel
+from django.contrib.auth.models import User, Group
+
 admin.site.unregister(User)
 admin.site.unregister(Group)
 

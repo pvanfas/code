@@ -1,7 +1,7 @@
 pip install django-el-pagination==3.1.0
 
 #settings installed apps
-'el-pagination',
+'el_pagination',
 
 #templates before {% for instance in instances %}
 {% load el_pagination_tags %}
