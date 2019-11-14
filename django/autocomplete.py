@@ -5,7 +5,7 @@ pip install six
 'dal',
 'dal_select2',
 
-#on required views.py
+#on required(customers) views.py
 from dal import autocomplete
 
 
@@ -24,7 +24,7 @@ class CustomerAutocomplete(autocomplete.Select2QuerySetView):
         return items
 
 
-#on urls
+#on (customers)urls
 from customers.views import CustomerAutocomplete
 
 urlpatterns = [
