@@ -48,3 +48,7 @@
         pvanfas.pythonanywhere.com
     # Go to the Consoles tab, start a bash console, navigate to manage.py
     ./manage.py migrate
+    
+# Drop database
+mysql -u pvanfas -h pvanfas.mysql.pythonanywhere-services.com -p 'pvanfas$crm'
+drop database pvanfas$crm;
