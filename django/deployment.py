@@ -52,3 +52,7 @@
 # Drop database
 mysql -u pvanfas -h pvanfas.mysql.pythonanywhere-services.com -p 'pvanfas$crm'
 drop database pvanfas$crm;
+
+# Activate venv
+workon venv
+python manage.py collectstatic
