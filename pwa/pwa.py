@@ -4,7 +4,7 @@ from django.views.generic import TemplateView
 url(r'^manifest\.json$',TemplateView.as_view(template_name="manifest.json",content_type="text/javascript"),name='manifest'),
 url(r'^sw\.js$',TemplateView.as_view(template_name="sw.js",content_type="text/javascript"),name='sw'),
 
-#sw.js (add to templates)
+#sw.js (add to /templates)
 var cacheName = 'Tutorial-v1';
 
 var urlsToCache = [
@@ -85,7 +85,7 @@ function addToHomeScreen() {  var a2hsBtn = document.querySelector(".ad2hs-promp
 
 });}
 
-#manifest (add to templates)
+#manifest.json (add to /templates)
 {
   "name": "Tutorial",
   "short_name": "Tutorial",
