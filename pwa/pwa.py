@@ -1,10 +1,28 @@
 #project url
+
 from django.views.generic import TemplateView
 
 url(r'^manifest\.json$',TemplateView.as_view(template_name="manifest.json",content_type="text/javascript"),name='manifest'),
 url(r'^sw\.js$',TemplateView.as_view(template_name="sw.js",content_type="text/javascript"),name='sw'),
 
+
+#Register servive worker at base.html 
+
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/sw.js').then(function(registration) {
+          // Registration was successful
+          console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        }, function(err) {
+          // registration failed :(
+          console.log('ServiceWorker registration failed:', err);
+        });
+    });
+}
+  
+                            
 #sw.js (add to /templates)
+                            
 var cacheName = 'Tutorial-v1';
 
 var urlsToCache = [
@@ -85,7 +103,9 @@ function addToHomeScreen() {  var a2hsBtn = document.querySelector(".ad2hs-promp
 
 });}
 
+                            
 #manifest.json (add to /templates)
+                            
 {
   "name": "Tutorial",
   "short_name": "Tutorial",
