@@ -129,7 +129,3 @@ class SaleSerializer(serializers.ModelSerializer):
         else:
             return ""
             
-# API Authentication using jwt
-(Detailed documenation at [https://github.com/davesque/django-rest-framework-simplejwt])
-
-pip install djangorestframework_simplejwt
