@@ -1,4 +1,4 @@
-# API Authentication using jwt
+  # API Authentication using jwt
 (Detailed documenation at [https://github.com/pvanfas/code/blob/master/DRF/simplejwt.rst])
 
 pip install djangorestframework_simplejwt
@@ -66,10 +66,63 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
 
-# Ckecking authentication
+# getting authentication tokens
 http://localhost:8000/api/v1/auth/token/
+# Refreshing access tokens
 http://localhost:8000/api/v1/auth/refresh/
+# Token validation
 https://jwt.io/         ALGORITHM: HS512
 
+# Response on authentication
+change decorator @permission_classes((AllowAny,)) to @permission_classes((IsAuthenticated,))
 
+# Accessing auth protected data
+postman: Authentication --> Bearer token --> paste token
+
+# Overwriting default authentication class and add new datas 
+(authentication/serializers.py)
+from rest_framework import serializers
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from django.utils.six import text_type
+
+class UserTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls,user):
+        token = super(UserTokenObtainPairSerializer, cls).get_token(user)
+        return token
+        
+    def validate(cls, attrs):
+        data = super(UserTokenObtainPairSerializer, cls).validate(attrs)
+        
+        refresh = cls.get_token(cls.usr)
+        
+        data['refresh'] = text_type(refresh)
+        data["access"] = text_type(refresh.access_token)
+        
+        if cls.user.is_superuser:
+            data["role"] = "superuser"
+        else:
+            data["role"] = "user"
+            
+        return data
+        
+(authentication/views.py)
+from rest_framework_simplejwt.views import TokenObtainPairView
+from api.v1.IsAuthentication.serializers import UserTokenObtainPairSerializer
+
+class UserTokenObtainPairView(TokenObtainPairView):
+    serializer_class = UserTokenObtainPairSerializer
+
+(authentication/urls.py)
+from django.conf.urls import url,include
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
+
+
+urlpatterns = [
+    url(r'^token/$', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    url(r'^refresh/$', TokenRefreshView.as_view(), name='token_refresh'),
+]
 
