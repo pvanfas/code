@@ -18,12 +18,22 @@ sudo -H pip3 install virtualenv
 DJANGO SETUP
 
 ```
-mkdir project && cd project && mkdir src
-virtualenv venv
+virtualenv venv -p python3
 source venv/bin/activate
-cd src && pip install django==1.11.15 && pip install pillow psycopg2
-django-admin.py startproject project
-cd project && mkdir static media templates
+
+# replace project with project name
+cd project
+pip install -r r.txt
+find . | grep -E "(__pycache__|\.pyc|\.pyo$)" | xargs rm -rf
+find . -path "*/migrations/*.pyc"  -delete
+find . -path "*/migrations/*.py" -not -name "__init__.py" -delete
+python manage.py makemigrations
+python manage.py migrate
+python manage.py loaddata initial_data notification permissions user_groups
+python manage.py createsuperuser
+
+# create superuser
+
 python manage.py runserver
 ```
 DJANGO COMMANDS
