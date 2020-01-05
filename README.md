@@ -31,6 +31,8 @@ DJANGO COMMANDS
 find . -path "*/migrations/*.pyc"  -delete
 find . -path "*/migrations/*.py" -not -name "__init__.py" -delete
 
+find . | grep -E "(__pycache__|\.pyc|\.pyo$)" | xargs rm -rf
+
 python manage.py loaddata initial_data notification permissions user_groups
 python manage.py dumpdata > database.json
 python manage.py loaddata database.json
