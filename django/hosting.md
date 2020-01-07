@@ -24,50 +24,50 @@ Replace mysite with projectname
 
 Create and update database settings
     
+```
+DEBUG = True
 
-	DEBUG = True
+ALLOWED_HOSTS = ['username.pythonanywhere.com']
 
-	ALLOWED_HOSTS = ['username.pythonanywhere.com']
+TEMPLATES = [
+	{
+		'BACKEND': 'django.template.backends.django.DjangoTemplates',
+		'DIRS': ['project/templates'],
+		'APP_DIRS': True,
+		'OPTIONS': {
+			'context_processors': [
+				'django.template.context_processors.debug',
+				'django.template.context_processors.request',
+				'django.contrib.auth.context_processors.auth',
+				'django.contrib.messages.context_processors.messages',
+			],
+		},
+	},
+]
 
-	TEMPLATES = [
-        {
-            'BACKEND': 'django.template.backends.django.DjangoTemplates',
-            'DIRS': ['project/templates'],
-            'APP_DIRS': True,
-            'OPTIONS': {
-                'context_processors': [
-                    'django.template.context_processors.debug',
-                    'django.template.context_processors.request',
-                    'django.contrib.auth.context_processors.auth',
-                    'django.contrib.messages.context_processors.messages',
-                ],
-            },
-        },
-    ]
+WSGI_APPLICATION = 'project.wsgi.application'
 
-    WSGI_APPLICATION = 'project.wsgi.application'
-
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'username$project',
-            'USER': 'username',
-            'PASSWORD': 'db-password',
-            'HOST':'username.mysql.pythonanywhere-services.com',
-            'PORT': '',
-        }
-    }
-
+DATABASES = {
+	'default': {
+		'ENGINE': 'django.db.backends.mysql',
+		'NAME': 'username$project',
+		'USER': 'username',
+		'PASSWORD': 'db-password',
+		'HOST':'username.mysql.pythonanywhere-services.com',
+		'PORT': '',
+	}
+}
+```
 Go to the Consoles tab, start a bash console, navigate to manage.py
 
 ```
-   ./manage.py migrate
+./manage.py migrate
 ``` 
 Drop database
 
 ```
-mysql -u username -h username.mysql.pythonanywhere-services.com -p 'username$crm'
-drop database username$crm;
+mysql -u username -h username.mysql.pythonanywhere-services.com -p 'username$project'
+drop database username$project;
 ```
 
 Activate venv
