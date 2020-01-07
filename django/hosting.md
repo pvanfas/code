@@ -58,14 +58,10 @@ Create and update database settings
         }
     }
 
-
-```
-
 Go to the Consoles tab, start a bash console, navigate to manage.py
 
 ```
    ./manage.py migrate
-
 ``` 
 Drop database
 
