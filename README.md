@@ -8,7 +8,7 @@ sudo python3.6 get-pip.py
 sudo pip3.6 install virtualenv
 sudo apt-get update
 sudo apt-get install python-pip python-dev python3-pip python3-dev python3-venv
-sudo apt-get install libpq-dev postgresql postgresql-contrib nginx
+sudo apt-get install libpq-dev postgresql postgresql-contrib
 sudo pip3 install virtualenv
 sudo apt-get update
 sudo -H pip3 install --upgrade pip
