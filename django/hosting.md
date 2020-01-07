@@ -2,27 +2,28 @@
 	
 Assume manage.py is at https://www.pythonanywhere.com/user/username/files/home/username/project/manage.py
 
-clone the project to the root directory
-
+1. open console,clone the project to the root directory and apply the command
+```
 mkvirtualenv venv -p python3
 
 pip install -r r.txt
 
 pip install mysqlclient
+```
 
-Go to Dashboard
+2. Go to Dashboard
 
-Create a Web app with Manual Config
+3. Create a Web app with Manual Config
 
-Choose Manual Configuration
+4. Choose Manual Configuration
 
-Enter the name of your virtualenv in the Virtualenv section on the web tab (venv)
+5. Enter the name of your virtualenv in the Virtualenv section on the web tab (venv)
 
-Open WSGI file, Delete everything except the Django section and then uncomment that section.
+6. Open WSGI file, Delete everything except the Django section and then uncomment that section.
 
-Replace mysite with projectname
+7. Replace mysite with projectname
 
-Create and update database settings
+8. Create and update database settings
     
 ```
 DEBUG = True
@@ -57,6 +58,7 @@ DATABASES = {
 		'PORT': '',
 	}
 }
+
 ```
 Go to the Consoles tab, start a bash console, navigate to manage.py
 
