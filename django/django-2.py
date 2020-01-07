@@ -36,4 +36,6 @@ def index(request):
 # CONVERTING TO DJANGO 2
 
 #Replace
-def __unicode__(self): with def __str__(self):
+def __unicode__(self):
+ to -->
+def __str__(self):
