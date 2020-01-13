@@ -12,6 +12,8 @@ sudo apt install code
  ```
  ext install burkeholland.simple-react-snippets
  ext install esbenp.prettier-vscode
+ ext install kelset.rn-full-pack
+ 
  ```
 Open settings (ctrl + comma) and add the following to the json file
 
