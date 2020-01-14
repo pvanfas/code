@@ -19,4 +19,13 @@ Open settings (ctrl + comma) and add the following to the json file
 
  ```
  "editor.formatOnSave": true,
+ 
  ```
+#Fix : ERROR: JAVA_HOME is set to an invalid directory: /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
+
+copy jre location and paste /etc/environment file
+```
+sudo subl /etc/environment
+source /etc/environment
+```
+
