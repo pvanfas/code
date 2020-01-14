@@ -68,12 +68,13 @@ Then add the following at the top of your entry file, such as index.js or App.js
 import 'react-native-gesture-handler';
 ```
 
+Home page
+
 ```
 import React from 'react';
 import {} from 'react-native';
 import Home from './components/screens/Home';
 import About from './components/screens/About';
-import Contact from './components/screens/Contact';
 import 'react-native-gesture-handler';
 import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
@@ -91,9 +92,6 @@ const AppNavigator = createStackNavigator({
   },
   About: {
     screen: About,
-  },
-  Contact: {
-    screen: Contact,
   },
 });
 
