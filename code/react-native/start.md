@@ -18,8 +18,44 @@ start another teminal on project directory and apply the command
 react-native start
 ```
 
+-------------------------------------------------------------------------------
 
-# Navigation
+## State and Props
+
+```
+import { View } from "react-native";
+
+class Home extends React.Component {
+    state = {
+        title: "Daily Trainings",
+        subHeading: "Keep training daily for better results",
+        trainings: {
+            title: "Attention & Focus"
+        }
+    };
+    render() {
+        return (
+            <View>
+                <Text style={styles.title}>{this.state.title}</Text>
+                {/* passing to same page (as state) */}
+
+                <LongCard trainings={this.state.trainings} />
+                {/* passing to child (as props) */}
+            </View>
+        );
+    }
+}
+
+```
+
+// prop calling at child component
+```
+<Text style={styles.cardHead}>{this.props.trainings.title}</Text>;
+```
+
+-------------------------------------------------------------------------------
+
+## Navigation
 
 ```
 npm install react-native-gesture-handler react-native-reanimated react-native-screens react-native-safe-area-context
@@ -123,3 +159,5 @@ const styles = StyleSheet.create({
 export default About;
 
 ```
+
+-------------------------------------------------------------------------------
