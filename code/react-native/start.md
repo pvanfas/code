@@ -2,23 +2,26 @@
 
 [![CircleCI](https://img.icons8.com/officel/30/000000/doc.png)](https://facebook.github.io/react-native/docs/getting-started)
 
-
-#### *React Native combines the best parts of native development with React, a best-in-class JavaScript library for building user interfaces.*.
+#### _React Native combines the best parts of native development with React, a best-in-class JavaScript library for building user interfaces._.
 
 Starting a new react-native app
+
 ```
 npx react-native init AwesomeProject
 ```
+
 ```
 cd AwesomeProject
 npx react-native run-android
 ```
-start another teminal on project directory and apply the command
+
+start another terminal on project directory and apply the command
+
 ```
 react-native start
 ```
 
--------------------------------------------------------------------------------
+---
 
 ## State and Props
 
@@ -49,13 +52,14 @@ class Home extends React.Component {
 ```
 
 // prop calling at child component
+
 ```
 <Text style={styles.cardHead}>{this.props.trainings.title}</Text>;
 ```
 
--------------------------------------------------------------------------------
+---
 
-## Navigation
+## Stack Navigation
 
 ```
 npm install react-native-gesture-handler react-native-reanimated react-native-screens react-native-safe-area-context
@@ -98,6 +102,7 @@ public class MainActivity extends ReactActivity {
 }
 
 ```
+
 Then add the following at the top of your entry file, such as index.js or App.js:
 
 ```
@@ -136,6 +141,7 @@ const AppContainer = createAppContainer(AppNavigator);
 export default App;
 
 ```
+
 About page
 
 ```
@@ -160,4 +166,30 @@ export default About;
 
 ```
 
--------------------------------------------------------------------------------
+---
+
+## Tab Navigation
+
+```
+npm install react-navigation-tabs
+```
+
+```
+import {createBottomTabNavigator} from 'react-navigation-tabs';
+
+class App extends React.Component {
+  state = {};
+  render() {
+    return <TabContainer />;
+  }
+}
+
+const TabNavigator = createBottomTabNavigator({
+  Home: Home,
+  About: About,
+  Contact: Contact,
+});
+
+const TabContainer = createAppContainer(TabNavigator);
+
+```
