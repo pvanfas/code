@@ -1,3 +1,4 @@
+```
 BANK_CHOICES = (
     ('alb', 'ALLAHABAD BANK'),
     ('adb', 'ANDHRA BANK'),
@@ -112,3 +113,5 @@ STATE_CHOICES = (
     ('UK','Uttarakhand'),
     ('WB','West Bengal'),
 )
+
+```
