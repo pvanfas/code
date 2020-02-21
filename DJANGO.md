@@ -47,56 +47,74 @@ STATICFILES_DIRS = (
 )
 ```
 7. Define urlpatterns in project/urls.py
+
 ```
-from django.conf.urls import url ,include
 from django.contrib import admin
-from django.views.static import serve
+from django.urls import path,include
 from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^',include('web.urls',namespace="web")),
+    path('admin/', admin.site.urls),
+    path('',include('web.urls',namepace='web'))
 
-    url(r'^media/(?P<path>.*)$', serve, { 'document_root': settings.MEDIA_ROOT}),
-    url(r'^static/(?P<path>.*)$', serve, { 'document_root': settings.STATIC_FILE_ROOT}),
-]
+]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
 ```
 8. Create web/urls.py and paste the following
 ```
-from django.conf.urls import url
-import views
+from django.urls import path
+from . import views
 
+app_name = 'web'
 
 urlpatterns = [
-    url(r'^$', views.index,name="index"),
-    #url(r'^about/$', views.about,name="about"),
+    path('', views.index,name="index"),
+    path('about/', views.about,name="about"),
 ]
-
-#edit web/views.py
+```
+9. Edit web/views.py
+```
 from __future__ import unicode_literals
-from django.shortcuts import render
-from django.http.response import HttpResponse, HttpResponseRedirect
-from django.core.urlresolvers import reverse
+from django.shortcuts import render,get_object_or_404
+from django.http import HttpResponse
+from django.urls import reverse
+from django.contrib.auth.decorators import login_required
+from django.forms.formsets import formset_factory
+from django.forms.models import inlineformset_factory
+import json, datetime
+
 
 def index(request):
-	return HttpResponse("Hello World")
+    context = {
+        "title" : "HOME",
+        "caption" : "The ultimate solution provider",
+        "is_home" : True
+    }
+    return render(request, 'web/index.html',context)
 
-#template rendering
-    #Add assets into /static and html into /templates/web
-    #Add {% load static %} after <head> tag and Change directory path to href="{% static 'location' %}"
-    #example:
+```
+
+10. Template rendering
+```
+    (i). Add assets into /static and html into /templates/web
+    (ii). Add {% load static %} after <head> tag and Change directory path to href="{% static 'location' %}"
+    (iii). example:
         <script src="{% static 'js/script.js' %}"></script>
-
-#setup database
+```
+11. Setup database
+```
 sudo su postgres
 createdb project
 createuser user -P
 psql
-grant all privileges on database femme to techpe;
+grant all privileges on database db to user;
 \q
 exit
+```
 
-#django models
+12. Django models
+```
 from django.utils.translation import ugettext_lazy as _
 from django.db import models
 
@@ -114,8 +132,10 @@ class Blog(models.Model):
 
     def __unicode__(self):
         return str(self.pk)
+```
 
-# Import model and define list display in admin.py
+13. Import model and define list display in admin.py
+```
 from __future__ import unicode_literals
 from django.contrib import admin
 from web.models import Blog
@@ -124,27 +144,29 @@ class BlogAdmin(admin.ModelAdmin):
     list_display = ('heading','content','image','time','video_url')
 
 admin.site.register(Blog,BlogAdmin)
-
-#to change admin header
+```
+14.To change admin header
+```
 admin.site.site_header = "PROJECT Admininistration"
 admin.site.site_title = "PROJECT Admin Portal"
 admin.site.index_title = "Welcome to PROJECT Researcher Portal"
-
-#to remove user,groups from admin panel
+```
+15. To remove user,groups from admin panel
+```
 from django.contrib.auth.models import User, Group
 
 admin.site.unregister(User)
 admin.site.unregister(Group)
 
-
-# migrate changes into app and database
+```
+16. migrating changes into app and database and adding superuser
+```
 python manage.py makemigrations
 python manage.py migrate
-
-# Add superuser
 python manage.py createsuperuser
-
-#change view into render, pass context,get objects in web/views.py
+```
+17. Passing data and context into templates
+```
 from web.models import Blog
 
 def index(request):
@@ -157,67 +179,74 @@ def index(request):
         "is_home" : True
     }
     return render(request, 'web/index.html',context)
+```
 
-# pass context and data into template
+```
 	<title>{{title}} | {{caption}}</title>
 
     {% for blog in blog_datas %}
-    <li>
-        {{blog.image.url}}
-        {{blog.title}}
-        {{blog.content}}
-    </li>
+        <li>
+            {{blog.image.url}}
+            {{blog.title}}
+            {{blog.content}}
+        </li>
     {% endfor %}
+```
+with if condition
+```
+    {% if blog_datas %}
+        <p>content here</p>
+    {% else %}
+        <p>Nothing Found</p>
+    {% endif %}
+```
+Get current year
+```
+    {% now 'Y' %}
+```
+18. Template extending
 
-    # with if condition
-        {% if blog_datas %}
-            <p>content here</p>
-        {% else %}
-            <p>Nothing Found</p>
-        {% endif %}
+base.html
+```
+    -------- header here --------
+    {% block content %}
+    {% endblock%}
+    ------- footer here --------
+```
+index.html
+```
+    {% extends 'web/base.html' %}
+    {% load static %}
 
-    # Current year update
-        {% now 'Y' %}
-
-#template extending
-    # create base.html
-        -------- header here --------
-        {% block content %}
-        {% endblock%}
-        ------- footer here --------
-
-    # index.html
-        {% extends 'web/base.html' %}
-        {% load static %}
-        {% block content %}
-        -------- content here --------
-        {% endblock%}
-
-    # Fix hyperlinks
+    {% block content %}
+    -------- content here --------
+    {% endblock%}
+```
+19. Fix hyperlinks
+```
         href="{% url 'web:index' %}
         href="{% url 'web:about' %}
         href="{% url 'web:index' %}#features
-
-    # Fixing spotlight content
-        add additional lines to views/index and views/about
-        "is_home" : True
-        "is_about" : True
-    # create a new dir web/includes
-    # Create two files index-spotlight.html and about-spotlight.html
-    # Move the content from base to respective file and edit as needed
-    # Paste the condition in spotlight position in base.html
-        {% if is_home %}
-            {% include 'web/includes/index-spotlight.html' %}
-        {% elif is_about %}
-            {% include 'web/includes/about-spotlight.html' %}
-        {% endif %}
-
-#database export and import
+```
+20. Including template parts
+```
+    "is_home" : True
+    "is_about" : True
+```
+```
+    {% if is_home %}
+        {% include 'web/includes/index-spotlight.html' %}
+    {% elif is_about %}
+        {% include 'web/includes/about-spotlight.html' %}
+    {% endif %}
+```
+21. Database export and import
+```
 python manage.py dumpdata > database.json
 python manage.py loaddata database.json
-
-#delete migrations
+```
+22. Delete migrations
+```
 find . -path "*/migrations/*.pyc"  -delete
 find . -path "*/migrations/*.py" -not -name "__init__.py" -delete
-
-#You have successfully configured the basic website in django......................................................
+```
