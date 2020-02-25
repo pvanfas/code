@@ -1,4 +1,4 @@
-pip install django-registration-redux==1.7
+pip install django-registration-redux
 
 #settings. installed apps
 'registration',
@@ -9,8 +9,8 @@ LOGOUT_URL = '/app/accounts/logout/'
 LOGIN_REDIRECT_URL = '/'
 
 #urls.py
-url(r'^app/accounts/', include('registration.backends.default.urls')),
-url(r'^app/users/', include('users.urls', namespace="users")),
+path('app/accounts', include('registration.backends.default.urls')),
+path('app/users', include('users.urls', namespace="users")),
 
 #as form.action or a.href
 {% url 'auth_password_change' %}	#Change Password

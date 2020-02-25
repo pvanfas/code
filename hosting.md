@@ -59,6 +59,10 @@ DATABASES = {
 	}
 }
 
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
+
 ```
 Go to the Consoles tab, start a bash console, navigate to manage.py
 
@@ -78,11 +82,3 @@ workon venv
 python manage.py collectstatic
 ```
 
-Add to settings file if got error as
-You're using the staticfiles app without having set the STATIC_ROOT setting to a filesystem path
-```
-PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
-
-```
