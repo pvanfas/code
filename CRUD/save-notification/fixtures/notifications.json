@@ -1,0 +1,10 @@
+[
+	{
+	    "model": "users.NotificationSubject",
+	    "pk": 1,
+	    "fields": {
+	      "name": "Customer Created",
+	      "code" : "customer_created"
+	    }
+	}
+]
