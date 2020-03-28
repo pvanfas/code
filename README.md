@@ -13,7 +13,7 @@ sudo apt-get update
 sudo su
 apt-get update && apt-get upgrade
 apt-get dist-upgrade
-apt-get install build-essential python-dev python-setuptools python-pip python-smbus python3-pip python3-dev python3-venv ibpq-dev postgresql postgresql-contrib libncursesw5-dev libgdbm-dev libc6-dev zlib1g-dev libsqlite3-dev tk-dev libssl-dev openssl libffi-dev
+apt-get install build-essential python-dev python-setuptools python-pip python-smbus python3-pip python3-dev python3-venv libpq-dev postgresql postgresql-contrib libncursesw5-dev libgdbm-dev libc6-dev zlib1g-dev libsqlite3-dev tk-dev libssl-dev openssl libffi-dev
 
 ```
 
@@ -23,18 +23,12 @@ DJANGO SETUP
 virtualenv venv -p python3
 source venv/bin/activate
 
-# replace project with project name
-cd project
-pip install -r r.txt
 find . | grep -E "(__pycache__|\.pyc|\.pyo$)" | xargs rm -rf
 find . -path "*/migrations/*.pyc"  -delete
 find . -path "*/migrations/*.py" -not -name "__init__.py" -delete
 python manage.py makemigrations
 python manage.py migrate
-python manage.py loaddata initial_data notification permissions user_groups
 python manage.py createsuperuser
-
-# create superuser
 
 python manage.py runserver
 ```
