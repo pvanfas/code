@@ -8,9 +8,12 @@ sudo python3 get-pip.py
 sudo pip3 install virtualenv
 sudo -H pip3 install --upgrade pip
 sudo -H pip3 install virtualenv
-sudo apt-get install python-pip python-dev python3-pip python3-dev python3-venv
-sudo apt-get install libpq-dev postgresql postgresql-contrib
 sudo apt-get update
+
+sudo su
+apt-get update && apt-get upgrade
+apt-get dist-upgrade
+apt-get install build-essential python-dev python-setuptools python-pip python-smbus python3-pip python3-dev python3-venv ibpq-dev postgresql postgresql-contrib libncursesw5-dev libgdbm-dev libc6-dev zlib1g-dev libsqlite3-dev tk-dev libssl-dev openssl libffi-dev
 
 ```
 
