@@ -138,9 +138,3 @@ $(document).on('submit','form.ajax', function(e) {
 });
 
 ```
-
-    });
-
-});
-
-```
