@@ -42,9 +42,8 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 STATIC_URL = '/static/'
 STATIC_FILE_ROOT = os.path.join(BASE_DIR, "static")
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "static"),
-)
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
+
 ```
 7. Define urlpatterns in project/urls.py
 
@@ -53,6 +52,7 @@ from django.contrib import admin
 from django.urls import path,include
 from django.conf import settings
 from django.conf.urls.static import static
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -80,9 +80,7 @@ from django.shortcuts import render,get_object_or_404
 from django.http import HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-from django.forms.formsets import formset_factory
-from django.forms.models import inlineformset_factory
-import json, datetime
+import json
 
 
 def index(request):
@@ -93,6 +91,42 @@ def index(request):
     }
     return render(request, 'web/index.html',context)
 
+//With save
+def function(request):
+    if request.method == "POST":
+        form = forms.ModelForm(request.POST)
+        if form.is_valid():
+            form.save()
+        else:
+            print (form.errors)
+            return HttpResponse("Validation Error")
+
+        return HttpResponse("Success")
+    else:
+        form = forms.ModelForm()
+        context = {
+            "form" : form,
+        }
+        return render(request, 'web/index.html',context)
+
+
+//with file submission
+def function(request):
+    if request.method == "POST":
+        form = forms.ModelForm(request.POST,request.FILES)
+        if form.is_valid():
+            form.save()
+        else:
+            print (form.errors)
+            return HttpResponse("Validation Error")
+
+        return HttpResponse("Success")
+    else:
+        form = forms.ModelForm()
+        context = {
+            "form" : form,
+        }
+        return render(request, 'web/index.html',context)
 ```
 
 10. Template rendering
@@ -113,17 +147,43 @@ grant all privileges on database db to user;
 exit
 ```
 
+12. GIT-IGNORE
+
+```
+### Django ###
+*.log
+*.pot
+*.pyc
+migrations/*.py
+__pycache__/
+!__init__.py
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+media/
+
+```
 12. Django models
 ```
 from django.utils.translation import ugettext_lazy as _
 from django.db import models
 
+
+CATEGORY_CHOICES = (
+    ('personal', 'Personal'),
+    ('business', 'Business'),
+)
+
 class Blog(models.Model):
-    heading = models.CharField(max_length=128)
-    content = models.TextField()
+    auto_id = models.PositiveIntegerField(db_index=True,unique=True)
+    name = models.CharField(max_length=128)
+    email = models.EmailField(blank=True,null=True)
     image = models.ImageField(upload_to='images/blog')
+    content = models.TextField()
     time = models.DateTimeField()
     video_url = models.URLField()
+    category = models.CharField(max_length=128,choices=CATEGORY_CHOICES,default="personal")
+    active = models.BooleanField(default=True)
 
     class Meta:
         db_table = 'web_blog'
@@ -132,6 +192,48 @@ class Blog(models.Model):
 
     def __unicode__(self):
         return str(self.pk)
+
+```
+13. Django forms
+```
+from django import forms
+from django.utils.translation import ugettext_lazy as _
+from web.models import Registration
+from django.forms.widgets import TextInput, Textarea, CheckboxInput, Select, NumberInput, RadioSelect, FileInput, NumberInput
+
+
+class CategoryForm(forms.ModelForm):
+    category = forms.ChoiceField(widget=forms.RadioSelect(),choices=CATEGORY_CHOICES)
+    class Meta:
+        model = Category
+        exclude = ['creator']
+        widgets = {}
+
+
+class RegistrationForm(forms.ModelForm):
+    class Meta:
+        model = Registration
+        fields = '__all__'
+        widgets = {
+            'name': TextInput(attrs={'class': 'required form-control', 'placeholder': 'Name'}),
+            'message': Textarea(attrs={'class': 'required form-control', 'placeholder': 'Message'}),
+            'banner_image': FileInput(attrs={'class': 'form-control', 'accept': 'image/*'}),
+            'country' : Select(attrs={'class': 'form-control',}),
+            'whatsapp_number' : NumberInput(attrs={'class': 'form-control', 'placeholder': 'Whatsapp Number'}),
+            'active' : CheckboxInput(attrs={}),
+        }
+        error_messages = {
+            'name': {
+                'required': _("Name field is required."),
+            },
+            'message': {
+                'required': _("Message field is required."),
+            },
+        }
+        labels = {
+            'name' : "What we should call you ?",
+            'message' : "What is in your mind ?",
+        }
 ```
 
 13. Import model and define list display in admin.py
@@ -179,8 +281,102 @@ def index(request):
         "is_home" : True
     }
     return render(request, 'web/index.html',context)
+
+
+    def registration(request):
+        if request.method == "POST":
+            form = RegistrationForm(request.POST)
+            if form.is_valid():
+                form.save()
+
+                response_data = {
+                    "status" : "true",
+                    "title" : "Successfully Submitted",
+                    "message" : "Registration successfully updated"
+                }
+            else:
+                message = generate_form_errors(form)
+
+                response_data = {
+                    "status" : "false",
+                    "stable" : "true",
+                    "title" : "Form validation error",
+                    "message" : message
+                }
+
+            return HttpResponse(json.dumps(response_data), content_type='application/javascript')
+        else:
+            return HttpResponse("Invalid Request")
+
 ```
 
+**functions.py**
+```
+def generate_form_errors(args,formset=False):
+    message = ''
+    if not formset:
+        for field in args:
+            if field.errors:
+                message += field.errors
+        for err in args.non_field_errors():
+            message += str(err)
+
+    elif formset:
+        for form in args:
+            for field in form:
+                if field.errors:
+                    message +=field.errors
+            for err in form.non_field_errors():
+                message += str(err)
+    return message
+```
+**Template**
+```
+<form action="" method="post">
+
+    {% csrf_token %}
+
+    {{form.as_p}}
+
+    <button type="submit">Submit</button>
+
+<form>
+```
+```
+<form action="" method="post">
+
+    {% csrf_token %}
+
+    {% for field in form %}
+        <p class="first">
+            <label for="{{field.id_for_label}}">{{field.label}}</label>
+            {{field}}
+        </p>
+    {% endfor %}
+
+    <button type="submit">Submit</button>
+
+<form>
+```
+```
+<form action="" method="post">
+
+    {% csrf_token %}
+
+    <p class="first">
+        <label for="{{form.name.id_for_label}}">{{form.name.label}}</label>
+        {{form.name}}
+    </p>
+
+    <p class="first">
+        <label for="{{form.name.id_for_label}}">{{form.name.label}}</label>
+        {{form.name}}
+    </p>
+
+    <button type="submit">Submit</button>
+
+<form>
+```
 ```
 	<title>{{title}} | {{caption}}</title>
 
@@ -346,18 +542,18 @@ DB_HOST = localhost
 EMAIL_HOST = smtp-relay.sendinblue.com
 EMAIL_PORT = 587
 EMAIL_HOST_USER = anfaspv.info@gmail.com
-EMAIL_HOST_PASSWORD = 2cgwrgrgr
+EMAIL_HOST_PASSWORD = SECRET_CODE_HERE
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = verification@awardize.com
 DEFAULT_BCC_EMAIL =verification@awardize.com
 
 # social authentication credentials
-SOCIAL_AUTH_GITHUB_KEY= 2cgwrgrgrgegwgwsgsg599b930
-SOCIAL_AUTH_GITHUB_SECRET= 2cgwrgrgrgegwgwsgsg599b930
-SOCIAL_AUTH_TWITTER_KEY = 2cgwrgrgrgegwgwsgsg599b930
-SOCIAL_AUTH_TWITTER_SECRET = 2cgwrgrgrgegwgwsgsg599b930
-SOCIAL_AUTH_FACEBOOK_KEY = 2cgwrgrgrgegwgwsgsg599b930
-SOCIAL_AUTH_FACEBOOK_SECRET = 2cgwrgrgrgegwgwsgsg599b930
+SOCIAL_AUTH_GITHUB_KEY= SECRET_CODE_HERE
+SOCIAL_AUTH_GITHUB_SECRET= SECRET_CODE_HERE
+SOCIAL_AUTH_TWITTER_KEY = SECRET_CODE_HERE
+SOCIAL_AUTH_TWITTER_SECRET = SECRET_CODE_HERE
+SOCIAL_AUTH_FACEBOOK_KEY = SECRET_CODE_HERE
+SOCIAL_AUTH_FACEBOOK_SECRET = SECRET_CODE_HERE
 
 ```
 25. Context processors
@@ -420,12 +616,210 @@ TEMPLATES = [
     },
 ]
 ```
+```
+function show_loader() {
+    $('body').append('<div class="popup-box"><div class="preloader pl-xxl"><svg viewBox="25 25 50 50" class="pl-circular"><circle r="20" cy="50" cx="50" class="plc-path"/></svg></div></div><span class="popup-bg"></span>');
+}
+```
+
+```
+function remove_popup() {
+    $('.popup-box,.popup-bg').remove();
+}
+```
+
+```
+$(document).ready(function() {
+
+    $(document).on('submit','form.ajax_file', function(e) {
+        e.preventDefault();
+        var $this = $(this);
+        var data = new FormData(this);
+        var isReset = $this.hasClass('reset');
+        var isReload = $this.hasClass('reload');
+        var isRedirect = $this.hasClass('redirect');
+        show_loader();
+
+        $.ajax({
+            url: window.location.pathname,
+            type: 'POST',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            dataType: "json",
+
+            success: function(data) {
+                remove_popup();
+
+                var status = data.status;
+                var title = data.title;
+                var message = data.message;
+                var pk = data.pk;
+                var redirect = data.redirect;
+                var redirect_url = data.redirect_url;
+
+                if (status == "true") {
+                    if (title) {title = title;}
+                    else {title = "Success";}
+                    swal({title: title,text: message,type: "success"});
+
+                    swal({title: title,text: message,type: "success"},
+                    function () {
+                        if (isRedirect && redirect == 'true') {
+                            window.location.href = redirect_url;
+                        }
+                        if (isReload) {
+                            window.location.reload();
+                        }
+                        if (isReset) {
+                            $this[0].reset();
+                        }
+                    });
+                }
+                else {
+                    title = "An Error Occurred";
+                    swal(title, message, "error");
+                }
+            },
+            error: function(data) {
+                remove_popup();
+                var title = "An error occurred";
+                var message = "Upload a valid image. The file you uploaded was either not an image or a corrupted image.";
+                swal(title, message, "error");
+            }
+        });
+    });
+```
+
+```
+
+$(document).on('submit','form.ajax', function(e) {
+    e.preventDefault();
+    var $this = $(this);
+    var data = new FormData(this);
+    var isReset = $this.hasClass('reset');
+    var isReload = $this.hasClass('reload');
+    var isRedirect = $this.hasClass('redirect');
+    show_loader();
+
+    $.ajax({
+        url: window.location.pathname,
+        type: 'POST',
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+
+        success: function(data) {
+            remove_popup();
+
+            var status = data.status;
+            var title = data.title;
+            var message = data.message;
+            var pk = data.pk;
+            var redirect = data.redirect;
+            var redirect_url = data.redirect_url;
+
+            if (status == "true") {
+                if (title) {title = title;}
+                else {title = "Success";}
+                swal({title: title,text: message,type: "success"});
+
+                swal({title: title,text: message,type: "success"},
+                function () {
+                    if (isRedirect && redirect == 'true') {
+                        window.location.href = redirect_url;
+                    }
+                    if (isReload) {
+                        window.location.reload();
+                    }
+                    if (isReset) {
+                        $this[0].reset();
+                    }
+                });
+            }
+            else {
+                title = "An Error Occurred";
+                swal(title, message, "error");
+            }
+        },
+        error: function(data) {
+            remove_popup();
+            var title = "An error occurred";
+            var message = ".";
+            swal(title, message, "error");
+        }
+    });
+});
+
+```
+```
+Django comes with a set of template filters to add a “human touch” to your data.
+It is used to translate numbers and dates into a human readable format.
+
+#add following to your INSTALLED_APPS in setting:
+django.contrib.humanize
+
+#Now in the template, load the template tags:
+{% load humanize %}
+
+#sample
+{% extends 'base.html' %}
+
+{% load humanize %}
+
+{% block content %}
+  <ul>
+    {% for notification in notifications %}
+      <li>
+        {{ notification }}
+        <small>{{ notification.date|naturaltime }}</small>
+      </li>
+    {% empty %}
+      <li>You have no unread notification.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
+
+
+Note : The for tag can take an optional {% empty %} clause whose text is displayed if the given array is empty or could not be found:
+
+#available template filters:
+apnumber    1                      becomes  one
+intcomma	4500000                becomes  4,500,000
+intword     1200000                becomes  1.2 million
+naturalday	08 May 2016            becomes  yesterday
+naturaltime	09 May 2016 20:54:31   becomes  29 seconds ago
+ordinal 	3                      becomes      3rd
+
+```
 26. Adding (changeble)initial value into form (views.py)
 ```
 form = CustomerForm(initial={
         "name" : "Default Name",
         "email" : "Default Email"
     })
+```
+```
+# Default template tags
+{{instance.date|date:"d/m/Y"}}
+
+# Custom template tags
+    mkdir main/templatetags/
+    touch main_template_tags.py __init__.py
+
+    # on main_template_tags.py
+    @register.filter
+    def to_fixed_to(value):
+        return "{:10.2f}".format(value)
+
+# on required template
+{% load main_template_tags %}
+
+{{instance.date|to_fixed_to}}
+
 ```
 27. Decorators
 @login_required

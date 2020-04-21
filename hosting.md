@@ -1,5 +1,5 @@
 # DEPLOYING ON PYTHONANYWHERE
-	
+
 Assume manage.py is at https://www.pythonanywhere.com/user/username/files/home/username/project/manage.py
 
 1. open console,clone the project to the root directory and apply the command
@@ -24,7 +24,7 @@ pip install mysqlclient
 7. Replace mysite with projectname
 
 8. Create and update database settings
-    
+
 ```
 DEBUG = True
 
@@ -59,26 +59,17 @@ DATABASES = {
 	}
 }
 
-PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
 
 ```
 Go to the Consoles tab, start a bash console, navigate to manage.py
 
 ```
 ./manage.py migrate
-``` 
-Drop database
+```
 
-```
-mysql -u username -h username.mysql.pythonanywhere-services.com -p 'username$project'
-drop database username$project;
-```
 
 Activate venv
 ```
 workon venv
 python manage.py collectstatic
 ```
-
