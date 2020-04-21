@@ -90,7 +90,8 @@ def index(request):
         "is_home" : True
     }
     return render(request, 'web/index.html',context)
-
+```
+```
 //With save
 def function(request):
     if request.method == "POST":
@@ -109,7 +110,8 @@ def function(request):
         }
         return render(request, 'web/index.html',context)
 
-
+```
+```
 //with file submission
 def function(request):
     if request.method == "POST":
@@ -163,7 +165,7 @@ db.sqlite3-journal
 media/
 
 ```
-12. Django models
+13. Django models
 ```
 from django.utils.translation import ugettext_lazy as _
 from django.db import models
@@ -194,7 +196,7 @@ class Blog(models.Model):
         return str(self.pk)
 
 ```
-13. Django forms
+14. Django forms
 ```
 from django import forms
 from django.utils.translation import ugettext_lazy as _
@@ -209,7 +211,8 @@ class CategoryForm(forms.ModelForm):
         exclude = ['creator']
         widgets = {}
 
-
+```
+```
 class RegistrationForm(forms.ModelForm):
     class Meta:
         model = Registration
@@ -235,7 +238,6 @@ class RegistrationForm(forms.ModelForm):
             'message' : "What is in your mind ?",
         }
 ```
-
 13. Import model and define list display in admin.py
 ```
 from __future__ import unicode_literals
@@ -283,30 +285,30 @@ def index(request):
     return render(request, 'web/index.html',context)
 
 
-    def registration(request):
-        if request.method == "POST":
-            form = RegistrationForm(request.POST)
-            if form.is_valid():
-                form.save()
+def registration(request):
+    if request.method == "POST":
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
 
-                response_data = {
-                    "status" : "true",
-                    "title" : "Successfully Submitted",
-                    "message" : "Registration successfully updated"
-                }
-            else:
-                message = generate_form_errors(form)
-
-                response_data = {
-                    "status" : "false",
-                    "stable" : "true",
-                    "title" : "Form validation error",
-                    "message" : message
-                }
-
-            return HttpResponse(json.dumps(response_data), content_type='application/javascript')
+            response_data = {
+                "status" : "true",
+                "title" : "Successfully Submitted",
+                "message" : "Registration successfully updated"
+            }
         else:
-            return HttpResponse("Invalid Request")
+            message = generate_form_errors(form)
+
+            response_data = {
+                "status" : "false",
+                "stable" : "true",
+                "title" : "Form validation error",
+                "message" : message
+            }
+
+        return HttpResponse(json.dumps(response_data), content_type='application/javascript')
+    else:
+        return HttpResponse("Invalid Request")
 
 ```
 
@@ -429,9 +431,9 @@ index.html
 ```
 19. Fix hyperlinks
 ```
-        href="{% url 'web:index' %}
-        href="{% url 'web:about' %}
-        href="{% url 'web:index' %}#features
+    href="{% url 'web:index' %}
+    href="{% url 'web:about' %}
+    href="{% url 'web:index' %}#features
 ```
 20. Including template parts
 ```
@@ -616,6 +618,7 @@ TEMPLATES = [
     },
 ]
 ```
+26. Ajax
 ```
 function show_loader() {
     $('body').append('<div class="popup-box"><div class="preloader pl-xxl"><svg viewBox="25 25 50 50" class="pl-circular"><circle r="20" cy="50" cx="50" class="plc-path"/></svg></div></div><span class="popup-bg"></span>');
@@ -755,6 +758,7 @@ $(document).on('submit','form.ajax', function(e) {
 });
 
 ```
+27. Humanise
 ```
 Django comes with a set of template filters to add a “human touch” to your data.
 It is used to translate numbers and dates into a human readable format.
@@ -795,7 +799,7 @@ naturaltime	09 May 2016 20:54:31   becomes  29 seconds ago
 ordinal 	3                      becomes      3rd
 
 ```
-26. Adding (changeble)initial value into form (views.py)
+28. Adding (changeble)initial value into form (views.py)
 ```
 form = CustomerForm(initial={
         "name" : "Default Name",
@@ -821,7 +825,7 @@ form = CustomerForm(initial={
 {{instance.date|to_fixed_to}}
 
 ```
-27. Decorators
+29. Decorators
 @login_required
 ```
 from django.contrib.auth.decorators import login_required
