@@ -9,7 +9,10 @@ composer
 ```
 ```
 sudo apt-add-repository ppa:ondrej/php
-sudo apt-get install php7
+sudo apt-get install 7.3
+sudo apt install php7.3-xdebug php7.3-curl php7.3-gd php7.3-xml php7.3-xmlrpc php7.3-mysql php7.3-mbstring php7.3-soap php 7.3-intl
+
+
 ```
 ```
 sudo apt-get install mysql-server
@@ -29,6 +32,7 @@ sudo /opt/lampp/xampp start
 2. Initiate codeigniter
 ```
 composer create-project CodeIgniter/framework project-name
+
 composer create-project codeigniter4/appstarter project-name
 ```
 3. Inital Setup
