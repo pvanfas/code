@@ -29,6 +29,26 @@ DATABASES = {
     }
 }
 ```
+```
+DATABASES = {
+	'default': {
+		'ENGINE': 'django.db.backends.mysql',
+		'NAME': 'username$dbname',
+		'USER': 'user',
+		'PASSWORD': 'password',
+		'HOST':'user.mysql.pythonanywhere-services.com',
+		'PORT': '',
+	}
+}
+```
+```
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+```
 6. Set media url
 
 ```
@@ -130,23 +150,30 @@ def function(request):
         }
         return render(request, 'web/index.html',context)
 ```
+10. Template extending
 
-10. Template rendering
+base.html
+```
+    -------- header here --------
+    {% block content %}
+    {% endblock%}
+    ------- footer here --------
+```
+index.html
+```
+    {% extends 'web/base.html' %}
+    {% load static %}
+
+    {% block content %}
+    -------- content here --------
+    {% endblock%}
+```
+11. Static file rendering
 ```
     (i). Add assets into /static and html into /templates/web
     (ii). Add {% load static %} after <head> tag and Change directory path to href="{% static 'location' %}"
     (iii). example:
         <script src="{% static 'js/script.js' %}"></script>
-```
-11. Setup database
-```
-sudo su postgres
-createdb project
-createuser user -P
-psql
-grant all privileges on database db to user;
-\q
-exit
 ```
 
 12. GIT-IGNORE
@@ -165,7 +192,17 @@ db.sqlite3-journal
 media/
 
 ```
-13. Django models
+13. Setup database
+```
+sudo su postgres
+createdb project
+createuser user -P
+psql
+grant all privileges on database db to user;
+\q
+exit
+```
+14. Django models
 ```
 from django.utils.translation import ugettext_lazy as _
 from django.db import models
@@ -196,7 +233,7 @@ class Blog(models.Model):
         return str(self.pk)
 
 ```
-14. Django forms
+15. Django forms
 ```
 from django import forms
 from django.utils.translation import ugettext_lazy as _
@@ -238,7 +275,7 @@ class RegistrationForm(forms.ModelForm):
             'message' : "What is in your mind ?",
         }
 ```
-13. Import model and define list display in admin.py
+16. Import model and define list display in admin.py
 ```
 from __future__ import unicode_literals
 from django.contrib import admin
@@ -249,13 +286,13 @@ class BlogAdmin(admin.ModelAdmin):
 
 admin.site.register(Blog,BlogAdmin)
 ```
-14.To change admin header
+17.To change admin header
 ```
 admin.site.site_header = "PROJECT Admininistration"
 admin.site.site_title = "PROJECT Admin Portal"
 admin.site.index_title = "Welcome to PROJECT Researcher Portal"
 ```
-15. To remove user,groups from admin panel
+18. To remove user,groups from admin panel
 ```
 from django.contrib.auth.models import User, Group
 
@@ -263,13 +300,13 @@ admin.site.unregister(User)
 admin.site.unregister(Group)
 
 ```
-16. migrating changes into app and database and adding superuser
+19. migrating changes into app and database and adding superuser
 ```
 python manage.py makemigrations
 python manage.py migrate
 python manage.py createsuperuser
 ```
-17. Getting data and passing through context
+20. Getting data and passing through context
 ```
 from web.models import Blog
 
@@ -411,31 +448,13 @@ filter(name__icontains="x")
 exclude(name="x")
 get()
 ```
-18. Template extending
-
-base.html
-```
-    -------- header here --------
-    {% block content %}
-    {% endblock%}
-    ------- footer here --------
-```
-index.html
-```
-    {% extends 'web/base.html' %}
-    {% load static %}
-
-    {% block content %}
-    -------- content here --------
-    {% endblock%}
-```
-19. Fix hyperlinks
+21. Fix hyperlinks
 ```
     href="{% url 'web:index' %}
     href="{% url 'web:about' %}
     href="{% url 'web:index' %}#features
 ```
-20. Including template parts
+22. Including template parts
 ```
     "is_home" : True
     "is_about" : True
@@ -447,17 +466,18 @@ index.html
         {% include 'web/includes/about-spotlight.html' %}
     {% endif %}
 ```
-21. Database export and import
+23. Database export and import
 ```
 python manage.py dumpdata > database.json
 python manage.py loaddata database.json
 ```
-22. Delete migrations
+24. Delete migrations
 ```
+find . | grep -E "(__pycache__|\.pyc|\.pyo$)" | xargs rm -rf
 find . -path "*/migrations/*.pyc"  -delete
 find . -path "*/migrations/*.py" -not -name "__init__.py" -delete
 ```
-23. response and Redirect
+25. response and Redirect
 ```
 def index(request):
     return HttpResponseRedirect(reverse('web:about'))
@@ -465,8 +485,38 @@ def index(request):
 
 def about(request):
     return HttpResponse('Hello from about')
+````
+26. Registration Redux
 ```
-24. Removing sensitive info
+pip install django-registration-redux
+
+add to installed apps
+
+'registration',
+
+
+ACCOUNT_ACTIVATION_DAYS = 7
+REGISTRATION_AUTO_LOGIN = True
+
+LOGIN_URL = '/accounts/login/'
+LOGOUT_URL = '/accounts/logout/'
+LOGIN_REDIRECT_URL = '/'
+
+REGISTRATION_EMAIL_SUBJECT_PREFIX = ''
+SEND_ACTIVATION_EMAIL = False
+REGISTRATION_OPEN = True
+
+
+path('app/accounts', include('registration.backends.default.urls')),
+
+
+{% url 'auth_password_change' %}
+{% url 'auth_logout' %}
+{% url 'auth_login' %}
+{% url 'auth_password_reset' %}
+{% url 'registration_register' %}
+```
+27. Removing sensitive info (python-decouple)
 ```
 pip install python-decouple
 ```
@@ -558,7 +608,7 @@ SOCIAL_AUTH_FACEBOOK_KEY = SECRET_CODE_HERE
 SOCIAL_AUTH_FACEBOOK_SECRET = SECRET_CODE_HERE
 
 ```
-25. Context processors
+28. Context processors
 ```
 import datetime
 
@@ -573,31 +623,22 @@ def main_context(request):
         user_session_ok = False
         user_time_zone = "Asia/Kolkata"
 
-    current_theme = 'cyan-600'
     current_role = "user"
-
-    if request.user.is_authenticated:
-        recent_notifications = Notification.objects.filter(user=request.user,is_deleted=False)
-    else:
-        recent_notifications = []
 
     active_parent = request.GET.get('active_parent')
     active = request.GET.get('active')
 
     return {
-        'app_title' : "Purple",
-        "profile" : profile,
+        'app_title' : "Metrica",
         "confirm_delete_message" : "Are you sure want to delete this item. All associated data may be removed.",
         "revoke_access_message" : "Are you sure to revoke this user's login access",
         "confirm_delete_selected_message" : "Are you sure to delete all selected items.",
         "confirm_read_message" : "Are you sure want to mark as read this item.",
         "confirm_read_selected_message" : "Are you sure to mark as read all selected items.",
         'domain' : request.META['HTTP_HOST'],
-        "current_theme" : current_theme,
         "is_superuser" : is_superuser,
         "active_parent" : active_parent,
         "active_menu" : active,
-        "recent_notifications" : recent_notifications,
     }
 ```
 ```
@@ -618,8 +659,9 @@ TEMPLATES = [
     },
 ]
 ```
-26. Ajax
+29. Ajax
 ```
+
 function show_loader() {
     $('body').append('<div class="popup-box"><div class="preloader pl-xxl"><svg viewBox="25 25 50 50" class="pl-circular"><circle r="20" cy="50" cx="50" class="plc-path"/></svg></div></div><span class="popup-bg"></span>');
 }
@@ -758,7 +800,7 @@ $(document).on('submit','form.ajax', function(e) {
 });
 
 ```
-27. Humanise
+30. Humanise
 ```
 Django comes with a set of template filters to add a “human touch” to your data.
 It is used to translate numbers and dates into a human readable format.
@@ -799,7 +841,7 @@ naturaltime	09 May 2016 20:54:31   becomes  29 seconds ago
 ordinal 	3                      becomes      3rd
 
 ```
-28. Adding (changeble)initial value into form (views.py)
+31. Adding (changeble)initial value into form (views.py)
 ```
 form = CustomerForm(initial={
         "name" : "Default Name",
@@ -825,7 +867,7 @@ form = CustomerForm(initial={
 {{instance.date|to_fixed_to}}
 
 ```
-29. Decorators
+32. Decorators
 @login_required
 ```
 from django.contrib.auth.decorators import login_required
