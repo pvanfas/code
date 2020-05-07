@@ -831,13 +831,12 @@ $(document).on('submit','form.ajax', function(e) {
 ```
 30. Humanise
 ```
-Django comes with a set of template filters to add a “human touch” to your data.
-It is used to translate numbers and dates into a human readable format.
-
 #add following to your INSTALLED_APPS in setting:
+
 django.contrib.humanize
 
-#Now in the template, load the template tags:
+#In template, load the template tags:
+
 {% load humanize %}
 
 #sample
