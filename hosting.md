@@ -4,11 +4,12 @@ Assume manage.py is at https://www.pythonanywhere.com/user/username/files/home/u
 
 1. open console,clone the project to the root directory and apply the command
 ```
-mkvirtualenv venv -p python3
+mkvirtualenv venv -p python3.8
 
 pip install -r r.txt
 
 pip install mysqlclient
+
 ```
 
 2. Go to Dashboard
@@ -26,7 +27,7 @@ pip install mysqlclient
 8. Create and update database settings
 
 ```
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['username.pythonanywhere.com']
 
@@ -64,12 +65,12 @@ DATABASES = {
 Go to the Consoles tab, start a bash console, navigate to manage.py
 
 ```
+./manage.py makemigrations
 ./manage.py migrate
+./manage.py collectstatic
+
+./manage.py createsuperuser
+
 ```
 
-
-Activate venv
-```
-workon venv
-python manage.py collectstatic
-```
+Reload app and TADA

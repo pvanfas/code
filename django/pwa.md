@@ -1,13 +1,27 @@
-#project url
+[Web App Manifest Generator](https://app-manifest.firebaseapp.com/)
 
+Get free icons at
+
+  [flaticon.com](https://www.flaticon.com/)
+  
+  [freeicons.io](https://freeicons.io/)
+  
+#How to convert a django app to progressive web application
+
+1. add following to project url
+
+```
 from django.views.generic import TemplateView
 
-url(r'^manifest\.json$',TemplateView.as_view(template_name="manifest.json",content_type="text/javascript"),name='manifest'),
-url(r'^sw\.js$',TemplateView.as_view(template_name="sw.js",content_type="text/javascript"),name='sw'),
+path('manifest\.json',TemplateView.as_view(template_name="manifest.json",content_type="text/javascript"),name='manifest'),
+path('sw\.js',TemplateView.as_view(template_name="sw.js",content_type="text/javascript"),name='sw'),
 
+```
                             
-#sw.js (add to /templates)
-                            
+2. add  sw.js to /templates
+
+```
+                
 var cacheName = 'Tutorial-v1';
 
 var urlsToCache = [
@@ -88,9 +102,12 @@ function addToHomeScreen() {  var a2hsBtn = document.querySelector(".ad2hs-promp
 
 });}
 
+```
                             
-#manifest.json (add to /templates)
-                            
+3. add manifest.json to templates)
+
+```
+            
 {
   "name": "Tutorial",
   "short_name": "Tutorial",
@@ -146,9 +163,13 @@ function addToHomeScreen() {  var a2hsBtn = document.querySelector(".ad2hs-promp
   "splash_pages": null
 }
 
-# icons (static/img/icons)
+```
 
-#base.html
+4. put icons to  static/img/icons
+
+5. add following js snippet to base.html 
+
+```
 <script type="text/javascript">
 
     if ('serviceWorker' in navigator) {
@@ -165,5 +186,11 @@ function addToHomeScreen() {  var a2hsBtn = document.querySelector(".ad2hs-promp
 
 </script>
 
-#link in base.html
+```
+
+5. finally link manifest file in base.html
+
+```
 <link rel="manifest" href="/manifest.json">
+```
+
