@@ -1,3 +1,7 @@
+# How to convert a django app to progressive web application
+
+## Useful Links
+
 [Web App Manifest Generator](https://app-manifest.firebaseapp.com/)
 
 Get free icons at
@@ -6,8 +10,7 @@ Get free icons at
   
   [freeicons.io](https://freeicons.io/)
   
-#How to convert a django app to progressive web application
-
+  
 1. add following to project url
 
 ```

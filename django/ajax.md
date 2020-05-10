@@ -1,3 +1,5 @@
+# Ajaxify Django
+
 
 Ajax is a set of web development techniques using many web technologies on 
 the client side to create asynchronous web applications. With Ajax, 
@@ -6,11 +8,9 @@ without interfering with the display and behavior of the existing page.
  Ajax allows web pages to be updated asynchronously by exchanging small 
 amounts of data with the server behind the scenes
  
-#add class ajax to form tag and prevent normal submit on action.js and update as ajax request
+1. add class ajax to form tag and prevent normal submit on action.js and update as ajax request
 
-# FORM AJAX --------------------------------------------------------------------------------
-
-# template script
+```
 $('#id_customer').on('change', function(){
 	var $this = $(this);
 	get_customer_data($this);
@@ -51,10 +51,18 @@ function get_customer_data(element){
 	};
 };
 
-# define url in customers
+```
+2. define url in customers
+
+```
 url(r'^get-customer/$', views.get_customer, name='get_customer'),
 
-#write view in customers
+```
+
+3. write view in customers
+
+``` 
+
 def get_customer(request):
     pk = request.GET.get('id')
     if Customer.objects.filter(pk=pk).exists():
@@ -75,10 +83,12 @@ def get_customer(request):
         }
     return HttpResponse(json.dumps(response_data), content_type='application/javascript')
 	
+```
+## FORMSET AJAX 
 
-# FORMSET AJAX --------------------------------------------------------------------------------
+1.  template script
 
-# template script
+```
 $('.sale_item select').on('change', function(){
 	var $this = $(this);
 	getProductInfo($this);
@@ -110,10 +120,17 @@ function getProductInfo($selector){
    }
 }
 
-# define url in customers
+```
+
+2. define url in customers
+
+```
 url(r'^get-product/$', views.get_product, name='get_product'),
 
-#write view in customers
+```
+3. write view in customers
+
+```
 class ProductAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
         if not self.request.user.is_authenticated():
@@ -127,4 +144,4 @@ class ProductAutocomplete(autocomplete.Select2QuerySetView):
 
         return items
 
-
+```

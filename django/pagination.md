@@ -1,13 +1,25 @@
+1. install Pagination library
+```
 pip install django-el-pagination==3.1.0
-
-#settings installed apps
+```
+2. add to installed apps
+```
 'el_pagination',
 
-#templates before {% for instance in instances %}
+```
+3. Load template tags
+```
 {% load el_pagination_tags %}
 {% paginate 21 instances %}
+{% for instance in instances %}
+    <tr class="">
+       <td>{{instance.total}}</td>
+    </tr>
+ {% endfor %}
+```
+4. add bootstrap widget
 
-#add widget after table container
+```
 <!--pagination -->
 <div class="bootgrid-footer container-fluid" id="data-table-selection-footer">
     {% get_pages %}
@@ -25,3 +37,5 @@ pip install django-el-pagination==3.1.0
     </div>
 </div>
 <!--pagination-->
+
+```
