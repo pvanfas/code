@@ -245,6 +245,7 @@ CATEGORY_CHOICES = (
 class Blog(models.Model):
     auto_id = models.PositiveIntegerField(db_index=True,unique=True)
     name = models.CharField(max_length=128)
+    customer = models.ForeignKey('customers.Customer',limit_choices_to={'is_deleted': False},on_delete=models.CASCADE)
     email = models.EmailField(blank=True,null=True)
     image = models.ImageField(upload_to='images/blog')
     content = models.TextField()
@@ -258,7 +259,7 @@ class Blog(models.Model):
         verbose_name = ('Blog')
         verbose_name_plural = ('Blogs')
 
-    def __unicode__(self):
+    def __str__(self):
         return str(self.pk)
 
 ```
@@ -279,9 +280,9 @@ class CategoryForm(forms.ModelForm):
 
 ```
 ```
-class RegistrationForm(forms.ModelForm):
+class BlogForm(forms.ModelForm):
     class Meta:
-        model = Registration
+        model = Blog
         fields = '__all__'
         widgets = {
             'name': TextInput(attrs={'class': 'required form-control', 'placeholder': 'Name'}),
