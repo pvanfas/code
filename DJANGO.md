@@ -896,7 +896,24 @@ form = CustomerForm(initial={
 {{instance.date|to_fixed_to}}
 
 ```
-32. Decorators
+33. ManytoMany Field
+```
+#models
+assign_to  = models.ManyToManyField('employees.Employee')
+
+#form
+from django.forms.widgets import SelectMultiple
+
+widgets = {
+    'assign_to' : SelectMultiple(attrs={'class': 'required form-control'}),
+}
+
+#template
+{% for i in instance.assign_to.all %}
+        <a href="{% url 'employees:profile' pk=i.pk %}">{{ i }}</a>,
+{% endfor %}
+```
+34. Decorators
 @login_required
 ```
 from django.contrib.auth.decorators import login_required
