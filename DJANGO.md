@@ -31,7 +31,7 @@ INSTALLED_APPS = [
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        'DIRS': [os.path.join(BASE_DIR, "templates")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -78,8 +78,34 @@ DATABASES = {
     }
 }
 ```
-6. Set media url
+6. Set settings.py file
+```
+import os
+from decouple import config, Csv
 
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+SECRET_KEY = config('SECRET_KEY')
+
+DEBUG = config('DEBUG', default=True, cast=bool)
+
+ALLOWED_HOSTS = ['localhost','127.0.0.1']
+```
+```
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_PORT = config('EMAIL_PORT')
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = True
+
+DEFAULT_FROM_EMAIL= config('DEFAULT_FROM_EMAIL')
+DEFAULT_BCC_EMAIL= config('DEFAULT_BCC_EMAIL')
+DEFAULT_REPLY_TO_EMAIL = config('DEFAULT_REPLY_TO_EMAIL')
+SERVER_EMAIL = config('SERVER_EMAIL')
+ADMIN_EMAIL = config('ADMIN_EMAIL')
+
+```
 ```
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
@@ -87,11 +113,14 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
+ADMIN_MEDIA_PREFIX = '/static/admin'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 STATIC_URL = '/static/'
 STATIC_FILE_ROOT = os.path.join(BASE_DIR, "static")
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
 
 ```
 7. Define urlpatterns in project/urls.py
@@ -524,7 +553,7 @@ add to installed apps
 
 'registration',
 
-
+#registration redux settings
 ACCOUNT_ACTIVATION_DAYS = 7
 REGISTRATION_AUTO_LOGIN = True
 
@@ -534,7 +563,7 @@ LOGIN_REDIRECT_URL = '/'
 
 REGISTRATION_EMAIL_SUBJECT_PREFIX = ''
 SEND_ACTIVATION_EMAIL = False
-REGISTRATION_OPEN = True
+REGISTRATION_OPEN = False
 
 
 path('app/accounts', include('registration.backends.default.urls')),
@@ -585,7 +614,6 @@ REGISTRATION_EMAIL_SUBJECT_PREFIX = ''
 SEND_ACTIVATION_EMAIL = True
 REGISTRATION_OPEN = True
 
-EMAIL_BACKEND= "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = config('EMAIL_HOST')
 EMAIL_PORT = config('EMAIL_PORT')
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
@@ -594,48 +622,36 @@ EMAIL_USE_TLS = True
 
 DEFAULT_FROM_EMAIL= config('DEFAULT_FROM_EMAIL')
 DEFAULT_BCC_EMAIL= config('DEFAULT_BCC_EMAIL')
+DEFAULT_REPLY_TO_EMAIL = config('DEFAULT_REPLY_TO_EMAIL')
+SERVER_EMAIL = config('SERVER_EMAIL')
+ADMIN_EMAIL = config('ADMIN_EMAIL')
+EMAIL_BACKEND= config('EMAIL_BACKEND')
 
-SOCIAL_AUTH_GITHUB_KEY = config('SOCIAL_AUTH_GITHUB_KEY')
-SOCIAL_AUTH_GITHUB_SECRET = config('SOCIAL_AUTH_GITHUB_SECRET')
-SOCIAL_AUTH_TWITTER_KEY =config('SOCIAL_AUTH_TWITTER_KEY')
-SOCIAL_AUTH_TWITTER_SECRET =config('SOCIAL_AUTH_TWITTER_SECRET')
-SOCIAL_AUTH_FACEBOOK_KEY =config('SOCIAL_AUTH_FACEBOOK_KEY')
-SOCIAL_AUTH_FACEBOOK_SECRET =config('SOCIAL_AUTH_FACEBOOK_SECRET')
-SOCIAL_AUTH_LOGIN_ERROR_URL = '/settings/'
-SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/settings/'
-SOCIAL_AUTH_RAISE_EXCEPTIONS = False
 ```
 create .env file
 ```
-SECRET_KEY = 1-syzfqfafqffcqfqdq8lcs-25#ts7jb^4q1cxevsuvg1t$u3
+
+SECRET_KEY = 5h!q83i3@87m!+9
 
 DEBUG = True
-ALLOWED_HOSTS = *
-TEMPLATES = templates
 
 # database credentials
 ENGINE = django.db.backends.postgresql_psycopg2
 DB_NAME = db
 DB_USER = user
-DB_PASSWORD = password
+DB_PASSWORD = S3CR3ET
 DB_HOST = localhost
 
-# email authentication credentials
-EMAIL_HOST = smtp-relay.sendinblue.com
+EMAIL_BACKEND= django.core.mail.backends.smtp.EmailBackend
 EMAIL_PORT = 587
-EMAIL_HOST_USER = anfaspv.info@gmail.com
-EMAIL_HOST_PASSWORD = SECRET_CODE_HERE
-EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = verification@awardize.com
-DEFAULT_BCC_EMAIL =verification@awardize.com
-
-# social authentication credentials
-SOCIAL_AUTH_GITHUB_KEY= SECRET_CODE_HERE
-SOCIAL_AUTH_GITHUB_SECRET= SECRET_CODE_HERE
-SOCIAL_AUTH_TWITTER_KEY = SECRET_CODE_HERE
-SOCIAL_AUTH_TWITTER_SECRET = SECRET_CODE_HERE
-SOCIAL_AUTH_FACEBOOK_KEY = SECRET_CODE_HERE
-SOCIAL_AUTH_FACEBOOK_SECRET = SECRET_CODE_HERE
+EMAIL_HOST = smtp-relay.sendinblue.com
+EMAIL_HOST_USER = hello@example.com
+EMAIL_HOST_PASSWORD = S3CR3ET
+DEFAULT_FROM_EMAIL = hello@example.com
+DEFAULT_BCC_EMAIL = hello@example.com
+DEFAULT_REPLY_TO_EMAIL = hello@example.com
+SERVER_EMAIL = hello@example.com
+ADMIN_EMAIL = hello@example.com
 
 ```
 28. Context processors
