@@ -347,9 +347,9 @@ admin.site.register(Blog,BlogAdmin)
 ```
 17.To change admin header
 ```
-admin.site.site_header = "PROJECT Admininistration"
+admin.site.site_header = "PROJECT Administration"
 admin.site.site_title = "PROJECT Admin Portal"
-admin.site.index_title = "Welcome to PROJECT Researcher Portal"
+admin.site.index_title = "Welcome to PROJECT Admin Portal"
 ```
 18. To remove user,groups from admin panel
 ```
@@ -706,18 +706,6 @@ TEMPLATES = [
 ]
 ```
 29. Ajax
-```
-
-function show_loader() {
-    $('body').append('<div class="popup-box"><div class="preloader pl-xxl"><svg viewBox="25 25 50 50" class="pl-circular"><circle r="20" cy="50" cx="50" class="plc-path"/></svg></div></div><span class="popup-bg"></span>');
-}
-```
-
-```
-function remove_popup() {
-    $('.popup-box,.popup-bg').remove();
-}
-```
 
 ```
 $(document).ready(function() {
@@ -785,14 +773,14 @@ $(document).ready(function() {
 
 ```
 
-$(document).on('submit','form.ajax', function(e) {
+$(document).on('submit', 'form.ajax', function(e) {
+    
     e.preventDefault();
     var $this = $(this);
     var data = new FormData(this);
     var isReset = $this.hasClass('reset');
     var isReload = $this.hasClass('reload');
     var isRedirect = $this.hasClass('redirect');
-    show_loader();
 
     $.ajax({
         url: window.location.pathname,
@@ -804,7 +792,6 @@ $(document).on('submit','form.ajax', function(e) {
         dataType: "json",
 
         success: function(data) {
-            remove_popup();
 
             var status = data.status;
             var title = data.title;
@@ -814,12 +801,18 @@ $(document).on('submit','form.ajax', function(e) {
             var redirect_url = data.redirect_url;
 
             if (status == "true") {
-                if (title) {title = title;}
-                else {title = "Success";}
-                swal({title: title,text: message,type: "success"});
+                if (title) {
+                    title = title;
+                } else {
+                    title = "Success";
+                }
 
-                swal({title: title,text: message,type: "success"},
-                function () {
+                swal({
+                    title: title,
+                    text: message,
+                    icon: "success",
+                    type: "success"
+                }).then(function() {
                     if (isRedirect && redirect == 'true') {
                         window.location.href = redirect_url;
                     }
@@ -830,22 +823,35 @@ $(document).on('submit','form.ajax', function(e) {
                         $this[0].reset();
                     }
                 });
-            }
-            else {
-                title = "An Error Occurred";
-                swal(title, message, "error");
+
+            } else {
+                if (title) {
+                    title = title;
+                } else {
+                    title = "An Error Occurred";
+                }
+                swal({
+                    title: title,
+                    text: message,
+                    icon: "error",
+                    type: "error"
+                });
             }
         },
         error: function(data) {
-            remove_popup();
             var title = "An error occurred";
-            var message = ".";
-            swal(title, message, "error");
+            var message = "something went wrong";
+            swal({
+                title: title,
+                text: message,
+                type: "error"
+            });
         }
     });
 });
 
 ```
+
 30. Humanise
 ```
 #add following to your INSTALLED_APPS in setting:
