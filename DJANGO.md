@@ -60,18 +60,6 @@ DATABASES = {
 ```
 ```
 DATABASES = {
-	'default': {
-		'ENGINE': 'django.db.backends.mysql',
-		'NAME': 'username$dbname',
-		'USER': 'user',
-		'PASSWORD': 'password',
-		'HOST':'user.mysql.pythonanywhere-services.com',
-		'PORT': '',
-	}
-}
-```
-```
-DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
@@ -173,16 +161,27 @@ def index(request):
 //With save
 def function(request):
     if request.method == "POST":
-        form = forms.ModelForm(request.POST)
+        form = NewsletterForm(request.POST)
         if form.is_valid():
             form.save()
+
+            response_data = {
+                "status" : "true",
+                "title" : "Successfully Submitted",
+                "message" : "Registration successfully updated"
+            }
         else:
             print (form.errors)
-            return HttpResponse("Validation Error")
+            response_data = {
+                "status" : "false",
+                "stable" : "true",
+                "title" : "Form validation error",
+                "message" : message
+            }
 
-        return HttpResponse("Success")
+        return HttpResponse(json.dumps(response_data), content_type='application/javascript')
     else:
-        form = forms.ModelForm()
+        form = NewsletterForm()
         context = {
             "form" : form,
         }
@@ -193,17 +192,29 @@ def function(request):
 //with file submission
 def function(request):
     if request.method == "POST":
-        form = forms.ModelForm(request.POST,request.FILES)
+        form = NewsletterForm(request.POST,request.FILES)
         if form.is_valid():
             form.save()
-        else:
-            print (form.errors)
-            return HttpResponse("Validation Error")
 
-        return HttpResponse("Success")
+            response_data = {
+                "status" : "true",
+                "title" : "Successfully Submitted",
+                "message" : "Registration successfully updated"
+            }
+        else:
+            message = generate_form_errors(form)
+
+            response_data = {
+                "status" : "false",
+                "stable" : "true",
+                "title" : "Form validation error",
+                "message" : message
+            }
+        return HttpResponse(json.dumps(response_data), content_type='application/javascript')
     else:
-        form = forms.ModelForm()
+        form = NewsletterForm()
         context = {
+            "title" : "Updates",
             "form" : form,
         }
         return render(request, 'web/index.html',context)
@@ -297,7 +308,7 @@ class Blog(models.Model):
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 from web.models import Registration
-from django.forms.widgets import TextInput, Textarea, CheckboxInput, Select, NumberInput, RadioSelect, FileInput, NumberInput
+from django.forms.widgets import TextInput, Textarea, EmailInput, CheckboxInput, Select, NumberInput, RadioSelect, FileInput, NumberInput
 
 
 class CategoryForm(forms.ModelForm):
@@ -309,6 +320,9 @@ class CategoryForm(forms.ModelForm):
 
 ```
 ```
+from django.forms.widgets import TextInput, Textarea, EmailInput, CheckboxInput, Select, NumberInput, RadioSelect, FileInput, NumberInput
+
+
 class BlogForm(forms.ModelForm):
     class Meta:
         model = Blog
@@ -340,6 +354,7 @@ from __future__ import unicode_literals
 from django.contrib import admin
 from web.models import Blog
 
+
 class BlogAdmin(admin.ModelAdmin):
     list_display = ('heading','content','image','time','video_url')
 
@@ -369,6 +384,7 @@ python manage.py createsuperuser
 ```
 from web.models import Blog
 
+
 def index(request):
     blog_datas = Blog.objects.all()
 
@@ -383,7 +399,7 @@ def index(request):
 
 def registration(request):
     if request.method == "POST":
-        form = RegistrationForm(request.POST)
+        form = NewsletterForm(request.POST)
         if form.is_valid():
             form.save()
 
@@ -401,10 +417,167 @@ def registration(request):
                 "title" : "Form validation error",
                 "message" : message
             }
-
         return HttpResponse(json.dumps(response_data), content_type='application/javascript')
     else:
-        return HttpResponse("Invalid Request")
+        form = NewsletterForm()
+        context = {
+            "title" : "Updates",
+            "form" : form,
+        }
+        return render(request, 'web/updates.html',context)
+
+```
+```
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.15.3/dist/sweetalert2.all.min.js"></script>
+```
+```
+$(document).on('submit', 'form.ajax', function(e) {
+    e.preventDefault();
+    var $this = $(this);
+    var data = new FormData(this);
+    var action_url = $this.attr('action');
+    var isReset = $this.hasClass('reset');
+    var isReload = $this.hasClass('reload');
+    var isRedirect = $this.hasClass('redirect');
+
+    $.ajax({
+        url: action_url,
+        type: 'POST',
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+
+        success: function(data) {
+
+            var status = data.status;
+            var title = data.title;
+            var message = data.message;
+            var pk = data.pk;
+            var redirect = data.redirect;
+            var redirect_url = data.redirect_url;
+
+            if (status == "true") {
+                if (title) {
+                    title = title;
+                } else {
+                    title = "Success";
+                }
+
+                Swal.fire({
+                    title: title,
+                    text: message,
+                    icon: 'success',
+                }).then(function() {
+                    if (redirect == 'true') {
+                        window.location.href = redirect_url;
+                    }
+                    if (reload == 'true') {
+                        window.location.reload();
+                    }
+                });
+
+            } else {
+                if (title) {
+                    title = title;
+                } else {
+                    title = "An Error Occurred";
+                }
+                Swal.fire({
+                    title: title,
+                    text: message,
+                    icon: "error"
+                });
+
+            }
+        },
+        error: function(data) {
+            var title = "An error occurred";
+            var message = "something went wrong";
+            Swal.fire({
+                title: title,
+                text: message,
+                icon: "error"
+            });
+        }
+    });
+});
+
+
+$(document).on('click', '.action-button', function(e) {
+    e.preventDefault();
+    $this = $(this);
+    var text = $this.attr('data-text');
+    var id = $this.attr('data-id');
+    var url = $this.attr('href');
+    var title = $this.attr('data-title');
+    if (!title) {title = "Are you sure?";}
+
+    Swal.fire({
+        title: title,
+        text: text,
+        icon: "warning",
+        showCancelButton: true
+    }).then(result => {
+        if (result.value) {
+            window.setTimeout(function() {
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    dataType: 'json',
+                    data: { pk: id },
+
+                    success: function(data) {
+                        var message = data.message;
+                        var status = data.status;
+                        var reload = data.reload;
+                        var redirect = data.redirect;
+                        var redirect_url = data.redirect_url;
+                        var title = data.title;
+
+                        if (status == "true") {
+                            if (title) {
+                                title = title;
+                            } else {
+                                title = "Success";
+                            }
+
+                            Swal.fire({
+                                title: title,
+                                text: message,
+                                icon: "success"
+                            }).then(function() {
+                                if (redirect == 'true') {
+                                    window.location.href = redirect_url;
+                                }
+                                if (reload == 'true') {
+                                    window.location.reload();
+                                }
+                            });
+
+                        } else {
+                            if (title) {
+                                title = title;
+                            } else {
+                                title = "An Error Occurred";
+                            }
+                            Swal.fire({ title:title, text: message, icon: "error"});
+
+                        }
+                    },
+                    error: function(data) {
+                        var title = "An error occurred";
+                        var message = "An error occurred. Please try again later.";
+                        Swal.fire({ title:title, text: message, icon: "error"});
+                    }
+                });
+            }, 100);
+        } else {
+            console.log("action cancelled");
+        }
+    });
+});
 
 ```
 
@@ -446,10 +619,10 @@ def generate_form_errors(args,formset=False):
     {% csrf_token %}
 
     {% for field in form %}
-        <p class="first">
+        <div class="form-group">
             <label for="{{field.id_for_label}}">{{field.label}}</label>
             {{field}}
-        </p>
+        </div>
     {% endfor %}
 
     <button type="submit">Submit</button>
@@ -461,15 +634,15 @@ def generate_form_errors(args,formset=False):
 
     {% csrf_token %}
 
-    <p class="first">
+    <div class="form-group">
         <label for="{{form.name.id_for_label}}">{{form.name.label}}</label>
         {{form.name}}
-    </p>
+    </div>
 
-    <p class="first">
-        <label for="{{form.name.id_for_label}}">{{form.name.label}}</label>
-        {{form.name}}
-    </p>
+    <div class="form-group">
+        <label for="{{form.email.id_for_label}}">{{form.email.label}}</label>
+        {{form.email}}
+    <div class="form-group">
 
     <button type="submit">Submit</button>
 
@@ -484,6 +657,8 @@ def generate_form_errors(args,formset=False):
             {{blog.title}}
             {{blog.content}}
         </li>
+	{% empty %}
+		No data found
     {% endfor %}
 ```
 with if condition
