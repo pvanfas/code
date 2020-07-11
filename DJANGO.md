@@ -2,7 +2,7 @@
 ```
 virtualenv venv -p python3
 source venv/bin/activate
-pip install django
+pip install django psycopg2-binary django-registration-redux python-decouple
 django-admin.py startproject project
 cd project && mkdir static media templates
 python manage.py makemigrations && python manage.py migrate
@@ -110,6 +110,31 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
 
+```
+```
+
+SECRET_KEY = &w-7okw38wks+(3=64#36&tde+kl0tv3qa^)6f9#+t6e#+*p(b
+
+DEBUG = True
+
+# database credentials
+ENGINE = django.db.backends.postgresql_psycopg2
+DB_NAME = database
+DB_USER = database_dbuser
+DB_PASSWORD = ZQ5FUDUYTE3XC
+DB_HOST = localhost
+
+EMAIL_BACKEND = django.core.mail.backends.smtp.EmailBackend
+EMAIL_PORT = 587
+EMAIL_HOST = smtp-relay.sendinblue.com
+EMAIL_HOST_USER = mail@gmail.com
+EMAIL_HOST_PASSWORD = password
+
+DEFAULT_FROM_EMAIL = mail@gmail.coms
+DEFAULT_BCC_EMAIL = mail@gmail.coms
+DEFAULT_REPLY_TO_EMAIL = mail@gmail.coms
+SERVER_EMAIL = mail@gmail.coms
+ADMIN_EMAIL = mail@gmail.coms
 ```
 7. Define urlpatterns in project/urls.py
 
