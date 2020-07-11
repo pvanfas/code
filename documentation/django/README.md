@@ -36,15 +36,12 @@ Dillinger requires [Node.js](https://nodejs.org/) v4+ to run.
 
 Dillinger is currently extended with the following plugins. Instructions on how to use them in your own application are linked below.
 
-| Plugin | Documentaion |
-| ------ | ------ |
 
-| Python Decouple | [plugins/dropbox/README.md](https://github.com/joemccann/dillinger/blob/master/KUBERNETES.md) |
-| Registration Redux | [plugins/dropbox/README.md](https://github.com/joemccann/dillinger/blob/master/KUBERNETES.md) |
-| Crispy Forms | [plugins/dropbox/README.md](https://github.com/joemccann/dillinger/blob/master/KUBERNETES.md) |
-| Pillow | [plugins/dropbox/README.md](https://github.com/joemccann/dillinger/blob/master/KUBERNETES.md) |
-| Dropbox | [plugins/dropbox/README.md](https://github.com/joemccann/dillinger/blob/master/KUBERNETES.md) |
-| Dropbox | [plugins/dropbox/README.md](https://github.com/joemccann/dillinger/blob/master/KUBERNETES.md) |
+| Plugin | Documentation |
+|--------|---------------|
+|  Python Decouple      |  [plugins/dropbox/README.md](https://github.com/joemccann/dillinger/blob/master/KUBERNETES.md) |
+|  Registration Redux     |  [plugins/dropbox/README.md](https://github.com/joemccann/dillinger/blob/master/KUBERNETES.md) |
+|  Crispy Forms      |  [plugins/dropbox/README.md](https://github.com/joemccann/dillinger/blob/master/KUBERNETES.md) |
 
 ### Deployment
 
