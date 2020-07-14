@@ -1,6 +1,9 @@
 # Django Documentaion
 Django is a high-level Python Web framework that encourages rapid development and clean, pragmatic design. Built by experienced developers, it takes care of much of the hassle of Web development, so you can focus on writing your app without needing to reinvent the wheel. It’s free and open source.
 
+Django was invented to meet fast-moving newsroom deadlines, while satisfying the # Django Documentaion
+Django is a high-level Python Web framework that encourages rapid development and clean, pragmatic design. Built by experienced developers, it takes care of much of the hassle of Web development, so you can focus on writing your app without needing to reinvent the wheel. It’s free and open source.
+
 Django was invented to meet fast-moving newsroom deadlines, while satisfying the tough requirements of experienced Web developers.
 
   - Django was designed to help developers take applications from concept to completion as quickly as possible.
@@ -12,6 +15,16 @@ Depending how new you are to Django, you can [try official tutorial](https://doc
 
 Want to learn more about Django? Read the [overview](https://www.djangoproject.com/start/overview/) to see whether Django is right for your project.
 
+### Why Django
+Here are few advantages of using Django which can be listed out here −
+
+
+  - **Object-Relational Mapping (ORM) Support** : Django provides a bridge between the data model and the database engine, and supports a large set of database systems including MySQL, Oracle, Postgres, etc. Django also supports NoSQL database through Django-nonrel fork. For now, the only NoSQL databases supported are MongoDB and google app engine.
+  - **Multilingual Support** : Django supports multilingual websites through its built-in internationalization system. So you can develop your website, which would support multiple languages.
+  - **Framework Support** : Django has built-in support for Ajax, RSS, Caching and various other frameworks.
+  - **Administration GUI** : Django provides a nice ready-to-use user interface for administrative activities.
+  - **Development Environment** : Django comes with a lightweight web server to facilitate end-to-end application development and testing.
+
 ### Installation
 Before you can use Django, you’ll need to install it. Our complete installation guide covers all the possibilities; this guide will get you to a simple, minimal installation that’ll work while you walk through the introduction.
 
@@ -21,35 +34,21 @@ Before you can use Django, you’ll need to install it. Our complete installatio
 
 Installed Django already? Good. Now try this tutorial, which walks you through creating a djnago application:
 
-* [Models] - HTML enhanced for web apps!
-* [Django Forms] - awesome web-based text editor
-* [Views] - Markdown parser done right. Fast and easy to extend.
-* [Ajax] - great UI boilerplate for modern web apps
-
-And of course Dillinger itself is open source with a on GitHub.
-
-### Installation
-
-Dillinger requires [Node.js](https://nodejs.org/) v4+ to run.
+* [Create Project]() - Setup project
+* [Models]() - Database management made easy
+* [Django Forms]() - Awesome python-based forms
+* [Views]() - Template management done right. Fast and easy to extend.
+* [Ajax]() - Asynchronous web applications
 
 ### Plugins
-
-Dillinger is currently extended with the following plugins. Instructions on how to use them in your own application are linked below.
-
-
+pip is the package installer for Python. You can use pip to install packages from the Python Package Index and other indexes. This python packages are built to extend the django functionality
 | Plugin | Documentation |
 |--------|---------------|
-|  Python Decouple      |  [plugins/dropbox/README.md](https://github.com/joemccann/dillinger/blob/master/KUBERNETES.md) |
-|  Registration Redux     |  [plugins/dropbox/README.md](https://github.com/joemccann/dillinger/blob/master/KUBERNETES.md) |
-|  Crispy Forms      |  [plugins/dropbox/README.md](https://github.com/joemccann/dillinger/blob/master/KUBERNETES.md) |
+|  Python Decouple      |  [https://pypi.org/project/python-decouple/](https://pypi.org/project/python-decouple/) |
+|  Registration Redux     |  [plugins/dropbox/README.md]() |
+|  Crispy Forms      |  [plugins/dropbox/README.md]() |
 
 ### Deployment
 
-Want to contribute? Great!
-
-Dillinger uses Gulp + Webpack for fast developing.
-Make a change in your file and instantaneously see your updates!
-
-Open your favorite Terminal and run these commands.
 
 
