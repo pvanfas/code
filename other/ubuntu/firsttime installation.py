@@ -1,20 +1,9 @@
 
-sudo su # Enter Computer Password
-
-#sublime text
-wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
-echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
-sudo apt-get update
-sudo apt-get install sublime-text
-
 #install gdebi
 sudo apt install gdebi -y
 
 #install git
 sudo apt install git -y
-
-#install gimp
-sudo apt install gimp -y
 
 sudo apt-get install tasksel -y
 tasksel
@@ -48,16 +37,6 @@ sudo apt-get install python3.6
 #Venv change
 virtualenv venv -p python3
 pip install django
-
-#Changes in projectmain/“on_delete=models.CASCADE” added in models.py
-users/“on_delete=models.CASCADE” added in models.py
-Reverse changed:- from django.urls import reverse
-
-#install(uninstall before installing)
-pip install django-registration-redux
-
-#main_app urls
-url(r'^app/users/', include(('users.urls', 'users'), namespace="users")),
 
 #For getting emmet in sublime text 3
 Preferences->package-settings->package-control->settings-user
