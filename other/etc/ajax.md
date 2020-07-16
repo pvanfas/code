@@ -1,13 +1,7 @@
-# Ajaxify Django
+## Ajaxify Django
 
+Ajax is a set of web development techniques using many web technologies on the client side to create asynchronous web applications. With Ajax, web applications can send and retrieve data from a server asynchronously without interfering with the display and behavior of the existing page.  Ajax allows web pages to be updated asynchronously by exchanging small amounts of data with the server behind the scenes
 
-Ajax is a set of web development techniques using many web technologies on 
-the client side to create asynchronous web applications. With Ajax, 
-web applications can send and retrieve data from a server asynchronously 
-without interfering with the display and behavior of the existing page. 
- Ajax allows web pages to be updated asynchronously by exchanging small 
-amounts of data with the server behind the scenes
- 
 1. add class ajax to form tag and prevent normal submit on action.js and update as ajax request
 
 ```
@@ -61,7 +55,7 @@ url(r'^get-customer/$', views.get_customer, name='get_customer'),
 
 3. write view in customers
 
-``` 
+```
 
 def get_customer(request):
     pk = request.GET.get('id')
@@ -82,9 +76,9 @@ def get_customer(request):
             "message" : "Customer does not exist."
         }
     return HttpResponse(json.dumps(response_data), content_type='application/javascript')
-	
+
 ```
-## FORMSET AJAX 
+## FORMSET AJAX
 
 1.  template script
 
