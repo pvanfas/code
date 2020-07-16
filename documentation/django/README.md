@@ -28,7 +28,10 @@ Here are few advantages of using Django which can be listed out here −
 ### Installation
 Before you can use Django, you’ll need to install it. Our complete installation guide covers all the possibilities; this guide will get you to a simple, minimal installation that’ll work while you walk through the introduction.
 
-[Go to installation Guide](https://docs.djangoproject.com)
+
+* [System Setup](https://github.com/pvanfas/code/blob/master/documentation/django/src/system-setup.md)
+* [Project Setup](https://github.com/pvanfas/code/blob/master/documentation/django/src/project-setup.md)
+
 
 ### Development
 
