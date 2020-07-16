@@ -47,11 +47,15 @@ Installed Django already? Good. Now try this tutorial, which walks you through c
 pip is the package installer for Python. You can use pip to install packages from the Python Package Index and other indexes. This python packages are built to extend the django functionality
 | Plugin | Documentation |
 |--------|---------------|
-|  Python Decouple      |  [https://pypi.org/project/python-decouple/](https://pypi.org/project/python-decouple/) |
-|  Registration Redux     |  [plugins/dropbox/README.md]() |
-|  Crispy Forms      |  [plugins/dropbox/README.md]() |
+|  [Python Decouple](https://github.com/pvanfas/code/blob/master/documentation/django/src/hosting.md)      |  [official doc](https://pypi.org/project/python-decouple/) |
+|  [Registration Redux](https://github.com/pvanfas/code/blob/master/documentation/django/src/hosting.md)     |  [official doc](https://django-registration-redux.readthedocs.io/en/latest/) |
+|  [Crispy Forms](https://github.com/pvanfas/code/blob/master/documentation/django/src/hosting.md)      |  [official doc](https://django-crispy-forms.readthedocs.io/en/latest/) |
 
 ### Deployment
 
-
+* [Pythonanywhere]() - Host, run, and code Python in the cloud
+* [Heroku]() - Cloud Application Platform
+* [Digital Ocean]() - The developer cloud
+* [VPS Server]() - A Managed Virtual Server Solution
+* [webfaction]() - Hosting for developers
 
