@@ -51,7 +51,17 @@ echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sou
 sudo apt-get update
 sudo apt-get install sublime-text
 ```
-## Install git
+## Install git & configure
 ```
 sudo apt install git -y
+```
+```
+git config --global user.name "Name"
+git config --global user.email "example@gmail.com"
+```
+
+## Install chrome
+```
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo dpkg -i google-chrome-stable_current_amd64.deb
 ```

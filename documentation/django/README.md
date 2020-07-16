@@ -29,8 +29,8 @@ Here are few advantages of using Django which can be listed out here −
 Before you can use Django, you’ll need to install it. Our complete installation guide covers all the possibilities; this guide will get you to a simple, minimal installation that’ll work while you walk through the introduction.
 
 
-* [System Setup](https://github.com/pvanfas/code/blob/master/documentation/django/src/system-setup.md)
-* [Project Setup](https://github.com/pvanfas/code/blob/master/documentation/django/src/project-setup.md)
+* [System Setup](src/system-setup.md)
+* [Project Setup](src/project-setup.md)
 
 
 ### Development
@@ -45,17 +45,16 @@ Installed Django already? Good. Now try this tutorial, which walks you through c
 
 ### Plugins
 pip is the package installer for Python. You can use pip to install packages from the Python Package Index and other indexes. This python packages are built to extend the django functionality
-| Plugin | Documentation |
-|--------|---------------|
-|  [Python Decouple](https://github.com/pvanfas/code/blob/master/documentation/django/src/hosting.md)      |  [official doc](https://pypi.org/project/python-decouple/) |
-|  [Registration Redux](https://github.com/pvanfas/code/blob/master/documentation/django/src/hosting.md)     |  [official doc](https://django-registration-redux.readthedocs.io/en/latest/) |
-|  [Crispy Forms](https://github.com/pvanfas/code/blob/master/documentation/django/src/hosting.md)      |  [official doc](https://django-crispy-forms.readthedocs.io/en/latest/) |
+| Plugin                                | Documentation |
+|---------------------------------------|---------------|
+|  [Python Decouple](src/python-decouple.md)        |  [official doc](https://pypi.org/project/python-decouple/) |
+|  [Registration Redux](src/registration-redux.md)  |  [official doc](https://django-registration-redux.readthedocs.io/en/latest/) |
+|  [Crispy Forms](src/crispy-forms.md)              |  [official doc](https://django-crispy-forms.readthedocs.io/en/latest/) |
 
 ### Deployment
 
-* [Pythonanywhere]() - Host, run, and code Python in the cloud
-* [Heroku]() - Cloud Application Platform
-* [Digital Ocean]() - The developer cloud
-* [VPS Server]() - A Managed Virtual Server Solution
-* [webfaction]() - Hosting for developers
-
+* [Pythonanywhere](src/pythonanywhere.md) - Host, run, and code Python in the cloud
+* [Heroku](src/heroku.md) - Cloud Application Platform
+* [Digital Ocean](src/digitalocean.md) - The developer cloud
+* [VPS Server](src/vps.md) - A Managed Virtual Server Solution
+* [webfaction](src/webfaction.md) - Hosting for developers
