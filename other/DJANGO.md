@@ -500,11 +500,14 @@ $(document).on('submit', 'form.ajax', function(e) {
                     text: message,
                     icon: 'success',
                 }).then(function() {
-                    if (redirect == 'true') {
+                    if (isRedirect == 'true') {
                         window.location.href = redirect_url;
                     }
-                    if (reload == 'true') {
+                    if (isReload == 'true') {
                         window.location.reload();
+                    }
+                    if (isReset == 'true') {
+                        window.location.reset();
                     }
                 });
 
@@ -574,19 +577,22 @@ $(document).on('click', '.action-button', function(e) {
                             }
 
                             Swal.fire({
-                                title: title,
-                                text: message,
-                                icon: "success"
-                            }).then(function() {
-                                if (redirect == 'true') {
-                                    window.location.href = redirect_url;
-                                }
-                                if (reload == 'true') {
-                                    window.location.reload();
-                                }
-                            });
+								title: title,
+								text: message,
+								icon: 'success',
+							}).then(function() {
+								if (isRedirect == 'true') {
+									window.location.href = redirect_url;
+								}
+								if (isReload == 'true') {
+									window.location.reload();
+								}
+								if (isReset == 'true') {
+									window.location.reset();
+								}
+							});
 
-                        } else {
+						} else {
                             if (title) {
                                 title = title;
                             } else {
@@ -955,11 +961,14 @@ $(document).on('submit', 'form.ajax', function(e) {
                     text: message,
                     icon: 'success',
                 }).then(function() {
-                    if (redirect == 'true') {
+                    if (isRedirect == 'true') {
                         window.location.href = redirect_url;
                     }
-                    if (reload == 'true') {
+                    if (isReload == 'true') {
                         window.location.reload();
+                    }
+                    if (isReset == 'true') {
+                        window.location.reset();
                     }
                 });
 
@@ -988,8 +997,8 @@ $(document).on('submit', 'form.ajax', function(e) {
         }
     });
 });
-```
-```
+
+
 $(document).on('click', '.action-button', function(e) {
     e.preventDefault();
     $this = $(this);
@@ -1029,19 +1038,22 @@ $(document).on('click', '.action-button', function(e) {
                             }
 
                             Swal.fire({
-                                title: title,
-                                text: message,
-                                icon: "success"
-                            }).then(function() {
-                                if (redirect == 'true') {
-                                    window.location.href = redirect_url;
-                                }
-                                if (reload == 'true') {
-                                    window.location.reload();
-                                }
-                            });
+								title: title,
+								text: message,
+								icon: 'success',
+							}).then(function() {
+								if (isRedirect == 'true') {
+									window.location.href = redirect_url;
+								}
+								if (isReload == 'true') {
+									window.location.reload();
+								}
+								if (isReset == 'true') {
+									window.location.reset();
+								}
+							});
 
-                        } else {
+						} else {
                             if (title) {
                                 title = title;
                             } else {
@@ -1063,84 +1075,7 @@ $(document).on('click', '.action-button', function(e) {
         }
     });
 });
-```
 
-$(document).on('submit', 'form.ajax', function(e) {
-    
-    e.preventDefault();
-    var $this = $(this);
-    var data = new FormData(this);
-    var isReset = $this.hasClass('reset');
-    var isReload = $this.hasClass('reload');
-    var isRedirect = $this.hasClass('redirect');
-
-    $.ajax({
-        url: window.location.pathname,
-        type: 'POST',
-        data: data,
-        cache: false,
-        contentType: false,
-        processData: false,
-        dataType: "json",
-
-        success: function(data) {
-
-            var status = data.status;
-            var title = data.title;
-            var message = data.message;
-            var pk = data.pk;
-            var redirect = data.redirect;
-            var redirect_url = data.redirect_url;
-
-            if (status == "true") {
-                if (title) {
-                    title = title;
-                } else {
-                    title = "Success";
-                }
-
-                swal({
-                    title: title,
-                    text: message,
-                    icon: "success",
-                    type: "success"
-                }).then(function() {
-                    if (isRedirect && redirect == 'true') {
-                        window.location.href = redirect_url;
-                    }
-                    if (isReload) {
-                        window.location.reload();
-                    }
-                    if (isReset) {
-                        $this[0].reset();
-                    }
-                });
-
-            } else {
-                if (title) {
-                    title = title;
-                } else {
-                    title = "An Error Occurred";
-                }
-                swal({
-                    title: title,
-                    text: message,
-                    icon: "error",
-                    type: "error"
-                });
-            }
-        },
-        error: function(data) {
-            var title = "An error occurred";
-            var message = "something went wrong";
-            swal({
-                title: title,
-                text: message,
-                type: "error"
-            });
-        }
-    });
-});
 
 ```
 
