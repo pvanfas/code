@@ -922,87 +922,11 @@ TEMPLATES = [
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.15.3/dist/sweetalert2.all.min.js"></script>
 ```
 ```
-$(document).on('submit', 'form.ajax', function(e) {
-    e.preventDefault();
-    var $this = $(this);
-    var data = new FormData(this);
-    var action_url = $this.attr('action');
-    var isReset = $this.hasClass('reset');
-    var isReload = $this.hasClass('reload');
-    var isRedirect = $this.hasClass('redirect');
-
-    $.ajax({
-        url: action_url,
-        type: 'POST',
-        data: data,
-        cache: false,
-        contentType: false,
-        processData: false,
-        dataType: "json",
-
-        success: function(data) {
-
-            var status = data.status;
-            var title = data.title;
-            var message = data.message;
-            var pk = data.pk;
-            var redirect = data.redirect;
-            var redirect_url = data.redirect_url;
-
-            if (status == "true") {
-                if (title) {
-                    title = title;
-                } else {
-                    title = "Success";
-                }
-
-                Swal.fire({
-                    title: title,
-                    text: message,
-                    icon: 'success',
-                }).then(function() {
-                    if (isRedirect == 'true') {
-                        window.location.href = redirect_url;
-                    }
-                    if (isReload == 'true') {
-                        window.location.reload();
-                    }
-                    if (isReset == 'true') {
-                        window.location.reset();
-                    }
-                });
-
-            } else {
-                if (title) {
-                    title = title;
-                } else {
-                    title = "An Error Occurred";
-                }
-                Swal.fire({
-                    title: title,
-                    text: message,
-                    icon: "error"
-                });
-
-            }
-        },
-        error: function(data) {
-            var title = "An error occurred";
-            var message = "something went wrong";
-            Swal.fire({
-                title: title,
-                text: message,
-                icon: "error"
-            });
-        }
-    });
-});
-
-
 $(document).on('click', '.action-button', function(e) {
     e.preventDefault();
     $this = $(this);
     var text = $this.attr('data-text');
+    var type = "question";
     var id = $this.attr('data-id');
     var url = $this.attr('href');
     var title = $this.attr('data-title');
@@ -1011,7 +935,7 @@ $(document).on('click', '.action-button', function(e) {
     Swal.fire({
         title: title,
         text: text,
-        icon: "warning",
+        type: type,
         showCancelButton: true
     }).then(result => {
         if (result.value) {
@@ -1038,35 +962,32 @@ $(document).on('click', '.action-button', function(e) {
                             }
 
                             Swal.fire({
-								title: title,
-								text: message,
-								icon: 'success',
-							}).then(function() {
-								if (isRedirect == 'true') {
-									window.location.href = redirect_url;
-								}
-								if (isReload == 'true') {
-									window.location.reload();
-								}
-								if (isReset == 'true') {
-									window.location.reset();
-								}
-							});
+                                title: title,
+                                text: message,
+                                type: "success"
+                            }).then(function() {
+                                if (redirect == 'true') {
+                                    window.location.href = redirect_url;
+                                }
+                                if (reload == 'true') {
+                                    window.location.reload();
+                                }
+                            });
 
-						} else {
+                        } else {
                             if (title) {
                                 title = title;
                             } else {
                                 title = "An Error Occurred";
                             }
-                            Swal.fire({ title:title, text: message, icon: "error"});
+                            Swal.fire({ title:title, text: message, type: "error"});
 
                         }
                     },
                     error: function(data) {
                         var title = "An error occurred";
                         var message = "An error occurred. Please try again later.";
-                        Swal.fire({ title:title, text: message, icon: "error"});
+                        Swal.fire({ title:title, text: message, type: "error"});
                     }
                 });
             }, 100);
@@ -1076,6 +997,175 @@ $(document).on('click', '.action-button', function(e) {
     });
 });
 
+$(document).on('click', '.instant-action-button', function(e) {
+    e.preventDefault();
+    $this = $(this);
+    var text = $this.attr('data-text');
+    var type = "success";
+    var id = $this.attr('data-id');
+    var url = $this.attr('href');
+
+    $.ajax({
+        type: 'GET',
+        url: url,
+        dataType: 'json',
+        data: { pk: id },
+
+        success: function(data) {
+            var message = data.message;
+            var status = data.status;
+            var reload = data.reload;
+            var redirect = data.redirect;
+            var redirect_url = data.redirect_url;
+            var title = data.title;
+
+            if (status == "true") {
+                if (title) {
+                    title = title;
+                } else {
+                    title = "Success";
+                }
+
+                Swal.fire({
+                    title: title,
+                    text: message,
+                    type: "success"
+                }).then(function() {
+                    if (redirect == 'true') {
+                        window.location.href = redirect_url;
+                    }
+                    if (reload == 'true') {
+                        window.location.reload();
+                    }
+                });
+
+            } else {
+                if (title) {
+                    title = title;
+                } else {
+                    title = "An Error Occurred";
+                }
+                Swal.fire({ title:title, text: message, type: "error"});
+
+            }
+        },
+        error: function(data) {
+            var title = "An error occurred";
+            var message = "An error occurred. Please try again later.";
+            Swal.fire({ title:title, text: message, type: "error"});
+        }
+    });
+});
+
+$(document).on('click', '.export-button', function(e) {
+    // random data
+    var request = new XMLHttpRequest();
+    request.open('POST', url, true);
+    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+    request.responseType = 'blob';
+
+    request.onload = function (e) {
+        if (this.status === 200) {
+            let filename = "";
+            let disposition = request.getResponseHeader('Content-Disposition');
+            // check if filename is given
+            if (disposition && disposition.indexOf('attachment') !== -1) {
+                let filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                let matches = filenameRegex.exec(disposition);
+                if (matches != null && matches[1]) filename = matches[1].replace(/['"]/g, '');
+            }
+            let blob = this.response;
+            if (window.navigator.msSaveOrOpenBlob) {
+                window.navigator.msSaveBlob(blob, filename);
+            }
+            else {
+                let downloadLink = window.document.createElement('a');
+                let contentTypeHeader = request.getResponseHeader("Content-Type");
+                downloadLink.href = window.URL.createObjectURL(new Blob([blob], {type: contentTypeHeader}));
+                downloadLink.download = filename;
+                document.body.appendChild(downloadLink);
+                downloadLink.click();
+                document.body.removeChild(downloadLink);
+            }
+        } else {
+            alert('Download failed.');
+        }
+    };
+    request.send(data);
+
+});
+
+$(document).on('submit', 'form.ajax_file', function(e) {
+    e.preventDefault();
+    var $this = $(this);
+    var data = new FormData(this);
+    var isReset = $this.hasClass('reset');
+    var isReload = $this.hasClass('reload');
+    var isRedirect = $this.hasClass('redirect');
+
+    $.ajax({
+        url: window.location.pathname,
+        type: 'POST',
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+
+        success: function(data) {
+
+            var status = data.status;
+            var title = data.title;
+            var message = data.message;
+            var pk = data.pk;
+            var redirect = data.redirect;
+            var redirect_url = data.redirect_url;
+
+            if (status == "true") {
+                if (title) {
+                    title = title;
+                } else {
+                    title = "Success";
+                }
+
+                Swal.fire({
+                    title: title,
+                    text: message,
+                    type: "success"
+                }).then(function() {
+                    if (redirect == 'true') {
+                        window.location.href = redirect_url;
+                    }
+                    if (reload == 'true') {
+                        window.location.reload();
+                    }
+                });
+
+            } else {
+                if (title) {
+                    title = title;
+                } else {
+                    title = "An Error Occurred";
+                }
+                Swal.fire({
+                    title: title,
+                    text: message,
+                    type: "error"
+                });
+
+            }
+        },
+        error: function(data) {
+            var title = "An error occurred";
+            var message = "something went wrong";
+            Swal.fire({
+                title: title,
+                text: message,
+                type: "error"
+            });
+        }
+    });
+});
 
 ```
 
