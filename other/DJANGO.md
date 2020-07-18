@@ -201,7 +201,6 @@ def function(request):
                 "status" : "false",
                 "stable" : "true",
                 "title" : "Form validation error",
-                "message" : message
             }
 
         return HttpResponse(json.dumps(response_data), content_type='application/javascript')
@@ -227,13 +226,10 @@ def function(request):
                 "message" : "Registration successfully updated"
             }
         else:
-            message = generate_form_errors(form)
-
             response_data = {
                 "status" : "false",
                 "stable" : "true",
                 "title" : "Form validation error",
-                "message" : message
             }
         return HttpResponse(json.dumps(response_data), content_type='application/javascript')
     else:
@@ -307,11 +303,20 @@ CATEGORY_CHOICES = (
     ('business', 'Business'),
 )
 
+class Author(models.Model):
+    name = models.CharField(max_length=128)
+	email = models.EmailField(blank=True,null=True)
+    photo = models.ImageField(upload_to='images/authors')
+    about = models.TextField()
+
+    def __str__(self):
+        return str(self.name)
+		
 class Blog(models.Model):
     auto_id = models.PositiveIntegerField(db_index=True,unique=True)
-    name = models.CharField(max_length=128)
-    customer = models.ForeignKey('customers.Customer',limit_choices_to={'is_deleted': False},on_delete=models.CASCADE)
-    email = models.EmailField(blank=True,null=True)
+    title = models.CharField(max_length=128)
+    slug = models.SlugField(unique=True,blank=True, null=True)
+	author = models.ForeignKey(Author,on_delete=models.CASCADE)
     image = models.ImageField(upload_to='images/blog')
     content = models.TextField()
     time = models.DateTimeField()
@@ -353,7 +358,7 @@ class BlogForm(forms.ModelForm):
         model = Blog
         fields = '__all__'
         widgets = {
-            'name': TextInput(attrs={'class': 'required form-control', 'placeholder': 'Name'}),
+            'title': TextInput(attrs={'class': 'required form-control', 'placeholder': 'Title'}),
             'message': Textarea(attrs={'class': 'required form-control', 'placeholder': 'Message'}),
             'banner_image': FileInput(attrs={'class': 'form-control', 'accept': 'image/*'}),
             'country' : Select(attrs={'class': 'form-control',}),
@@ -379,9 +384,9 @@ from __future__ import unicode_literals
 from django.contrib import admin
 from web.models import Blog
 
-
 class BlogAdmin(admin.ModelAdmin):
-    list_display = ('heading','content','image','time','video_url')
+	prepopulated_fields = {'slug': ('title',)}
+	list_display = ('title','author')
 
 admin.site.register(Blog,BlogAdmin)
 ```
@@ -908,69 +913,156 @@ TEMPLATES = [
 29. Ajax
 
 ```
-$(document).ready(function() {
-
-    $(document).on('submit','form.ajax_file', function(e) {
-        e.preventDefault();
-        var $this = $(this);
-        var data = new FormData(this);
-        var isReset = $this.hasClass('reset');
-        var isReload = $this.hasClass('reload');
-        var isRedirect = $this.hasClass('redirect');
-        show_loader();
-
-        $.ajax({
-            url: window.location.pathname,
-            type: 'POST',
-            data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
-            dataType: "json",
-
-            success: function(data) {
-                remove_popup();
-
-                var status = data.status;
-                var title = data.title;
-                var message = data.message;
-                var pk = data.pk;
-                var redirect = data.redirect;
-                var redirect_url = data.redirect_url;
-
-                if (status == "true") {
-                    if (title) {title = title;}
-                    else {title = "Success";}
-                    swal({title: title,text: message,type: "success"});
-
-                    swal({title: title,text: message,type: "success"},
-                    function () {
-                        if (isRedirect && redirect == 'true') {
-                            window.location.href = redirect_url;
-                        }
-                        if (isReload) {
-                            window.location.reload();
-                        }
-                        if (isReset) {
-                            $this[0].reset();
-                        }
-                    });
-                }
-                else {
-                    title = "An Error Occurred";
-                    swal(title, message, "error");
-                }
-            },
-            error: function(data) {
-                remove_popup();
-                var title = "An error occurred";
-                var message = "Upload a valid image. The file you uploaded was either not an image or a corrupted image.";
-                swal(title, message, "error");
-            }
-        });
-    });
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.15.3/dist/sweetalert2.all.min.js"></script>
 ```
+```
+$(document).on('submit', 'form.ajax', function(e) {
+    e.preventDefault();
+    var $this = $(this);
+    var data = new FormData(this);
+    var action_url = $this.attr('action');
+    var isReset = $this.hasClass('reset');
+    var isReload = $this.hasClass('reload');
+    var isRedirect = $this.hasClass('redirect');
 
+    $.ajax({
+        url: action_url,
+        type: 'POST',
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+
+        success: function(data) {
+
+            var status = data.status;
+            var title = data.title;
+            var message = data.message;
+            var pk = data.pk;
+            var redirect = data.redirect;
+            var redirect_url = data.redirect_url;
+
+            if (status == "true") {
+                if (title) {
+                    title = title;
+                } else {
+                    title = "Success";
+                }
+
+                Swal.fire({
+                    title: title,
+                    text: message,
+                    icon: 'success',
+                }).then(function() {
+                    if (redirect == 'true') {
+                        window.location.href = redirect_url;
+                    }
+                    if (reload == 'true') {
+                        window.location.reload();
+                    }
+                });
+
+            } else {
+                if (title) {
+                    title = title;
+                } else {
+                    title = "An Error Occurred";
+                }
+                Swal.fire({
+                    title: title,
+                    text: message,
+                    icon: "error"
+                });
+
+            }
+        },
+        error: function(data) {
+            var title = "An error occurred";
+            var message = "something went wrong";
+            Swal.fire({
+                title: title,
+                text: message,
+                icon: "error"
+            });
+        }
+    });
+});
+```
+```
+$(document).on('click', '.action-button', function(e) {
+    e.preventDefault();
+    $this = $(this);
+    var text = $this.attr('data-text');
+    var id = $this.attr('data-id');
+    var url = $this.attr('href');
+    var title = $this.attr('data-title');
+    if (!title) {title = "Are you sure?";}
+
+    Swal.fire({
+        title: title,
+        text: text,
+        icon: "warning",
+        showCancelButton: true
+    }).then(result => {
+        if (result.value) {
+            window.setTimeout(function() {
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    dataType: 'json',
+                    data: { pk: id },
+
+                    success: function(data) {
+                        var message = data.message;
+                        var status = data.status;
+                        var reload = data.reload;
+                        var redirect = data.redirect;
+                        var redirect_url = data.redirect_url;
+                        var title = data.title;
+
+                        if (status == "true") {
+                            if (title) {
+                                title = title;
+                            } else {
+                                title = "Success";
+                            }
+
+                            Swal.fire({
+                                title: title,
+                                text: message,
+                                icon: "success"
+                            }).then(function() {
+                                if (redirect == 'true') {
+                                    window.location.href = redirect_url;
+                                }
+                                if (reload == 'true') {
+                                    window.location.reload();
+                                }
+                            });
+
+                        } else {
+                            if (title) {
+                                title = title;
+                            } else {
+                                title = "An Error Occurred";
+                            }
+                            Swal.fire({ title:title, text: message, icon: "error"});
+
+                        }
+                    },
+                    error: function(data) {
+                        var title = "An error occurred";
+                        var message = "An error occurred. Please try again later.";
+                        Swal.fire({ title:title, text: message, icon: "error"});
+                    }
+                });
+            }, 100);
+        } else {
+            console.log("action cancelled");
+        }
+    });
+});
 ```
 
 $(document).on('submit', 'form.ajax', function(e) {
