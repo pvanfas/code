@@ -53,3 +53,6 @@ systemctl reload apache2
         WSGIScriptAlias / /home/srv/domain/domain/domain/wsgi.py
 </VirtualHost>
 ```
+```
+sudo certbot --apache -d domain.com -d www.domain.com
+```
