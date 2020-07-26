@@ -1,0 +1,1 @@
+Because no one can read your mind. Yet, Scientists and companies like Facebook and Neuralink (presumably) are working on it. Perhaps in the future, you'll be able to attach a copy of your thoughts and/or consciousness to your projects. In the meantime, please make READMEs. 
