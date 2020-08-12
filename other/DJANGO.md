@@ -2,7 +2,7 @@
 ```
 virtualenv venv -p python3
 source venv/bin/activate
-pip install django psycopg2-binary django-registration-redux python-decouple
+pip install django psycopg2-binary python-decouple django-registration-redux
 django-admin.py startproject project
 cd project && mkdir static media templates
 python manage.py makemigrations && python manage.py migrate
@@ -31,7 +31,7 @@ INSTALLED_APPS = [
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, "templates")],
+		'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -49,7 +49,7 @@ TEMPLATES = [
 ```
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'dbname',
         'USER': 'user',
         'PASSWORD': 'password',
@@ -62,17 +62,16 @@ DATABASES = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 ```
 6. Set settings.py file
 ```
-import os
+from pathlib import Path
 from decouple import config, Csv
 
-
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
 SECRET_KEY = config('SECRET_KEY')
 
@@ -95,6 +94,7 @@ ADMIN_EMAIL = config('ADMIN_EMAIL')
 
 ```
 ```
+
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
@@ -102,11 +102,11 @@ USE_L10N = True
 USE_TZ = True
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_ROOT = BASE_DIR / "media",
 STATIC_URL = '/static/'
-STATIC_FILE_ROOT = os.path.join(BASE_DIR, "static")
-STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
-STATIC_ROOT = os.path.join(BASE_DIR, 'static', 'assets')
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
 
 ```
 ```
@@ -116,10 +116,9 @@ SECRET_KEY = &w-7okw38wks+(3=64#36&tde+kl0tv3qa^)6f9#+t6e#+*p(b
 DEBUG = True
 
 # database credentials
-ENGINE = django.db.backends.postgresql_psycopg2
 DB_NAME = database
 DB_USER = database_dbuser
-DB_PASSWORD = ZQ5FUDUYTE3XC
+DB_PASSWORD = ZQ5FUDYTE3XC
 DB_HOST = localhost
 
 EMAIL_BACKEND = django.core.mail.backends.smtp.EmailBackend
@@ -784,86 +783,7 @@ path('app/accounts', include('registration.backends.default.urls')),
 {% url 'auth_password_reset' %}
 {% url 'registration_register' %}
 ```
-27. Removing sensitive info (python-decouple)
-```
-pip install python-decouple
-```
-```
-import os
-from decouple import config, Csv
-
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-SECRET_KEY = config('SECRET_KEY')
-
-DEBUG = config('DEBUG', default=True, cast=bool)
-
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
-
-
-DATABASES = {
-    'default': {
-        'ENGINE': config('ENGINE'),
-        'NAME': config('DB_NAME'),
-        'USER': config('DB_USER'),
-        'PASSWORD': config('DB_PASSWORD'),
-        'HOST': config('DB_HOST'),
-        'PORT': '',
-    }
-}
-
-ACCOUNT_ACTIVATION_DAYS = 7
-REGISTRATION_AUTO_LOGIN = True
-
-LOGIN_URL = '/app/accounts/login/'
-LOGOUT_URL = '/app/accounts/logout/'
-LOGIN_REDIRECT_URL = '/'
-
-REGISTRATION_EMAIL_SUBJECT_PREFIX = ''
-SEND_ACTIVATION_EMAIL = True
-REGISTRATION_OPEN = True
-
-EMAIL_HOST = config('EMAIL_HOST')
-EMAIL_PORT = config('EMAIL_PORT')
-EMAIL_HOST_USER = config('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
-EMAIL_USE_TLS = True
-
-DEFAULT_FROM_EMAIL= config('DEFAULT_FROM_EMAIL')
-DEFAULT_BCC_EMAIL= config('DEFAULT_BCC_EMAIL')
-DEFAULT_REPLY_TO_EMAIL = config('DEFAULT_REPLY_TO_EMAIL')
-SERVER_EMAIL = config('SERVER_EMAIL')
-ADMIN_EMAIL = config('ADMIN_EMAIL')
-EMAIL_BACKEND= config('EMAIL_BACKEND')
-
-```
-create .env file
-```
-
-SECRET_KEY = 5h!q83i3@87m!+9
-
-DEBUG = True
-
-# database credentials
-ENGINE = django.db.backends.postgresql_psycopg2
-DB_NAME = db
-DB_USER = user
-DB_PASSWORD = S3CR3ET
-DB_HOST = localhost
-
-EMAIL_BACKEND= django.core.mail.backends.smtp.EmailBackend
-EMAIL_PORT = 587
-EMAIL_HOST = smtp-relay.sendinblue.com
-EMAIL_HOST_USER = hello@example.com
-EMAIL_HOST_PASSWORD = S3CR3ET
-DEFAULT_FROM_EMAIL = hello@example.com
-DEFAULT_BCC_EMAIL = hello@example.com
-DEFAULT_REPLY_TO_EMAIL = hello@example.com
-SERVER_EMAIL = hello@example.com
-ADMIN_EMAIL = hello@example.com
-
-```
-28. Context processors
+27. Context processors
 ```
 import datetime
 
@@ -884,12 +804,7 @@ def main_context(request):
     active = request.GET.get('active')
 
     return {
-        'app_title' : "Metrica",
         "confirm_delete_message" : "Are you sure want to delete this item. All associated data may be removed.",
-        "revoke_access_message" : "Are you sure to revoke this user's login access",
-        "confirm_delete_selected_message" : "Are you sure to delete all selected items.",
-        "confirm_read_message" : "Are you sure want to mark as read this item.",
-        "confirm_read_selected_message" : "Are you sure to mark as read all selected items.",
         'domain' : request.META['HTTP_HOST'],
         "is_superuser" : is_superuser,
         "active_parent" : active_parent,
@@ -900,7 +815,7 @@ def main_context(request):
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [config('TEMPLATES')],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
