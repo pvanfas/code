@@ -10,4 +10,10 @@ python manage.py migrate --run-syncdb
 python manage.py migrate
 python manage.py createsuperuser
 ```
+```
+python manage.py shell
 
+from django.contrib.admin.models import LogEntry
+
+LogEntry.objects.all().delete()
+```
