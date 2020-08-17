@@ -102,10 +102,11 @@ USE_L10N = True
 USE_TZ = True
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / "media",
+MEDIA_ROOT = BASE_DIR / "media"
+STATIC_ROOT = BASE_DIR / "static"
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    BASE_DIR / "static",
+    BASE_DIR / "static/assets",
 ]
 
 ```
@@ -146,7 +147,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('web.urls',namespace='web'))
 
-]+ static(settings.STATIC_URL, document_root=settings.STATIC_FILE_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 ```
 8. Create web/urls.py and paste the following
