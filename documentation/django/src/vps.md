@@ -1,5 +1,6 @@
 
 ```
+apachectl configtest
 a2ensite domain.com.conf
 systemctl reload apache2
 ```
