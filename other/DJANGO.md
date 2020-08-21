@@ -1090,27 +1090,15 @@ List of the most used Django date template filters to format date according to a
 | d | Day of the month, 2 digits with leading zeros     | ```01``` to ```31``` |
 | j | Day of the month without leading zeros.           | ```1``` to ```31``` |
 | S | English ordinal suffix for day of the month, 2 characters. | ```st```, ```nd```, ```rd``` or ```th```|
-
-| Code | Description | Output |
-| ------ | ------ | ------ |
 | m | Month, 2 digits with leading zeros.               | ```01``` to ```12``` |
 | n | Month without leading zeros.                      | ```1``` to ```12``` |
 | b | Month, textual, 3 letters, lowercase.             | ```jan``` |
 | M | Month, textual, 3 letters.                        | ```Jan``` |
 | F | Month, textual, long.                             | ```January``` |
-
-| Code | Description | Output |
-| ------ | ------ | ------ |
 | y | Year, 2 digits.               | ```20``` |
 | Y | Year, 4 digits.               | ```2020``` |
-
-| Code | Description | Output |
-| ------ | ------ | ------ |
 | D | Day of the week, textual, 3 letters.              | ```Fri``` |
 | l | Day of the week, textual, long.             | ```Friday``` |
-
-| Code | Description | Output |
-| ------ | ------ | ------ |
 | G | Hour, 24-hour format without leading zeros.   | ```0``` to ```23``` |
 | H | Hour, 24-hour format.                         | ```00``` to ```23``` |
 | g | Hour, 12-hour format without leading zeros.   | ```1``` to ```12``` |
