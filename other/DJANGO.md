@@ -1081,8 +1081,47 @@ $(document).on('submit', 'form.ajax_file', function(e) {
 });
 
 ```
+30. Date Template Filter
 
-30. Humanise
+List of the most used Django date template filters to format date according to a given format, semantically ordered.
+
+| Code | Description | Output |
+| ------ | ------ | ------ |
+| d | Day of the month, 2 digits with leading zeros     | ```01``` to ```31``` |
+| j | Day of the month without leading zeros.           | ```1``` to ```31``` |
+| S | English ordinal suffix for day of the month, 2 characters. | ```st```, ```nd```, ```rd``` or ```th```|
+
+| Code | Description | Output |
+| ------ | ------ | ------ |
+| m | Month, 2 digits with leading zeros.               | ```01``` to ```12``` |
+| n | Month without leading zeros.                      | ```1``` to ```12``` |
+| b | Month, textual, 3 letters, lowercase.             | ```jan``` |
+| M | Month, textual, 3 letters.                        | ```Jan``` |
+| F | Month, textual, long.                             | ```January``` |
+
+| Code | Description | Output |
+| ------ | ------ | ------ |
+| y | Year, 2 digits.               | ```20``` |
+| Y | Year, 4 digits.               | ```2020``` |
+
+| Code | Description | Output |
+| ------ | ------ | ------ |
+| D | Day of the week, textual, 3 letters.              | ```Fri``` |
+| l | Day of the week, textual, long.             | ```Friday``` |
+
+| Code | Description | Output |
+| ------ | ------ | ------ |
+| G | Hour, 24-hour format without leading zeros.   | ```0``` to ```23``` |
+| H | Hour, 24-hour format.                         | ```00``` to ```23``` |
+| g | Hour, 12-hour format without leading zeros.   | ```1``` to ```12``` |
+| h | Hour, 12-hour format.                         | ```01``` to ```12``` |
+| a | a.m. or p.m.                                  | ```a.m``` |
+| A | AM or PM.                                     | ```AM``` |
+| i | Minutes.                                  | ```00``` to ```59``` |
+| s | Seconds, 2 digits with leading zeros.     | ```0``` to ```59``` |
+
+
+31. Humanise
 ```
 #add following to your INSTALLED_APPS in setting:
 
@@ -1122,7 +1161,7 @@ naturaltime	09 May 2016 20:54:31   becomes  29 seconds ago
 ordinal 	3                      becomes      3rd
 
 ```
-31. Adding (changeble)initial value into form (views.py)
+32. Adding (changeble)initial value into form (views.py)
 ```
 form = CustomerForm(initial={
         "name" : "Default Name",
