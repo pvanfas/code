@@ -5,9 +5,9 @@ find . | grep -E "(__pycache__|\.pyc|\.pyo$)" | xargs rm -rf
 find . -name '.DS_Store' -type f -delete
 find . -path "*/migrations/*.pyc"  -delete
 find . -path "*/migrations/*.py" -not -name "__init__.py" -delete
-python manage.py makemigrations
-python manage.py migrate
-python manage.py createsuperuser
+python3 manage.py makemigrations
+python3 manage.py migrate
+python3 manage.py createsuperuser
 ```
 ```
 python manage.py shell
