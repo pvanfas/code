@@ -24,3 +24,7 @@ git branch -D master
 git branch -m master
 git push -f origin master
 ```
+```
+git remote add origin https://gedexo@bitbucket.org/gedexo/project.git
+git push -u origin master
+```
