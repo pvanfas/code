@@ -384,6 +384,12 @@ from web.models import Blog
 class BlogAdmin(admin.ModelAdmin):
 	prepopulated_fields = {'slug': ('title',)}
 	list_display = ('title','author')
+	list_filter = ('title','author')
+	ordering = None
+	exclude = None
+	readonly_fields = ()
+	autocomplete_fields = ()
+	search_fields = ('name', 'description', 'keyword', )
 
 admin.site.register(Blog,BlogAdmin)
 ```
@@ -548,17 +554,19 @@ $(document).on('click', '.action-button', function(e) {
         title: title,
         text: text,
         icon: "warning",
-        showCancelButton: true
-    }).then(result => {
+        showCancelButton: true,
+    }).then((result) => {
         if (result.value) {
-            window.setTimeout(function() {
+            window.setTimeout(function () {
                 $.ajax({
-                    type: 'GET',
+                    type: "GET",
                     url: url,
-                    dataType: 'json',
-                    data: { pk: id },
+                    dataType: "json",
+                    data: {
+                        pk: id,
+                    },
 
-                    success: function(data) {
+                    success: function (data) {
                         var message = data.message;
                         var status = data.status;
                         var reload = data.reload;
@@ -574,43 +582,51 @@ $(document).on('click', '.action-button', function(e) {
                             }
 
                             Swal.fire({
-								title: title,
-								text: message,
-								icon: 'success',
-							}).then(function() {
-								if (isRedirect == 'true') {
-									window.location.href = redirect_url;
-								}
-								if (isReload == 'true') {
-									window.location.reload();
-								}
-								if (isReset == 'true') {
-									window.location.reset();
-								}
-							});
-
-						} else {
+                                title: title,
+                                text: message,
+                                icon: "success",
+                            }).then(function () {
+                                if (isRedirect == "true") {
+                                    window.location.href = redirect_url;
+                                }
+                                if (isReload == "true") {
+                                    window.location.reload();
+                                }
+                                if (isReset == "true") {
+                                    window.location.reset();
+                                }
+                            });
+                        } else {
                             if (title) {
                                 title = title;
                             } else {
                                 title = "An Error Occurred";
                             }
-                            Swal.fire({ title:title, text: message, icon: "error"});
-
+                            Swal.fire({
+                                title: title,
+                                text: message,
+                                icon: "error",
+                            });
                         }
                     },
-                    error: function(data) {
+                    error: function (data) {
                         var title = "An error occurred";
                         var message = "An error occurred. Please try again later.";
-                        Swal.fire({ title:title, text: message, icon: "error"});
-                    }
+                        Swal.fire({
+                            title: title,
+                            text: message,
+                            icon: "error",
+                        });
+                    },
                 });
             }, 100);
         } else {
             console.log("action cancelled");
         }
     });
+
 });
+
 
 ```
 
