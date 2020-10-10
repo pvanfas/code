@@ -68,10 +68,10 @@ DATABASES = {
 ```
 6. Set settings.py file
 ```
-import os
+from pathlib import Path
 from decouple import config, Csv
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = config('SECRET_KEY')
 
@@ -80,38 +80,54 @@ DEBUG = config('DEBUG', default=True, cast=bool)
 ALLOWED_HOSTS = ['localhost','127.0.0.1']
 ```
 ```
-EMAIL_HOST = config('EMAIL_HOST')
-EMAIL_PORT = config('EMAIL_PORT')
-EMAIL_HOST_USER = config('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
-EMAIL_USE_TLS = True
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [BASE_DIR / 'templates'],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
 
-DEFAULT_FROM_EMAIL= config('DEFAULT_FROM_EMAIL')
-DEFAULT_BCC_EMAIL= config('DEFAULT_BCC_EMAIL')
-DEFAULT_REPLY_TO_EMAIL = config('DEFAULT_REPLY_TO_EMAIL')
-SERVER_EMAIL = config('SERVER_EMAIL')
-ADMIN_EMAIL = config('ADMIN_EMAIL')
+DATABASES = {
+    'default': {
+        'ENGINE': config('ENGINE'),
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DB_HOST'),
+        'PORT': '',
+    }
+}
 
 ```
 ```
+DATE_INPUT_FORMATS = ['%d/%m/%Y',]
 
 LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_ROOT = BASE_DIR / 'media'
 STATIC_URL = '/static/'
-STATIC_FILE_ROOT = os.path.join(BASE_DIR, "static")
-STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
-STATIC_ROOT = os.path.join(BASE_DIR, 'static', 'assets')
+STATIC_FILE_ROOT = BASE_DIR / 'static'
+STATICFILES_DIRS = ((BASE_DIR / 'static'),)
+STATIC_ROOT = BASE_DIR / 'static/assets'
 
 ```
 ```
 
-SECRET_KEY = &w-7okw38wks+(3=64#36&tde+kl0tv3qa^)6f9#+t6e#+*p(b
+SECRET_KEY = #################################
 
 DEBUG = True
 
@@ -121,17 +137,6 @@ DB_USER = database_dbuser
 DB_PASSWORD = ZQ5FUDYTE3XC
 DB_HOST = localhost
 
-EMAIL_BACKEND = django.core.mail.backends.smtp.EmailBackend
-EMAIL_PORT = 587
-EMAIL_HOST = smtp-relay.sendinblue.com
-EMAIL_HOST_USER = mail@gmail.com
-EMAIL_HOST_PASSWORD = password
-
-DEFAULT_FROM_EMAIL = mail@gmail.coms
-DEFAULT_BCC_EMAIL = mail@gmail.coms
-DEFAULT_REPLY_TO_EMAIL = mail@gmail.coms
-SERVER_EMAIL = mail@gmail.coms
-ADMIN_EMAIL = mail@gmail.coms
 ```
 7. Define urlpatterns in project/urls.py
 
@@ -173,8 +178,6 @@ import json
 
 def index(request):
     context = {
-        "title" : "HOME",
-        "caption" : "The ultimate solution provider",
         "is_home" : True
     }
     return render(request, 'web/index.html',context)
@@ -328,6 +331,11 @@ class Blog(models.Model):
 
     def __str__(self):
         return str(self.pk)
+	
+    def delete(self, *args, **kwargs):
+        storage, path = self.featured_image.storage, self.featured_image.path
+        super(Blog, self).delete(*args, **kwargs)
+        storage.delete(path)
 
 ```
 15. Django forms
@@ -384,6 +392,12 @@ from web.models import Blog
 class BlogAdmin(admin.ModelAdmin):
 	prepopulated_fields = {'slug': ('title',)}
 	list_display = ('title','author')
+	list_filter = ('title','author')
+	ordering = None
+	exclude = None
+	readonly_fields = ()
+	autocomplete_fields = ()
+	search_fields = ('name', 'description', 'keyword', )
 
 admin.site.register(Blog,BlogAdmin)
 ```
