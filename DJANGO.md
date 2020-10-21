@@ -666,11 +666,14 @@ def generate_form_errors(args,formset=False):
     {% csrf_token %}
 
     {% for field in form %}
-        <div class="form-group">
-            <label for="{{field.id_for_label}}">{{field.label}}</label>
-            {{field}}
-        </div>
-    {% endfor %}
+    <div class="fieldWrapper">
+        {{ field.errors }}
+        {{ field.label_tag }} {{ field }}
+        {% if field.help_text %}
+        <p class="help">{{ field.help_text|safe }}</p>
+        {% endif %}
+    </div>
+{% endfor %}
 
     <button type="submit">Submit</button>
 
