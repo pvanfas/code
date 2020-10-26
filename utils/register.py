@@ -1,4 +1,11 @@
+from __future__ import unicode_literals
+from django.shortcuts import render, get_object_or_404, redirect
+from django.http import HttpResponse, HttpResponseNotFound
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login
 import requests
+import json
 
 
 def send_sms(number,message):
