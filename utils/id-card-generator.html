@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Card Generator</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <style>
+            @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;700&display=swap");
+            * {
+                box-sizing: border-box;
+                font-family: "Roboto", sans-serif;
+                font-weight: 400;
+            }
+            img {
+                width: auto;
+                max-width: 100%;
+                max-height: 500px;
+                display: block;
+                margin: 1em auto;
+            }
+            .fullwidth {
+                width: 100%;
+                max-width: 300px;
+                max-height: 800px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="box">
+            <div id="canvasWrapper"></div>
+
+            <div class="box">
+                <input id="trueSize" type="checkbox" />
+                <label for="trueSize"><span>Show original size</span></label>
+                <p>If the button doesn't work, right-click the image and save it</p>
+                <button id="export">Export!</button>
+            </div>
+        </div>
+
+        <script>
+            (function (window, document) {
+                /**
+                 * @arg {string} [str=Hello World] - text to be drawn
+                 * @arg {number} [x=0]             - top left x coordinate of the text
+                 * @arg {number} [y=textSize]      - top left y coordinate of the text
+                 * @arg {number} [w=canvasWidth]   - maximum width of drawn text
+                 * @arg {number} [lh=1]            - line height
+                 * @arg {number} [method=fill]     - text drawing method, if 'none', text will not be rendered
+                 */
+
+                CanvasRenderingContext2D.prototype.drawBreakingText = function (str, x, y, w, lh, method) {
+                    // local variables and defaults
+                    var textSize = parseInt(this.font.replace(/\D/gi, ""));
+                    var textParts = [];
+                    var textPartsNo = 0;
+                    var words = [];
+                    var currLine = "";
+                    var testLine = "";
+                    str = str || "";
+                    x = x || 0;
+                    y = y || 0;
+                    w = w || this.canvas.width;
+                    lh = lh || 1;
+                    method = method || "none";
+
+                    // manual linebreaks
+                    textParts = str.split("\n");
+                    textPartsNo = textParts.length;
+
+                    // split the words of the parts
+                    for (var i = 0; i < textParts.length; i++) {
+                        words[i] = textParts[i].split(" ");
+                    }
+
+                    // now that we have extracted the words
+                    // we reset the textParts
+                    textParts = [];
+
+                    // calculate recommended line breaks
+                    // split between the words
+                    for (var i = 0; i < textPartsNo; i++) {
+                        // clear the testline for the next manually broken line
+                        currLine = "";
+
+                        for (var j = 0; j < words[i].length; j++) {
+                            testLine = currLine + words[i][j] + " ";
+
+                            // check if the testLine is of good width
+                            if (this.measureText(testLine).width > w && j > 0) {
+                                textParts.push(currLine);
+                                currLine = words[i][j] + " ";
+                            } else {
+                                currLine = testLine;
+                            }
+                        }
+                        // replace is to remove trailing whitespace
+                        textParts.push(currLine);
+                    }
+
+                    // render the text on the canvas
+                    for (var i = 0; i < textParts.length; i++) {
+                        if (method === "fill") {
+                            this.fillText(textParts[i].replace(/((\s*\S+)*)\s*/, "$1"), x, y + textSize * lh * i);
+                        } else if (method === "stroke") {
+                            this.strokeText(textParts[i].replace(/((\s*\S+)*)\s*/, "$1"), x, y + textSize * lh * i);
+                        } else if (method === "none") {
+                            return {
+                                textParts: textParts,
+                                textHeight: textSize * lh * textParts.length,
+                            };
+                        } else {
+                            console.warn("drawBreakingText: " + method + "Text() does not exist");
+                            return false;
+                        }
+                    }
+
+                    return {
+                        textParts: textParts,
+                        textHeight: textSize * lh * textParts.length,
+                    };
+                };
+            })(window, document);
+
+            var canvas = document.createElement("canvas");
+            var canvasWrapper = document.getElementById("canvasWrapper");
+            canvasWrapper.appendChild(canvas);
+            canvas.width = 500;
+            canvas.height = 500;
+            var ctx = canvas.getContext("2d");
+            var padding = 15;
+            var activeUserName = "shahbas ahmed pe";
+            var activeUserZone = "cherukavu";
+            var activeUserImage = "sha.png";
+            var textSizeTop = 8;
+            var textSizeBottom = 10;
+            var image = document.createElement("img");
+            var userImage = document.createElement("img");
+
+            image.onload = function (ev) {
+                // delete and recreate canvas do untaint it
+                canvas.outerHTML = "";
+                canvas = document.createElement("canvas");
+                canvasWrapper.appendChild(canvas);
+                ctx = canvas.getContext("2d");
+                document.getElementById("trueSize").click();
+                document.getElementById("trueSize").click();
+                draw();
+            };
+            document.getElementById("trueSize").onchange = function (ev) {
+                if (document.getElementById("trueSize").checked) {
+                    canvas.classList.remove("fullwidth");
+                } else {
+                    canvas.classList.add("fullwidth");
+                }
+            };
+            document.getElementById("export").onclick = function () {
+                var img = canvas.toDataURL("image/png");
+                var link = document.createElement("a");
+                link.download = "Delegates card.png";
+                link.href = img;
+                link.click();
+
+                var win = window.open("", "_blank");
+                win.document.write('<img style="box-shadow: 0 0 1em 0 dimgrey;" src="' + img + '"/>');
+                win.document.write('<h1 style="font-family: Roboto; font-weight: 300">Right Click > Save As<h1>');
+                win.document.body.style.padding = "1em";
+            };
+
+            function style(font, size, align, base) {
+                ctx.font = size + "px " + font;
+                ctx.textAlign = align;
+                ctx.textBaseline = base;
+            }
+            function roundedImage(x, y, width, height, radius) {
+                ctx.beginPath();
+                ctx.moveTo(x + radius, y);
+                ctx.lineTo(x + width - radius, y);
+                ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+                ctx.lineTo(x + width, y + height - radius);
+                ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+                ctx.lineTo(x + radius, y + height);
+                ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+                ctx.lineTo(x, y + radius);
+                ctx.quadraticCurveTo(x, y, x + radius, y);
+                ctx.closePath();
+            }
+
+            function draw() {
+                // uppercase the text
+                var top = activeUserName.toUpperCase();
+                var bottom = activeUserZone.toUpperCase();
+
+                // set appropriate canvas size
+                canvas.width = image.width;
+                canvas.height = image.height;
+
+                // draw the image
+                ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+                var img = new Image();
+                img.onload = function () {
+                    roundedImage(244, 203, 253, 268, 130);
+                    ctx.clip();
+                    ctx.drawImage(img, 244, 203, 253, 268);
+                };
+                img.src = "female.png";
+                // img.src = "male.png";
+
+                // styles
+                ctx.fillStyle = "#000";
+                ctx.strokeStyle = "#000";
+                ctx.lineWidth = canvas.width * 0.004;
+
+                var _textSizeTop = (textSizeTop / 160) * canvas.width;
+                var _textSizeBottom = (textSizeBottom / 240) * canvas.width;
+
+                // draw top text
+                style("Roboto", _textSizeTop, "center", "bottom");
+                ctx.drawBreakingText(top, canvas.width / 2 + 60, 530, null, 1, "fill");
+
+                // draw bottom text
+                style("Roboto", _textSizeBottom, "center", "top");
+                var height = ctx.drawBreakingText(bottom, 0, 0, null, 1, "none").textHeight;
+                // console.log(ctx.drawBreakingText(bottom, 0, 0, null, 1, "none"));
+                ctx.drawBreakingText(bottom, canvas.width / 2 + 50, 535, null, 1, "fill");
+            }
+            image.src = "delegate.jpg";
+        </script>
+    </body>
+</html>
