@@ -22,7 +22,7 @@ def send_sms(number,message):
 
 def register(request):
     if request.method == "POST":
-        reg_form = RegistrationForm(request.POST)
+        reg_form = RegistrationForm(request.POST,request.FILES)
         if reg_form.is_valid():
             if User.objects.filter(username=reg_form.cleaned_data.get('phone_number')).exists():
                 response_data = {
@@ -42,7 +42,7 @@ def register(request):
                     'phone_number'), password=reg_form.cleaned_data.get('password'))
                 if user is not None:
                     login(request, user)
-                message = "Thank you for registering for MSM HIGHSEC 2020.\nYour Login credentials are:\nUsername:{}\nPassword:{}\nContact: 8129206576\nTeam highsec 2k20".format(
+                message = "Thank you for registering for MSM HIGHSEC 2020.\nYour Login credentials are:\nUsername:{}\nPassword:{}\n\nContact: 8129206576\nTeam highsec 2k20".format(
                     reg_form.cleaned_data.get('phone_number'), reg_form.cleaned_data.get('password'))
                 send_sms(reg_form.cleaned_data.get('phone_number'), message)
 
@@ -81,5 +81,4 @@ def resend_password(request):
         return HttpResponse(json.dumps(response_data), content_type='application/javascript')
     else:
         context = {}
-        return render(request, 'registration/resend_password.html', context)
-
+        return render(request, 'registration/password_reset_form.html', context)
