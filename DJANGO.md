@@ -1057,6 +1057,7 @@ touch main_template_tags.py __init__.py
 
 # on main_template_tags.py
 ```
+```
 from django import template
 
 register = template.Library()
@@ -1068,6 +1069,7 @@ def times(number):
 @register.filter
 def to_fixed_to(value):
 	return "{:10.2f}".format(value)
+```
 ```
 # on required template
 {% load main_template_tags %}
