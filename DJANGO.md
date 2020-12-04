@@ -31,7 +31,7 @@ INSTALLED_APPS = [
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -122,7 +122,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 STATIC_URL = '/static/'
 STATIC_FILE_ROOT = BASE_DIR / 'static'
 STATICFILES_DIRS = ((BASE_DIR / 'static'),)
-STATIC_ROOT = BASE_DIR / 'static/assets'
+STATIC_ROOT = BASE_DIR / 'assets'
 
 ```
 ```
@@ -253,10 +253,11 @@ index.html
 ```
     {% extends 'web/base.html' %}
     {% load static %}
+    {% block title %}Home{% endblock %}
 
     {% block content %}
     -------- content here --------
-    {% endblock%}
+    {% endblock %}
 ```
 11. Static file rendering
 ```
@@ -355,7 +356,7 @@ class CategoryForm(forms.ModelForm):
 
 ```
 ```
-from django.forms.widgets import TextInput, Textarea, EmailInput, CheckboxInput, Select, NumberInput, RadioSelect, FileInput, NumberInput
+from django.forms.widgets import TextInput, Textarea, EmailInput, CheckboxInput, Select, NumberInput, RadioSelect, FileInput
 
 
 class BlogForm(forms.ModelForm):
@@ -473,14 +474,16 @@ def registration(request):
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.15.3/dist/sweetalert2.all.min.js"></script>
 ```
 ```
+
 $(document).on('submit', 'form.ajax', function(e) {
     e.preventDefault();
     var $this = $(this);
     var data = new FormData(this);
     var action_url = $this.attr('action');
-    var isReset = $this.hasClass('reset');
-    var isReload = $this.hasClass('reload');
-    var isRedirect = $this.hasClass('redirect');
+    var reset = $this.hasClass('reset');
+    var reload = $this.hasClass('reload');
+	var redirect = $this.hasClass('redirect');
+    var redirect_url = $this.attr('data-redirect');
 
     $.ajax({
         url: action_url,
@@ -497,8 +500,6 @@ $(document).on('submit', 'form.ajax', function(e) {
             var title = data.title;
             var message = data.message;
             var pk = data.pk;
-            var redirect = data.redirect;
-            var redirect_url = data.redirect_url;
 
             if (status == "true") {
                 if (title) {
@@ -512,13 +513,13 @@ $(document).on('submit', 'form.ajax', function(e) {
                     text: message,
                     icon: 'success',
                 }).then(function() {
-                    if (isRedirect == 'true') {
+                    if (redirect) {
                         window.location.href = redirect_url;
                     }
-                    if (isReload == 'true') {
+                    if (reload) {
                         window.location.reload();
                     }
-                    if (isReset == 'true') {
+                    if (reset) {
                         window.location.reset();
                     }
                 });
@@ -548,6 +549,7 @@ $(document).on('submit', 'form.ajax', function(e) {
         }
     });
 });
+
 
 
 $(document).on('click', '.action-button', function(e) {
@@ -710,6 +712,7 @@ $(document).on('click', '.instant-action-button', function(e) {
         }
     });
 });
+
 
 $(document).on('click', '.export-button', function(e) {
     // random data
@@ -915,6 +918,7 @@ REGISTRATION_OPEN = False
 
 
 path('app/accounts', include('registration.backends.default.urls')),
+path('app/accounts', include('registration.backends.simple.urls')),
 
 
 {% url 'auth_password_change' %}
@@ -930,25 +934,11 @@ import datetime
 
 def main_context(request):
     today = datetime.date.today()
-    is_superuser = False
-    if "set_user_timezone" in request.session:
-        user_session_ok = True
-        user_time_zone = request.session['set_user_timezone']
-    else:
-        user_session_ok = False
-        user_time_zone = "Asia/Kolkata"
-
     current_role = "user"
-
-    active_parent = request.GET.get('active_parent')
-    active = request.GET.get('active')
 
     return {
         "confirm_delete_message" : "Are you sure want to delete this item. All associated data may be removed.",
         'domain' : request.META['HTTP_HOST'],
-        "is_superuser" : is_superuser,
-        "active_parent" : active_parent,
-        "active_menu" : active,
     }
 ```
 ```
