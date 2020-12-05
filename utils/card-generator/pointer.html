@@ -1,0 +1,69 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+	<style>
+		div.info {
+			position: fixed;
+			top: 0px;
+			right: 10px;
+			width: 300px;
+			background: #0072BB;
+			color: #fff;
+			padding: 20px;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="form-group">
+		<input type="file" id="inputImage" />
+	</div>
+
+	<canvas id="canvas" style="margin:12px;"></canvas>
+
+	<div class="info" id="results">Move mouse over image to show mouse location</div>
+
+	<script>
+		var URL = window.URL;
+		var cvs = document.getElementById('canvas');
+		var ctx = cvs.getContext('2d');
+		var res = document.getElementById('results');
+
+		cvs.addEventListener('mousemove', mousePos, false);
+
+		window.onload = function() {
+			var inputImage = document.getElementById('inputImage');
+			inputImage.addEventListener('change', handleImageFiles, false);
+		}
+
+		function mousePos(evt) {
+			var rect = cvs.getBoundingClientRect();
+			var x = parseInt(evt.clientX - rect.left);
+			var y = parseInt(evt.clientY - rect.top);
+			results.innerHTML = '<table style="width:100%;table-layout:fixed"><td>X: ' +
+				x + '</td><td>Y: ' + y + '</td></table>';
+			return {
+				x,
+				y
+			};
+		}
+
+		function handleImageFiles(e) {
+			var url = URL.createObjectURL(e.target.files[0]);
+			var img = new Image();
+			img.onload = function() {
+				cvs.width = img.width;
+				cvs.height = img.height;
+				ctx.drawImage(img, 0, 0);
+			}
+			img.src = url;
+		}
+	</script>
+</body>
+
+</html>
