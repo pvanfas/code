@@ -109,7 +109,6 @@ DATABASES = {
 
 ```
 ```
-DATE_INPUT_FORMATS = ['%d/%m/%Y',]
 
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'Asia/Kolkata'
@@ -199,7 +198,6 @@ def function(request):
             print (form.errors)
             response_data = {
                 "status" : "false",
-                "stable" : "true",
                 "title" : "Form validation error",
             }
 
@@ -354,10 +352,6 @@ class CategoryForm(forms.ModelForm):
         exclude = ['creator']
         widgets = {}
 
-```
-```
-from django.forms.widgets import TextInput, Textarea, EmailInput, CheckboxInput, Select, NumberInput, RadioSelect, FileInput
-
 
 class BlogForm(forms.ModelForm):
     class Meta:
@@ -452,11 +446,9 @@ def registration(request):
                 "message" : "Registration successfully updated"
             }
         else:
-            message = generate_form_errors(form)
-
+            print (form.errors)
             response_data = {
                 "status" : "false",
-                "stable" : "true",
                 "title" : "Form validation error",
                 "message" : message
             }
@@ -797,7 +789,7 @@ def generate_form_errors(args,formset=False):
         {{ field.label_tag }} {{ field }}
         {% if field.help_text %}
         <p class="help">{{ field.help_text|safe }}</p>
-        {% endif %}
+        {% endfor %}
     </div>
 {% endfor %}
 
