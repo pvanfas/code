@@ -544,94 +544,74 @@ $(document).on('submit', 'form.ajax', function(e) {
 
 
 
-$(document).on('click', '.action-button', function(e) {
+$(document).on('click', '.instant-action-button', function(e) {
     e.preventDefault();
     $this = $(this);
     var text = $this.attr('data-text');
-    var id = $this.attr('data-id');
-    var url = $this.attr('href');
+    var type = "success";
+    var key = $this.attr('data-key');
+    var url = $this.attr('data-url');
+    var reload = $this.hasClass('reload');
+	var redirect = $this.hasClass('redirect');
     var title = $this.attr('data-title');
-    if (!title) {
-        title = "Are you sure?";
-    }
+    var redirect_url = $this.attr('data-redirect');
 
-    Swal.fire({
-        title: title,
-        text: text,
-        icon: "warning",
-        showCancelButton: true
-    }).then(result => {
-        if (result.value) {
-            window.setTimeout(function() {
-                $.ajax({
-                    type: 'GET',
-                    url: url,
-                    dataType: 'json',
-                    data: {
-                        pk: id
-                    },
+    $.ajax({
+        type: 'GET',
+        url: url,
+        dataType: 'json',
+        data: { pk: key },
 
-                    success: function(data) {
-                        var message = data.message;
-                        var status = data.status;
-                        var reload = data.reload;
-                        var redirect = data.redirect;
-                        var redirect_url = data.redirect_url;
-                        var title = data.title;
+        success: function(data) {
+            var status = data.status;
+            var message = data.message;
 
-                        if (status == "true") {
-                            if (title) {
-                                title = title;
-                            } else {
-                                title = "Success";
-                            }
+            if (status == "true") {
+                if (title) {
+                    title = title;
+                } else {
+                    title = "Success";
+                }
 
-                            Swal.fire({
-                                title: title,
-                                text: message,
-                                icon: 'success',
-                            }).then(function() {
-                                if (isRedirect == 'true') {
-                                    window.location.href = redirect_url;
-                                }
-                                if (isReload == 'true') {
-                                    window.location.reload();
-                                }
-                                if (isReset == 'true') {
-                                    window.location.reset();
-                                }
-                            });
-
-                        } else {
-                            if (title) {
-                                title = title;
-                            } else {
-                                title = "An Error Occurred";
-                            }
-                            Swal.fire({
-                                title: title,
-                                text: message,
-                                icon: "error"
-                            });
-
-                        }
-                    },
-                    error: function(data) {
-                        var title = "An error occurred";
-                        var message = "An error occurred. Please try again later.";
-                        Swal.fire({
-                            title: title,
-                            text: message,
-                            icon: "error"
-                        });
+                Swal.fire({
+                    title: title,
+                    text: message,
+                    icon: "success"
+                }).then(function() {
+                    if (redirect) {
+                        window.location.href = redirect_url;
+                    }
+                    if (reload) {
+                        window.location.reload();
                     }
                 });
-            }, 100);
-        } else {
-            console.log("action cancelled");
+
+            } else {
+                if (title) {
+                    title = title;
+                } else {
+                    title = "An Error Occurred";
+                }
+                Swal.fire({
+                    title: title,
+                    text: message,
+                    icon: "error"
+                });
+
+            }
+        },
+        error: function(data) {
+            var title = "An error occurred";
+            var message = "An error occurred. Please try again later.";
+            Swal.fire({
+                title: title,
+                text: message,
+                icon: "error"
+            });
         }
     });
 });
+
 
 
 
