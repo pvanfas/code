@@ -14,15 +14,15 @@ pip install mysqlclient
 
 2. Go to Dashboard
 
-3. Create a Web app with Manual Config
+3. Create a Web app with ```Manual Config```
 
 4. Choose Manual Configuration
 
-5. Enter the name of your virtualenv in the Virtualenv section on the web tab (venv)
+5. Enter the name of your virtualenv in the Virtualenv section on the web tab (```venv```)
 
 6. Open WSGI file, Delete everything except the Django section and then uncomment that section.
 
-7. Replace mysite with projectname
+7. Replace ```mysite``` with ```projectname```
 
 8. Create and update database settings
 
@@ -60,7 +60,16 @@ DATABASES = {
 	}
 }
 
+```
+Go to the web tab, edit static path
 
+```
+```
+URL | Directory |
+--- | --- |
+/static | /home/project/project/static |
+/media | /home/project/project/media |
+```
 ```
 Go to the Consoles tab, start a bash console, navigate to manage.py
 
