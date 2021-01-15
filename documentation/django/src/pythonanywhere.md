@@ -63,14 +63,12 @@ DATABASES = {
 ```
 Go to the web tab, edit static path
 
-```
-```
+
 URL | Directory |
 --- | --- |
 /static | /home/project/project/static |
 /media | /home/project/project/media |
-```
-```
+
 Go to the Consoles tab, start a bash console, navigate to manage.py
 
 ```
