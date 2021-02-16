@@ -1,3 +1,5 @@
+
+```
 # models.py
 from django.db import models
 from main.models import BaseModel
@@ -139,4 +141,4 @@ for model_name, model in app.models.items():
     <button type="submit" class="mb-4 btn btn-primary">Confirm</button>
 </form>
 
-
+```
