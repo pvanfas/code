@@ -28,16 +28,3 @@ from versatileimagefield.fields import VersatileImageField
 # Change image src
     src="{{instance.photo.crop.200x200}}"
     src="{{instance.photo.thumbnail.600x600}}"
-
-
-
-
-
-
-
-
-
-
-
-
-
