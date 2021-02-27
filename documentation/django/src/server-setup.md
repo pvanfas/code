@@ -33,3 +33,11 @@ sudo a2enmod ssl
 sudo apt install postgresql postgresql-contrib
 pip install django pillow django-registration-redux psycopg2-binary django-versatileimagefield django-crispy-forms
 ```
+### Add ServerName
+```
+sudo nano /etc/httpd/conf/httpd.conf
+```
+Add the ServerName 127.0.0.1 line to the end of the file:
+```
+ServerName 127.0.0.1
+```
