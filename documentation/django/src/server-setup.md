@@ -26,7 +26,8 @@ sudo pip3 install virtualenv
 sudo -H pip3 install --upgrade pip
 sudo -H pip3 install virtualenv
 sudo apt-get update
-sudo apt-get install python3-certbot-apache
+
+sudo apt-get install apache2 python3-certbot-apache
 sudo apt-get install libapache2-mod-wsgi-py3
 sudo a2enmod rewrite
 sudo a2enmod ssl
