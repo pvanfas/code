@@ -28,15 +28,16 @@ sudo -H pip3 install virtualenv
 sudo apt-get update
 
 sudo apt-get install apache2 python3-certbot-apache
-sudo apt-get install libapache2-mod-wsgi-py3
+sudo apt-get install python3-pip apache2 libapache2-mod-wsgi-py3
 sudo a2enmod rewrite
+sudo a2enmod wsgi
 sudo a2enmod ssl
 sudo apt install postgresql postgresql-contrib
 pip install django pillow django-registration-redux psycopg2-binary django-versatileimagefield django-crispy-forms
 ```
 ### Add ServerName
 ```
-sudo nano /etc/httpd/conf/httpd.conf
+sudo nano /etc/apache2/apache2.conf
 ```
 Add the ServerName 127.0.0.1 line to the end of the file:
 ```
