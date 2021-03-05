@@ -6,6 +6,17 @@ systemctl reload apache2
 ```
 ```
 <VirtualHost *:80>
+        ServerName domain.com
+        ServerAlias www.domain.com
+        Redirect permanent / https://domain.com/
+
+        RewriteEngine on
+        RewriteCond %{SERVER_NAME} =domain.com [OR]
+        RewriteCond %{SERVER_NAME} =www.domain.com
+        RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]
+</VirtualHost>
+
+<VirtualHost *:443>
         ServerAdmin admin@domain.com
         ServerName domain.com
         ServerAlias www.domain.com
@@ -31,7 +42,7 @@ systemctl reload apache2
         </Directory>
 
         SSLEngine off
-        
+
         WSGIDaemonProcess    domain python-path=/home/srv/domain/domain python-home=/home/srv/domain/venv
         WSGIProcessGroup domain
         WSGIScriptAlias / /home/srv/domain/domain/domain/wsgi.py
