@@ -861,23 +861,9 @@ If used with a numeric integer argument,  `floatformat`  rounds a number to that
 
 | `value` | Template | Output |
 |--|--|--|
-
- | `34.23234` | 
-`{{  value|floatformat:3  }}`
-
-`34.232`
-
-`34.00000`
-
-`{{  value|floatformat:3  }}`
-
-`34.000`
-
-`34.26000`
-
-`{{  value|floatformat:3  }}`
-
-`34.260`
+| `34.23234` | `{{  value|floatformat:3  }}` | `34.232` | 
+ | `34.00000` | `{{  value|floatformat:3  }}` | `34.000` | 
+ | `34.26000` | `{{  value|floatformat:3  }}` | `34.260` | 
 
 Particularly useful is passing 0 (zero) as the argument which will round the float to the nearest integer.
 
@@ -889,29 +875,12 @@ Particularly useful is passing 0 (zero) as the argument which will round the flo
 
 If the argument passed to  `floatformat`  is negative, it will round a number to that many decimal places – but only if there’s a decimal part to be displayed. For example:
 
-`value`
 
-Template
-
-Output
-
-`34.23234`
-
-`{{  value|floatformat:"-3"  }}`
-
-`34.232`
-
-`34.00000`
-
-`{{  value|floatformat:"-3"  }}`
-
-`34`
-
-`34.26000`
-
-`{{  value|floatformat:"-3"  }}`
-
-`34.260`
+|`value`| Template | Output |
+|--|--|--|
+| `34.23234` | `{{  value|floatformat:"-3"  }}` | `34.232` | 
+| `34.00000` | `{{  value|floatformat:"-3"  }}` | `34` | 
+| `34.26000` | `{{  value|floatformat:"-3"  }}` | `34.260` | 
 
 Using  `floatformat`  with no argument is equivalent to using  `floatformat`  with an argument of  `-1`.
 
@@ -1456,5 +1425,5 @@ If  `value`  is  `Joel  is  a  slug`, the output would be:
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTUwMTU4NDA3NiwxMzQ2NjQxNjY4XX0=
+eyJoaXN0b3J5IjpbLTE0NzExNzkzNDIsMTM0NjY0MTY2OF19
 -->
