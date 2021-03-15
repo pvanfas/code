@@ -1,31 +1,9 @@
-<!DOCTYPE html>
-<html>
+---
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>filters</title>
-  <link rel="stylesheet" href="https://stackedit.io/style.css" />
-</head>
 
-<body class="stackedit">
-  <div class="stackedit__left">
-    <div class="stackedit__toc">
-      
-<ul>
-<li><a href="#built-in-template-tags-and-filters">Built-in template tags and filters</a>
-<ul>
-<li><a href="#built-in-tag-reference">Built-in tag reference</a></li>
-<li><a href="#built-in-filter-reference">Built-in filter reference</a></li>
-</ul>
-</li>
-</ul>
+---
 
-    </div>
-  </div>
-  <div class="stackedit__right">
-    <div class="stackedit__html">
-      <h1 id="built-in-template-tags-and-filters">Built-in template tags and filters</h1>
+<h1 id="built-in-template-tags-and-filters">Built-in template tags and filters</h1>
 <p>This document describes Django’s built-in template tags and filters. It is recommended that you use the  <a href="https://docs.djangoproject.com/en/3.1/ref/contrib/admin/admindocs/">automatic documentation</a>, if available, as this will also include documentation for any custom tags or filters installed.</p>
 <h2 id="built-in-tag-reference">Built-in tag reference</h2>
 <h3 id="autoescape"><code>autoescape</code></h3>
@@ -1134,8 +1112,3 @@ is a
 slug
 </code></pre>
 
-    </div>
-  </div>
-</body>
-
-</html>
