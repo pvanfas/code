@@ -17,6 +17,8 @@ apt-get update
 apt-get install build-essential python-dev python-setuptools -y
 apt-get install python3-pip python3-dev python3-venv libpq-dev postgresql postgresql-contrib -y
 apt-get install libncursesw5-dev libgdbm-dev libc6-dev zlib1g-dev libsqlite3-dev tk-dev libssl-dev openssl libffi-dev -y
+apt install poppler-utils
+apt-get install python3-pip apache2 libapache2-mod-wsgi-py3
 apt install libreadline-dev libdb4o-cil-dev libpcap-dev phppgadmin -y
 apt-get install python-pip python-smbus libtk8.5 -y
 
