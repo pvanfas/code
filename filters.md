@@ -850,43 +850,19 @@ If  `value`  is the list  `['a',  'b',  'c']`, the output will be  `'a'`.
 ### `floatformat`
 
 When used without an argument, rounds a floating-point number to one decimal place – but only if there’s a decimal part to be displayed. For example:
-| `value` | Template ||
+| `value` | Template | Output |
 |--|--|--|
-|  |  ||
-
-
-
-
-
-
-`34.23234`
-
-`{{  value|floatformat  }}`
-
-`34.2`
-
-`34.00000`
-
-`{{  value|floatformat  }}`
-
-`34`
-
-`34.26000`
-
-`{{  value|floatformat  }}`
-
-`34.3`
+| `34.23234` | `{{  value|floatformat  }}` | `34.2` |
+| `34.00000` | `{{  value|floatformat  }}` | `34` | 
+| `34.26000` | `{{  value|floatformat  }}` | `34.3` | 
 
 If used with a numeric integer argument,  `floatformat`  rounds a number to that many decimal places. For example:
 
-`value`
 
-Template
+| `value` | Template | Output |
+|--|--|--|
 
-Output
-
-`34.23234`
-
+ | `34.23234` | 
 `{{  value|floatformat:3  }}`
 
 `34.232`
@@ -1480,5 +1456,5 @@ If  `value`  is  `Joel  is  a  slug`, the output would be:
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTg2MjA0OTI1NSwxMzQ2NjQxNjY4XX0=
+eyJoaXN0b3J5IjpbLTUwMTU4NDA3NiwxMzQ2NjQxNjY4XX0=
 -->
