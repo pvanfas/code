@@ -1,20 +1,6 @@
----
-
-
----
-
-<hr>
-<hr>
-  <title>filters</title>
-
-
-
-  
+ 
   
   <title>filters</title>
-  
-
-
   <div class="stackedit__left">
     <div class="stackedit__toc">
 </div></div>      
