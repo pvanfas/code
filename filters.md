@@ -1,21 +1,4 @@
- 
-  
-  <title>filters</title>
-  <div class="stackedit__left">
-    <div class="stackedit__toc">
-</div></div>      
-<ul>
-<li><a href="#built-in-template-tags-and-filters">Built-in template tags and filters</a>
-<ul>
-<li><a href="#built-in-tag-reference">Built-in tag reference</a></li>
-<li><a href="#built-in-filter-reference">Built-in filter reference</a></li>
-</ul>
-</li>
-</ul>
-<pre><code>&lt;/div&gt;
-</code></pre>
-<pre><code>&lt;/div&gt;
-</code></pre>
+
   
   <div class="stackedit__right">
     <div class="stackedit__html">
