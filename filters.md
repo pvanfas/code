@@ -1,6 +1,43 @@
+<!DOCTYPE html>
+<html>
 
-  
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>filters</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__left">
+    <div class="stackedit__toc">
+      
+<ul>
+<li><a href="#built-in-template-tags-and-filters">Built-in template tags and filters</a>
+<ul>
+<li><a href="#built-in-tag-reference">Built-in tag reference</a></li>
+<li><a href="#built-in-filter-reference">Built-in filter reference</a></li>
+</ul>
+</li>
+<li><a href="#built-in-template-tags-and-filters">Built-in template tags and filters</a>
+<ul>
+<li><a href="#built-in-tag-reference">Built-in tag reference</a></li>
+<li><a href="#built-in-filter-reference">Built-in filter reference</a></li>
+</ul>
+</li>
+<li><a href="#built-in-template-tags-and-filters">Built-in template tags and filters</a>
+<ul>
+<li><a href="#built-in-tag-reference">Built-in tag reference</a></li>
+<li><a href="#built-in-filter-reference">Built-in filter reference</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+  </div>
   <div class="stackedit__right">
+    <div class="stackedit__html">
+        <div class="stackedit__right">
     <div class="stackedit__html">
       <h1 id="built-in-template-tags-and-filters">Built-in template tags and filters</h1>
 <p>This document describes Django’s built-in template tags and filters. It is recommended that you use the  <a href="https://docs.djangoproject.com/en/3.1/ref/contrib/admin/admindocs/">automatic documentation</a>, if available, as this will also include documentation for any custom tags or filters installed.</p>
@@ -2178,10 +2215,8 @@ slug
 </code></pre>
 <pre><code>&lt;/div&gt;
 </code></pre>
-  
-
-# Built-in template tags and filters
-This document describes Django’s built-in template tags and filters. It is recommended that you use the  [automatic documentation](https://docs.djangoproject.com/en/3.1/ref/contrib/admin/admindocs/), if available, as this will also include documentation for any custom tags or filters installed.
+<h1 id="built-in-template-tags-and-filters">Built-in template tags and filters</h1>
+<p>This document describes Django’s built-in template tags and filters. It is recommended that you use the  <a href="https://docs.djangoproject.com/en/3.1/ref/contrib/admin/admindocs/">automatic documentation</a>, if available, as this will also include documentation for any custom tags or filters installed.</p>
 <h2 id="built-in-tag-reference">Built-in tag reference</h2>
 <h3 id="autoescape"><code>autoescape</code></h3>
 <p>Controls the current auto-escaping behavior. This tag takes either  <code>on</code>  or  <code>off</code>  as an argument and that determines whether auto-escaping is in effect inside the block. The block is closed with an  <code>endautoescape</code>  ending tag.</p>
@@ -2332,7 +2367,6 @@ This document describes Django’s built-in template tags and filters. It is rec
 </code></pre>
 <p>Keep in mind that for the dot operator, dictionary key lookup takes precedence over method lookup. Therefore if the  <code>data</code>  dictionary contains a key named  <code>'items'</code>,  <code>data.items</code>  will return  <code>data['items']</code>  instead of  <code>data.items()</code>. Avoid adding keys that are named like dictionary methods if you want to use those methods in a template (<code>items</code>,  <code>values</code>,  <code>keys</code>, etc.). Read more about the lookup order of the dot operator in the  <a href="https://docs.djangoproject.com/en/3.1/ref/templates/language/#template-variables">documentation of template variables</a>.</p>
 <p>The for loop sets a number of variables available within the loop:</p>
-
 <table>
 <thead>
 <tr>
@@ -2399,23 +2433,19 @@ This document describes Django’s built-in template tags and filters. It is rec
 <pre><code>{% if athlete_list and coach_list %}
     Both athletes and coaches are available.
 {% endif %}
-
-{% if not athlete_list %}
-    There are no athletes.
-{% endif %}
-
-{% if athlete_list or coach_list %}
-    There are some athletes or some coaches.
-{% endif %}
-
-{% if not athlete_list or coach_list %}
-    There are no athletes or there are some coaches.
-{% endif %}
-
-{% if athlete_list and not coach_list %}
-    There are some athletes and absolutely no coaches.
-{% endif %}
-</code></pre>
+</code></pre><p>{% if not athlete_list %}<br>
+There are no athletes.<br>
+{% endif %}</p>
+<p>{% if athlete_list or coach_list %}<br>
+There are some athletes or some coaches.<br>
+{% endif %}</p>
+<p>{% if not athlete_list or coach_list %}<br>
+There are no athletes or there are some coaches.<br>
+{% endif %}</p>
+<p>{% if athlete_list and not coach_list %}<br>
+There are some athletes and absolutely no coaches.<br>
+{% endif %}<br>
+</p>
 <p>Use of both  <code>and</code>  and  <code>or</code>  clauses within the same tag is allowed, with  <code>and</code>  having higher precedence than  <code>or</code>  e.g.:</p>
 <pre><code>{% if athlete_list and coach_list or cheerleader_list %}
 </code></pre>
@@ -2466,17 +2496,15 @@ This document describes Django’s built-in template tags and filters. It is rec
 <pre><code>{% if "bc" in "abcdef" %}
   This appears since "bc" is a substring of "abcdef"
 {% endif %}
-
-{% if "hello" in greetings %}
-  If greetings is a list or set, one element of which is the string
-  "hello", this will appear.
-{% endif %}
-
-{% if user in users %}
-  If users is a QuerySet, this will appear if user is an
-  instance that belongs to the QuerySet.
-{% endif %}
-</code></pre>
+</code></pre><p>{% if “hello” in greetings %}<br>
+If greetings is a list or set, one element of which is the string<br>
+“hello”, this will appear.<br>
+{% endif %}</p>
+<p>{% if user in users %}<br>
+If users is a QuerySet, this will appear if user is an<br>
+instance that belongs to the QuerySet.<br>
+{% endif %}<br>
+</p>
 <h5 id="not-in--operator"><code>not in</code>  operator</h5>
 <p>Not contained within. This is the negation of the  <code>in</code>  operator.</p>
 <h5 id="is--operator"><code>is</code>  operator</h5>
@@ -2484,22 +2512,20 @@ This document describes Django’s built-in template tags and filters. It is rec
 <pre><code>{% if somevar is True %}
   This appears if and only if somevar is True.
 {% endif %}
-
-{% if somevar is None %}
-  This appears if somevar is None, or if somevar is not found in the context.
-{% endif %}
-</code></pre>
+</code></pre><p>{% if somevar is None %}<br>
+This appears if somevar is None, or if somevar is not found in the context.<br>
+{% endif %}<br>
+</p>
 <h5 id="is-not--operator"><code>is not</code>  operator</h5>
 <p>Negated object identity. Tests if two values are not the same object. This is the negation of the  <code>is</code>  operator. Example:</p>
 <pre><code>{% if somevar is not True %}
   This appears if somevar is not True, or if somevar is not found in the
   context.
 {% endif %}
-
-{% if somevar is not None %}
-  This appears if and only if somevar is not None.
-{% endif %}
-</code></pre>
+</code></pre><p>{% if somevar is not None %}<br>
+This appears if and only if somevar is not None.<br>
+{% endif %}<br>
+</p>
 <hr>
 <h4 id="filters">Filters</h4>
 <p>You can also use filters in the  <a href="https://docs.djangoproject.com/en/3.1/ref/templates/builtins/#std:templatetag-if"><code>if</code></a>  expression. For example:</p>
@@ -2575,19 +2601,18 @@ This document describes Django’s built-in template tags and filters. It is rec
 </code></pre>
 <p>You can use the  <code>{% regroup %}</code>  tag to group the list of cities by country. The following snippet of template code would accomplish this:</p>
 <pre><code>{% regroup cities by country as country_list %}
-
-&lt;ul&gt;
-{% for country in country_list %}
-    &lt;li&gt;{{ country.grouper }}
-    &lt;ul&gt;
-        {% for city in country.list %}
-          &lt;li&gt;{{ city.name }}: {{ city.population }}&lt;/li&gt;
-        {% endfor %}
-    &lt;/ul&gt;
-    &lt;/li&gt;
-{% endfor %}
-&lt;/ul&gt;
-</code></pre>
+</code></pre><p>&lt;ul&gt;<br>
+{% for country in country_list %}<br>
+&lt;li&gt;{{ country.grouper }}<br>
+&lt;ul&gt;<br>
+{% for city in country.list %}<br>
+&lt;li&gt;{{ <a href="http://city.name">city.name</a> }}: {{ city.population }}&lt;/li&gt;<br>
+{% endfor %}<br>
+&lt;/ul&gt;<br>
+&lt;/li&gt;<br>
+{% endfor %}<br>
+&lt;/ul&gt;<br>
+</p>
 <p>Let’s walk through this example.  <code>{% regroup %}</code>  takes three arguments: the list you want to regroup, the attribute to group by, and the name of the resulting list. Here, we’re regrouping the  <code>cities</code>  list by the  <code>country</code>  attribute and calling the result  <code>country_list</code>.</p>
 <p><code>{% regroup %}</code>  produces a list (in this case,  <code>country_list</code>) of  <strong>group objects</strong>. Group objects are instances of  <a href="https://docs.python.org/3/library/collections.html#collections.namedtuple" title="(in Python v3.9)"><code>namedtuple()</code></a>  with two fields:</p>
 <ul>
@@ -2650,11 +2675,10 @@ This document describes Django’s built-in template tags and filters. It is rec
 &lt;p class="odd"&gt;Thibaut Courtois&lt;/p&gt;
 &lt;p class="even"&gt;John Terry&lt;/p&gt;
 &lt;p class="odd"&gt;Eden Hazard&lt;/p&gt;
-
-&lt;h1&gt;Carlo Ancelotti&lt;/h1&gt;
-&lt;p class="odd"&gt;Manuel Neuer&lt;/p&gt;
-&lt;p class="even"&gt;Thomas Müller&lt;/p&gt;
-</code></pre>
+</code></pre><p>&lt;h1&gt;Carlo Ancelotti&lt;/h1&gt;<br>
+&lt;p class=“odd”&gt;Manuel Neuer&lt;/p&gt;<br>
+&lt;p class=“even”&gt;Thomas Müller&lt;/p&gt;<br>
+</p>
 <p>Notice how the first block ends with  <code>class="odd"</code>  and the new one starts with  <code>class="odd"</code>. Without the  <code>{% resetcycle %}</code>  tag, the second block would start with  <code>class="even"</code>.</p>
 <p>You can also reset named cycle tags:</p>
 <pre><code>{% for item in list %}
@@ -2755,15 +2779,13 @@ This document describes Django’s built-in template tags and filters. It is rec
 <p>Takes a list of dictionaries and returns that list sorted by the key given in the argument.</p>
 <p>For example:</p>
 <pre><code>{{ value|dictsort:"name" }}
-
-If  `value`  is:
-
-[
-    {'name': 'zed', 'age': 19},
-    {'name': 'amy', 'age': 22},
-    {'name': 'joe', 'age': 31},
-]
-</code></pre>
+</code></pre><p>If  <code>value</code>  is:</p>
+<p>[<br>
+{‘name’: ‘zed’, ‘age’: 19},<br>
+{‘name’: ‘amy’, ‘age’: 22},<br>
+{‘name’: ‘joe’, ‘age’: 31},<br>
+]<br>
+</p>
 <p>then the output would be:</p>
 <pre><code>[
     {'name': 'amy', 'age': 22},
@@ -2775,15 +2797,13 @@ If  `value`  is:
 <pre><code>{% for book in books|dictsort:"author.age" %}
     * {{ book.title }} ({{ book.author.name }})
 {% endfor %}
-
-If  `books`  is:
-
-[
-    {'title': '1984', 'author': {'name': 'George', 'age': 45}},
-    {'title': 'Timequake', 'author': {'name': 'Kurt', 'age': 75}},
-    {'title': 'Alice', 'author': {'name': 'Lewis', 'age': 33}},
-]
-</code></pre>
+</code></pre><p>If  <code>books</code>  is:</p>
+<p>[<br>
+{‘title’: ‘1984’, ‘author’: {‘name’: ‘George’, ‘age’: 45}},<br>
+{‘title’: ‘Timequake’, ‘author’: {‘name’: ‘Kurt’, ‘age’: 75}},<br>
+{‘title’: ‘Alice’, ‘author’: {‘name’: ‘Lewis’, ‘age’: 33}},<br>
+]<br>
+</p>
 <p>then the output would be:</p>
 <pre><code>* Alice (Lewis)
 * 1984 (George)
@@ -2791,15 +2811,13 @@ If  `books`  is:
 </code></pre>
 <p><code>dictsort</code>  can also order a list of lists (or any other object implementing  <code>__getitem__()</code>) by elements at specified index. For example:</p>
 <pre><code>{{ value|dictsort:0 }}
-
-If  `value`  is:
-
-[
-    ('a', '42'),
-    ('c', 'string'),
-    ('b', 'foo'),
-]
-</code></pre>
+</code></pre><p>If  <code>value</code>  is:</p>
+<p>[<br>
+(‘a’, ‘42’),<br>
+(‘c’, ‘string’),<br>
+(‘b’, ‘foo’),<br>
+]<br>
+</p>
 <p>then the output would be:</p>
 <pre><code>[
     ('a', '42'),
@@ -2855,7 +2873,6 @@ If  `value`  is:
 <p>If  <code>value</code>  is the list  <code>['a', 'b', 'c']</code>, the output will be  <code>'a'</code>.</p>
 <h3 id="floatformat"><code>floatformat</code></h3>
 <p>When used without an argument, rounds a floating-point number to one decimal place – but only if there’s a decimal part to be displayed. For example:</p>
-
 <table>
 <thead>
 <tr>
@@ -2882,7 +2899,6 @@ If  `value`  is:
 </tr>
 </tbody>
 </table><p>If used with a numeric integer argument,  <code>floatformat</code>  rounds a number to that many decimal places. For example:</p>
-
 <table>
 <thead>
 <tr>
@@ -2909,7 +2925,6 @@ If  `value`  is:
 </tr>
 </tbody>
 </table><p>Particularly useful is passing 0 (zero) as the argument which will round the float to the nearest integer.</p>
-
 <table>
 <thead>
 <tr>
@@ -2936,7 +2951,6 @@ If  `value`  is:
 </tr>
 </tbody>
 </table><p>If the argument passed to  <code>floatformat</code>  is negative, it will round a number to that many decimal places – but only if there’s a decimal part to be displayed. For example:</p>
-
 <table>
 <thead>
 <tr>
@@ -3004,7 +3018,6 @@ If  `value`  is:
 <pre><code>const value = JSON.parse(document.getElementById('hello-data').textContent);
 </code></pre>
 <p>XSS attacks are mitigated by escaping the characters “&lt;”, “&gt;” and “&amp;”. For example if  <code>value</code>  is  <code>{'hello': 'world&lt;/script&gt;&amp;amp;'}</code>, the output is:</p>
-
 <p>This is compatible with a strict Content Security Policy that prohibits in-page script execution. It also maintains a clean separation between passive data and executable code.</p>
 <h3 id="last"><code>last</code></h3>
 <p>Returns the last item in a list.</p>
@@ -3289,6 +3302,8 @@ is a
 slug
 </code></pre>
 
-<!--stackedit_data:
-eyJoaXN0b3J5IjpbLTMyMDYwOTk2NF19
--->
+    </div>
+  </div>
+</body>
+
+</html>
