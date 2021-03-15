@@ -850,12 +850,14 @@ If  `value`  is the list  `['a',  'b',  'c']`, the output will be  `'a'`.
 ### `floatformat`
 
 When used without an argument, rounds a floating-point number to one decimal place – but only if there’s a decimal part to be displayed. For example:
+| `value` | Template ||
+|--|--|--|
+|  |  ||
 
-`value`
 
-Template
 
-Output
+
+
 
 `34.23234`
 
@@ -1478,5 +1480,5 @@ If  `value`  is  `Joel  is  a  slug`, the output would be:
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTM0NjY0MTY2OF19
+eyJoaXN0b3J5IjpbLTg2MjA0OTI1NSwxMzQ2NjQxNjY4XX0=
 -->
