@@ -1,14 +1,5 @@
 
 ```
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / "db.sqlite3",
-    }
-}
-```
-
-```
 //With save
 def function(request):
     if request.method == "POST":
@@ -66,119 +57,24 @@ def function(request):
         return render(request, 'web/index.html',context)
 ```
 
-
-12. GIT-IGNORE
-
 ```
-### Django ###
-*.log
-*.pot
-*.pyc
-migrations/*.py
-__pycache__/
-!__init__.py
-local_settings.py
-db.sqlite3
-db.sqlite3-journal
-media/
-
-```
-13. Setup database
-```
-sudo su postgres
-createdb project
-createuser user -P
-psql
-grant all privileges on database db to user;
-\q
-exit
-```
-14. Django models
-```
-from django.utils.translation import ugettext_lazy as _
-from django.db import models
 
 
-CATEGORY_CHOICES = (
-    ('personal', 'Personal'),
-    ('business', 'Business'),
-)
-
-class Author(models.Model):
-    name = models.CharField(max_length=128)
-	email = models.EmailField(blank=True,null=True)
-    photo = models.ImageField(upload_to='images/authors')
-    about = models.TextField()
-
-    def __str__(self):
-        return str(self.name)
-		
-class Blog(models.Model):
-    auto_id = models.PositiveIntegerField(db_index=True,unique=True)
-    title = models.CharField(max_length=128)
-    slug = models.SlugField(unique=True,blank=True, null=True)
-	author = models.ForeignKey(Author,on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='images/blog')
-    content = models.TextField()
-    time = models.DateTimeField()
-    video_url = models.URLField()
-    category = models.CharField(max_length=128,choices=CATEGORY_CHOICES,default="personal")
-    active = models.BooleanField(default=True)
-
-    class Meta:
-        db_table = 'web_blog'
-        verbose_name = ('Blog')
-        verbose_name_plural = ('Blogs')
-
-    def __str__(self):
-        return str(self.pk)
-	
-    def delete(self, *args, **kwargs):
-        storage, path = self.featured_image.storage, self.featured_image.path
-        super(Blog, self).delete(*args, **kwargs)
-        storage.delete(path)
-
-```
-15. Django forms
+Django forms
 ```
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 from web.models import Registration
-from django.forms.widgets import TextInput, Textarea, EmailInput, CheckboxInput, Select, NumberInput, RadioSelect, FileInput, NumberInput
+from django.forms.widgets import RadioSelect
 
 
 class CategoryForm(forms.ModelForm):
-    category = forms.ChoiceField(widget=forms.RadioSelect(),choices=CATEGORY_CHOICES)
+    category = forms.ChoiceField(widget=RadioSelect(),choices=CATEGORY_CHOICES)
     class Meta:
         model = Category
         exclude = ['creator']
         widgets = {}
 
-
-class BlogForm(forms.ModelForm):
-    class Meta:
-        model = Blog
-        fields = '__all__'
-        widgets = {
-            'title': TextInput(attrs={'class': 'required form-control', 'placeholder': 'Title'}),
-            'message': Textarea(attrs={'class': 'required form-control', 'placeholder': 'Message'}),
-            'banner_image': FileInput(attrs={'class': 'form-control', 'accept': 'image/*'}),
-            'country' : Select(attrs={'class': 'form-control',}),
-            'whatsapp_number' : NumberInput(attrs={'class': 'form-control', 'placeholder': 'Whatsapp Number'}),
-            'active' : CheckboxInput(attrs={}),
-        }
-        error_messages = {
-            'name': {
-                'required': _("Name field is required."),
-            },
-            'message': {
-                'required': _("Message field is required."),
-            },
-        }
-        labels = {
-            'name' : "What we should call you ?",
-            'message' : "What is in your mind ?",
-        }
 ```
 ```
 def registration(request):
@@ -259,13 +155,13 @@ filter(name__icontains="x")
 exclude(name="x")
 get()
 ```
-21. Fix hyperlinks
+Fix hyperlinks
 ```
     href="{% url 'web:index' %}
     href="{% url 'web:about' %}
     href="{% url 'web:index' %}#features
 ```
-22. Including template parts
+Including template parts
 ```
     "is_home" : True
     "is_about" : True
@@ -277,18 +173,8 @@ get()
         {% include 'web/includes/about-spotlight.html' %}
     {% endif %}
 ```
-23. Database export and import
-```
-python manage.py dumpdata > database.json
-python manage.py loaddata database.json
-```
-24. Delete migrations
-```
-find . | grep -E "(__pycache__|\.pyc|\.pyo$)" | xargs rm -rf
-find . -path "*/migrations/*.pyc"  -delete
-find . -path "*/migrations/*.py" -not -name "__init__.py" -delete
-```
-25. response and Redirect
+
+response and Redirect
 ```
 def index(request):
     return HttpResponseRedirect(reverse('web:about'))
@@ -297,7 +183,7 @@ def index(request):
 def about(request):
     return HttpResponse('Hello from about')
 ````
-26. Registration Redux
+Registration Redux
 ```
 pip install django-registration-redux
 
@@ -328,39 +214,6 @@ path('app/accounts', include('registration.backends.simple.urls')),
 {% url 'auth_password_reset' %}
 {% url 'registration_register' %}
 ```
-27. Context processors
-```
-import datetime
-
-
-def main_context(request):
-    today = datetime.date.today()
-    current_role = "user"
-
-    return {
-        "confirm_delete_message" : "Are you sure want to delete this item. All associated data may be removed.",
-        'domain' : request.META['HTTP_HOST'],
-    }
-```
-```
-TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-                'main.context_processors.main_context',
-            ],
-        },
-    },
-]
-```
-
 
 31. Humanise
 ```
