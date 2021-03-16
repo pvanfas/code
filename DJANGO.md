@@ -179,37 +179,6 @@ def index(request):
 def about(request):
     return HttpResponse('Hello from about')
 ````
-Registration Redux
-```
-pip install django-registration-redux
-
-add to installed apps
-
-'registration',
-
-#registration redux settings
-ACCOUNT_ACTIVATION_DAYS = 7
-REGISTRATION_AUTO_LOGIN = True
-
-LOGIN_URL = '/accounts/login/'
-LOGOUT_URL = '/accounts/logout/'
-LOGIN_REDIRECT_URL = '/'
-
-REGISTRATION_EMAIL_SUBJECT_PREFIX = ''
-SEND_ACTIVATION_EMAIL = False
-REGISTRATION_OPEN = False
-
-
-path('app/accounts', include('registration.backends.default.urls')),
-path('app/accounts', include('registration.backends.simple.urls')),
-
-
-{% url 'auth_password_change' %}
-{% url 'auth_logout' %}
-{% url 'auth_login' %}
-{% url 'auth_password_reset' %}
-{% url 'registration_register' %}
-```
 
 31. Humanise
 ```
