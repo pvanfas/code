@@ -56,10 +56,6 @@ def function(request):
         }
         return render(request, 'web/index.html',context)
 ```
-
-```
-
-
 Django forms
 ```
 from django import forms
