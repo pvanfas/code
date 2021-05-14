@@ -46,7 +46,7 @@ sudo apt install postgresql postgresql-contrib
 pip install django pillow django-registration-redux psycopg2-binary django-versatileimagefield django-crispy-forms
 
 ```
-### Allow
+### Allow WSGI Authorization
 ```
 nano /etc/httpd/conf/httpd.conf
 
