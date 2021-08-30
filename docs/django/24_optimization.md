@@ -15,6 +15,14 @@ Run Migrations
 python3 manage.py makemigrations
 python3 manage.py migrate
 ```
+Flake8 and isort
+```
+pip install isort autoflake
+
+autoflake -i -r --expand-star-imports --remove-all-unused-imports --remove-duplicate-keys --remove-unused-variables --recursive .
+
+isort .
+```
 Clean Django Admin Log Entries
 ```
 python3 manage.py shell

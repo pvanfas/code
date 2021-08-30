@@ -4,11 +4,11 @@
     <div class="col-md-4">
         <a href="{% url 'web:blogview' slug=blog.slug " class="card">
             <img src="{{blog.image.url}}" alt="" class="card-img">
-            <h3>{{blog.title}}</h3>
+            <h3>{{forloop.counter}} {{blog.title}}</h3>
             <div class="card-text">
-                {{blog.content}}
+                {{blog.content|safe}}
             </div>
-            {% for i in instance.assign_to.all %}
+            {% for i in blog.assign_to.all %}
                 <a href="{% url 'employees:profile' pk=i.pk %}">{{ i }}</a>,
             {% endfor %}
         </a>

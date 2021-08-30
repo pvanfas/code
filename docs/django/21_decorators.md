@@ -20,6 +20,18 @@ def my_view(request):
     # ...
     pass
 ```
+### Numeric for loop in Django templates
+```
+@register.filter(name='times') 
+def times(number):
+    return range(number)
+```
+```
+{% load my_filters %}
+{% for i in 15|times %}
+    <li>Item</li>
+{% endfor %}
+```
 #### @group_required
 
 Sometimes we need to protect some views, to allow a certain group of users to access it. Instead of checking within it if the user belongs to that group/s, we can use the following decorator

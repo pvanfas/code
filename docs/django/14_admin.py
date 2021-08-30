@@ -42,8 +42,3 @@ class BlogAdmin(admin.ModelAdmin):
     readonly_fields = ('auto_id',)
     autocomplete_fields = ('author',)
     search_fields = ('title', 'author__name',)
-
-  
-admin.site.site_header = "PROJECT Administration"
-admin.site.site_title = "PROJECT Admin Portal"
-admin.site.index_title = "Welcome to PROJECT Admin Portal"

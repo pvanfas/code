@@ -19,3 +19,5 @@
   - [Django admin Documentation](https://gist.github.com/pvanfas/6da287111dee1b08d325b33c984505a6#file-23_admin_docs-md)
   - [Code Optimization](https://gist.github.com/pvanfas/6da287111dee1b08d325b33c984505a6#file-24_optimization-md )
   - [Date Template Filter](https://gist.github.com/pvanfas/6da287111dee1b08d325b33c984505a6#file-25_date_template_filter-md)
+  - [Hosting](https://gist.github.com/pvanfas/6da287111dee1b08d325b33c984505a6#file-26_hosting-md)
+  - [Apache Virtual Host](https://gist.github.com/pvanfas/6da287111dee1b08d325b33c984505a6#file-27_apache_virtualhost-md)
