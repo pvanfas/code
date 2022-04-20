@@ -25,12 +25,6 @@ apt install postgresql postgresql-contrib phppgadmin -y
 sudo apt install python-pip -y
 pip install virtualenv virtualenvwrapper
 ```
-# Python 3 install
-```
-sudo apt-get update
-sudo apt-get install python3-distutils -y
-sudo apt-get install python3.6
-```
 
 # react-native
 # 1.install npm LTS
