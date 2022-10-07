@@ -43,7 +43,8 @@ GDAL is an excellent open source geospatial library that has support for reading
     
 wkhtmltopdf and wkhtmltoimage are open source (LGPLv3) command line tools to render HTML into PDF and various image formats using the Qt WebKit rendering engine
 
-    sudo apt-get install wkhtmltopdf wkhtmltoimage
+    wget wkhtmltox_0.12.6.1-2.jammy_amd64.deb
+    sudo dpkg -i wkhtmltox_0.12.6.1-2.jammy_amd64.deb
 
 ##### Install a text editor
 

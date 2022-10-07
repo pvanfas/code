@@ -1,7 +1,7 @@
-  # API Authentication using jwt
-(Detailed documenation at [https://github.com/pvanfas/code/blob/master/DRF/simplejwt.rst])
+# API Authentication using jwt
+# Detailed documenation at [https://github.com/pvanfas/code/blob/master/DRF/simplejwt.rst]
 
-pip install djangorestframework_simplejwt
+# pip install djangorestframework_simplejwt
 
 # Add to setting.py
 REST_FRAMEWORK = {
@@ -16,11 +16,9 @@ create folder /authentication in v1 and add __init__.py, urls.py, serializers.py
 url(r'^api/v1/auth/', include('api.v1.authentication.urls',namespace="api_v1_authentication")),
 
 # Views.py (python3)
-from django.conf.urls import url,include
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
-)
+from django.conf.urls import include, url
+from rest_framework_simplejwt.views import (TokenObtainPairView,
+                                            TokenRefreshView)
 
 urlpatterns = [
     url(r'^token/$', TokenObtainPairView.as_view(), name='token_obtain_pair'),
@@ -29,11 +27,9 @@ urlpatterns = [
 ]
 
 # Views.py (python3)
-from django.urls import path,include
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
-)
+from django.urls import include, path
+from rest_framework_simplejwt.views import (TokenObtainPairView,
+                                            TokenRefreshView)
 
 urlpatterns = [
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
@@ -42,7 +38,6 @@ urlpatterns = [
 
 # Custom token lifetime
 from datetime import timedelta
-
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
@@ -81,9 +76,10 @@ postman: Authentication --> Bearer token --> paste token
 
 # Overwriting default authentication class and add new datas 
 (authentication/serializers.py)
+from django.utils.six import text_type
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from django.utils.six import text_type
+
 
 class UserTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
@@ -107,19 +103,17 @@ class UserTokenObtainPairSerializer(TokenObtainPairSerializer):
         return data
         
 (authentication/views.py)
-from rest_framework_simplejwt.views import TokenObtainPairView
 from api.v1.IsAuthentication.serializers import UserTokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
+
 
 class UserTokenObtainPairView(TokenObtainPairView):
     serializer_class = UserTokenObtainPairSerializer
 
 (authentication/urls.py)
-from django.conf.urls import url,include
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
-)
-
+from django.conf.urls import include, url
+from rest_framework_simplejwt.views import (TokenObtainPairView,
+                                            TokenRefreshView)
 
 urlpatterns = [
     url(r'^token/$', TokenObtainPairView.as_view(), name='token_obtain_pair'),

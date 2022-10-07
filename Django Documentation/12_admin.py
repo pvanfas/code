@@ -1,7 +1,9 @@
 from __future__ import unicode_literals
+
 from django.contrib import admin
+from django.contrib.auth.models import Group, User
+
 from .models import Blog
-from django.contrib.auth.models import User, Group
 
 # To remove user,groups from admin panel
 admin.site.unregister(User)
@@ -24,7 +26,7 @@ class BlogAdmin(admin.ModelAdmin):
         "author__name",
     )
 
-    
+
 # For import_export action
 from import_export.admin import ImportExportActionModelAdmin
 
@@ -34,10 +36,11 @@ class RegistrationAdmin(ImportExportActionModelAdmin):
     list_display = ("full_name", "phone_number")
 
 
-# Custom Admin
-from import_export.admin import ImportExportModelAdmin
 from django.contrib import messages
 from django.utils.translation import ngettext
+
+# Custom Admin
+from import_export.admin import ImportExportModelAdmin
 
 
 def mark_active(self, request, queryset):
@@ -78,5 +81,3 @@ class CustomAdmin(ImportExportModelAdmin):
     def save_model(self, request, obj, form, change):
         obj.creator = request.user
         super().save_model(request, obj, form, change)
-
-        

@@ -1,30 +1,35 @@
 from __future__ import unicode_literals
-from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponse, HttpResponseNotFound
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
-import requests
+
 import json
 
+import requests
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.http import HttpResponse, HttpResponseNotFound
+from django.shortcuts import get_object_or_404, redirect, render
 
-def send_sms(number,message):
+
+def send_sms(number, message):
     url = "https://www.fast2sms.com/dev/bulk"
-    payload = "sender_id=IMPSMS&message={}&language=english&route=p&numbers={}".format(message, number)
+    payload = "sender_id=IMPSMS&message={}&language=english&route=p&numbers={}".format(
+        message, number
+    )
     headers = {
-        'authorization': "API_KEY",
-        'Content-Type': "application/x-www-form-urlencoded",
-        'Cache-Control': "no-cache",
+        "authorization": "API_KEY",
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Cache-Control": "no-cache",
     }
     response = requests.request("POST", url, data=payload, headers=headers)
 
 
-
 def register(request):
     if request.method == "POST":
-        reg_form = RegistrationForm(request.POST,request.FILES)
+        reg_form = RegistrationForm(request.POST, request.FILES)
         if reg_form.is_valid():
-            if User.objects.filter(username=reg_form.cleaned_data.get('phone_number')).exists():
+            if User.objects.filter(
+                username=reg_form.cleaned_data.get("phone_number")
+            ).exists():
                 response_data = {
                     "status": "false",
                     "title": "Already Registered",
@@ -33,18 +38,23 @@ def register(request):
             else:
                 reg_form.save()
                 new_user = User.objects.create_user(
-                    username=reg_form.cleaned_data.get('phone_number'),
-                    password=reg_form.cleaned_data.get('password')
+                    username=reg_form.cleaned_data.get("phone_number"),
+                    password=reg_form.cleaned_data.get("password"),
                 )
-                new_user.first_name = reg_form.cleaned_data.get('full_name')
+                new_user.first_name = reg_form.cleaned_data.get("full_name")
                 new_user.save()
-                user = authenticate(request, username=reg_form.cleaned_data.get(
-                    'phone_number'), password=reg_form.cleaned_data.get('password'))
+                user = authenticate(
+                    request,
+                    username=reg_form.cleaned_data.get("phone_number"),
+                    password=reg_form.cleaned_data.get("password"),
+                )
                 if user is not None:
                     login(request, user)
                 message = "Thank you for registering for MSM HIGHSEC 2020.\nYour Login credentials are:\nUsername:{}\nPassword:{}\n\nContact: 8129206576\nTeam highsec 2k20".format(
-                    reg_form.cleaned_data.get('phone_number'), reg_form.cleaned_data.get('password'))
-                send_sms(reg_form.cleaned_data.get('phone_number'), message)
+                    reg_form.cleaned_data.get("phone_number"),
+                    reg_form.cleaned_data.get("password"),
+                )
+                send_sms(reg_form.cleaned_data.get("phone_number"), message)
 
                 response_data = {
                     "status": "true",
@@ -57,28 +67,33 @@ def register(request):
                 "status": "false",
                 "title": "Form validation error",
             }
-        return HttpResponse(json.dumps(response_data), content_type='application/javascript')
+        return HttpResponse(
+            json.dumps(response_data), content_type="application/javascript"
+        )
     else:
         reg_form = RegistrationForm()
         context = {
             "reg_form": reg_form,
         }
-        return render(request, 'registration/registration.html', context)
+        return render(request, "registration/registration.html", context)
 
 
 def resend_password(request):
     if request.method == "POST":
-        username = request.POST.get('phone_number')
+        username = request.POST.get("phone_number")
         active_user = Registration.objects.get(phone_number=username)
         message = "\nYour username is {} and \npassword is {}. \n\n - Highsec Malappuram East".format(
-            active_user.phone_number, active_user.password)
+            active_user.phone_number, active_user.password
+        )
         send_sms(active_user.phone_number, message)
         response_data = {
             "status": "true",
             "title": "Success",
             "message": "Password instructions sent to your mobile.",
         }
-        return HttpResponse(json.dumps(response_data), content_type='application/javascript')
+        return HttpResponse(
+            json.dumps(response_data), content_type="application/javascript"
+        )
     else:
         context = {}
-        return render(request, 'registration/password_reset_form.html', context)
+        return render(request, "registration/password_reset_form.html", context)

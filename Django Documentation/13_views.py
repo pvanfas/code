@@ -1,11 +1,12 @@
 from __future__ import unicode_literals
-from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse
-from django.urls import reverse
-from django.contrib.auth.decorators import login_required
 
-from .models import Blog
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404, render
+from django.urls import reverse
+
 from .forms import ContactForm
+from .models import Blog
 
 
 # Added blogs

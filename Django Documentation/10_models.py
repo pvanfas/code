@@ -1,16 +1,15 @@
+from uuid import uuid4
+
+from accounts.models import User
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.html import mark_safe
-from django.core.exceptions import ValidationError
-from uuid import uuid4
-from accounts.models import User
 
 
 class BaseModel(models.Model):
     BOOL_CHOICES = ((True, "Yes"), (False, "No"))
 
-    id = models.UUIDField(
-        primary_key=True, default=uuid4, editable=False, blank=True
-    )
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False, blank=True)
     created = models.DateTimeField(db_index=True, auto_now_add=True)
     updated = models.DateTimeField(auto_now_add=True)
     creator = models.ForeignKey(
@@ -20,9 +19,7 @@ class BaseModel(models.Model):
         related_name="creator_%(class)s_objects",
         on_delete=models.CASCADE,
     )
-    is_active = models.BooleanField(
-        "Mark as Active", default=False, choices=BOOL_CHOICES
-    )
+    is_active = models.BooleanField("Mark as Active", default=False, choices=BOOL_CHOICES)
 
     class Meta:
         abstract = True
@@ -89,7 +86,7 @@ class Contact(models.Model):
 
 class Author(models.Model):
     name = models.CharField(max_length=128)
-	email = models.EmailField(blank=True,null=True)
+    email = models.EmailField(blank=True,null=True)
     photo = models.ImageField(upload_to='images/authors')
     about = models.TextField()
 
@@ -105,12 +102,12 @@ class Blog(models.Model):
     slug = models.SlugField(unique=True,blank=True, null=True)
     
     category = models.CharField(max_length=128,choices=CATEGORY_CHOICES,default="personal")
-	author = models.ForeignKey(Author,on_delete=models.CASCADE)
-    
+    author = models.ForeignKey(Author,on_delete=models.CASCADE)
+
     featured_image = models.ImageField(upload_to='images/blog/featured_image/')
     content = models.TextField()
     video_url = models.URLField()
-	assign_to  = models.ManyToManyField('employees.Employee')
+    assign_to  = models.ManyToManyField('employees.Employee')
     
     timestamp = models.DateTimeField()
     is_active = models.BooleanField(default=True)

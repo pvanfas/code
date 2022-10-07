@@ -1,0 +1,62 @@
+<!-- Method 1 (using django utility -->
+<form action="" method="post" class="ajax reload">
+    {% csrf_token %}
+
+    {{form.as_p}}
+
+    <button type="submit">Submit</button>
+<form>
+
+    
+<!-- Method 2 (looping over form fields) -->
+<form action="" method="post" class="ajax reload">
+    {% csrf_token %}
+
+    {% for field in form %}
+        <div class="form-group">
+            {{ field.errors }}
+            {{ field.label_tag }} {{ field }}
+            {% if field.help_text %}
+                <p class="help">{{ field.help_text|safe }}</p>
+            {% endif %}
+        </div>
+    {% endfor %}
+    
+    <button type="submit">Submit</button>
+<form>
+
+
+<!-- Method 3 (call each form fields)-->
+<form action="" method="post" class="ajax reload">
+    {% csrf_token %}
+
+    <div class="form-group">
+	    <label for="{{form.name.id_for_label}}">{{form.name.label}}</label>
+	    {{form.name}}
+	</div>
+
+	<div class="form-group">
+	    <label for="{{form.phone.id_for_label}}">{{form.phone.label}}</label>
+	    {{form.phone}}
+	</div>
+
+	<div class="form-group">
+	    <label for="{{form.place.id_for_label}}">{{form.place.label}}</label>
+	    {{form.place}}
+	</div>
+
+	<div class="form-group">
+	    <label for="{{form.email.id_for_label}}">{{form.email.label}}</label>
+	    {{form.email}}
+	</div>
+
+	<div class="form-group">
+	    <label for="{{form.message.id_for_label}}">{{form.message.label}}</label>
+	    {{form.message}}
+	</div>
+
+	<div class="form-group">
+	    <button type="submit">Submit</button>
+	</div>
+<form>
+    

@@ -46,11 +46,11 @@ Templates
 
 Auth Ref Links
 
-        {% url 'auth_password_change' %}	#Change Password
-        {% url 'auth_logout' %}				#Logout
-        {% url 'auth_login' %}				#Login
-        {% url 'auth_password_reset' %}		#Reset Password
-        {% url 'registration_register' %} #register
+        {% url 'auth_password_change' %}	        # Change Password
+        {% url 'auth_logout' %}			# Logout
+        {% url 'auth_login' %}			# Login
+        {% url 'auth_password_reset' %}		# Reset Password
+        {% url 'registration_register' %}           # Register
 
 ### Versatile Image Field
 

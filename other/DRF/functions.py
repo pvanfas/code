@@ -7,6 +7,6 @@ def generate_serializer_errors(args):
         for value in values:
             error_message += value + ","
         error_message = error_message[:-1]
-        
-        message += "%s : %s | " %(key,error_message)
+
+        message += "%s : %s | " % (key, error_message)
     return message[:-3]

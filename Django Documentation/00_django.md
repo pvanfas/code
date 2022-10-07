@@ -40,23 +40,24 @@ Installed Django already? Good. Now try this tutorial, which walks you through c
 
 -   [Create Project](https://gist.github.com/pvanfas/6da287111dee1b08d325b33c984505a6#file-02_create_project-sh) - Setup project
 -   [Project Settings](https://gist.github.com/pvanfas/6da287111dee1b08d325b33c984505a6#file-03_settings-py) - Project Settings
--   [Environment Variables](https://gist.github.com/pvanfas/6da287111dee1b08d325b33c984505a6#file-05-env) - Secure Credentials
--   [URL Setup](https://gist.github.com/pvanfas/6da287111dee1b08d325b33c984505a6#file-06_project_urls-py)
--   [Views](https://gist.github.com/pvanfas/6da287111dee1b08d325b33c984505a6#file-07_views-py) - Template management done right. Fast and easy to extend.
--   [View URLs](https://gist.github.com/pvanfas/6da287111dee1b08d325b33c984505a6#file-08_urls-py)
--   [Base Template](https://gist.github.com/pvanfas/6da287111dee1b08d325b33c984505a6#file-09_base-html)
--   [Template Extending](https://gist.github.com/pvanfas/6da287111dee1b08d325b33c984505a6#file-10_index-html)
--   [Models](https://gist.github.com/pvanfas/6da287111dee1b08d325b33c984505a6#file-11_models-py) - Database management made easy
--   [Django Forms](https://gist.github.com/pvanfas/6da287111dee1b08d325b33c984505a6#file-12_forms-py) - Awesome python-based forms
--   [Django Admin](https://gist.github.com/pvanfas/6da287111dee1b08d325b33c984505a6/#file-13_admin-py)
--   [Django Views](https://gist.github.com/pvanfas/6da287111dee1b08d325b33c984505a6#file-14_views-py)
--   [Display Database Values](https://gist.github.com/pvanfas/6da287111dee1b08d325b33c984505a6#file-16_index-html)
--   [Form Rendering in Template](https://gist.github.com/pvanfas/6da287111dee1b08d325b33c984505a6#file-17_contact-html)
+-   [Environment Variables](https://gist.github.com/pvanfas/6da287111dee1b08d325b33c984505a6#file-04-env) - Secure Credentials
+-   [URL Setup](https://gist.github.com/pvanfas/6da287111dee1b08d325b33c984505a6#file-05_project_urls-py)
+-   [Views](https://gist.github.com/pvanfas/6da287111dee1b08d325b33c984505a6#file-06_views-py) - Template management done right. Fast and easy to extend.
+-   [View URLs](https://gist.github.com/pvanfas/6da287111dee1b08d325b33c984505a6#file-07_urls-py)
+-   [Base Template](https://gist.github.com/pvanfas/6da287111dee1b08d325b33c984505a6#file-08_base-html)
+-   [Template Extending](https://gist.github.com/pvanfas/6da287111dee1b08d325b33c984505a6#file-09_index-html)
+-   [Models](https://gist.github.com/pvanfas/6da287111dee1b08d325b33c984505a6#file-10_models-py) - Database management made easy
+-   [Django Forms](https://gist.github.com/pvanfas/6da287111dee1b08d325b33c984505a6#file-11_forms-py) - Awesome python-based forms
+-   [Django Admin](https://gist.github.com/pvanfas/6da287111dee1b08d325b33c984505a6/#file-12_admin-py)
+-   [Django Views](https://gist.github.com/pvanfas/6da287111dee1b08d325b33c984505a6#file-13_views-py)
+-   [Display Database Values](https://gist.github.com/pvanfas/6da287111dee1b08d325b33c984505a6#file-15_index-html)
+-   [Form Rendering in Template](https://gist.github.com/pvanfas/6da287111dee1b08d325b33c984505a6#file-16_contact-html)
 
 ### Advanced
 
--   [Context Processors](https://gist.github.com/pvanfas/6da287111dee1b08d325b33c984505a6#file-18_context_processors-py)
--   [Plugins](https://gist.github.com/pvanfas/6da287111dee1b08d325b33c984505a6#file-19_plugins-md)
+-   [Context Processors](https://gist.github.com/pvanfas/6da287111dee1b08d325b33c984505a6#file-17_context_processors-py)
+-   [Plugins](https://gist.github.com/pvanfas/6da287111dee1b08d325b33c984505a6#file-18_plugins-md)
+-   [Sitemap](https://gist.github.com/pvanfas/6da287111dee1b08d325b33c984505a6#file-19_sitemap-md)
 -   [Decorators](https://gist.github.com/pvanfas/6da287111dee1b08d325b33c984505a6#file-20_decorators-md) - To support various HTTP features.
 -   [Ajaxify Django](https://gist.github.com/pvanfas/6da287111dee1b08d325b33c984505a6#file-21_ajax-js) - Asynchronous web applications
 -   [Date Template Filter](https://gist.github.com/pvanfas/6da287111dee1b08d325b33c984505a6#file-22_date_template_filter-md)

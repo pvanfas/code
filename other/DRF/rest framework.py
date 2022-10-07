@@ -23,8 +23,8 @@ create urls.py and views.py in v1/customers
 mkdir api && cd api && touch __init__.py && mkdir v1 && cd v1 && touch __init__.py && mkdir customers && cd customers && touch __init__.py views.py urls.py
 
 (urls.py)
-from django.conf.urls import url,include
 import views
+from django.conf.urls import include, url
 
 urlpatterns = [
     url(r'^$', views.customers, name='customers'),
@@ -32,13 +32,14 @@ urlpatterns = [
 ]
 
 (views.py)
-from customers.models import Customer
-from rest_framework.renderers import JSONRenderer
-from rest_framework.decorators import api_view, permission_classes, renderer_classes
-from rest_framework.response import Response
-from rest_framework.permissions import AllowAny, IsAuthenticated
 from api.v1.customers.serializers import CustomerSerializer
+from customers.models import Customer
 from rest_framework import status
+from rest_framework.decorators import (api_view, permission_classes,
+                                       renderer_classes)
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.renderers import JSONRenderer
+from rest_framework.response import Response
 
 
 @api_view(['GET'])
@@ -66,8 +67,8 @@ urlpatterns = [
 touch api/v1/customers/serializers.py
 
 (serializers.py)
-from rest_framework import serializers
 from customers.models import Customer
+from rest_framework import serializers
 
 
 class CustomerSerializer(serializers.ModelSerializer):
